@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>HAL_USART_DONE</AssemblyName>
-    <Name>HAL_USART_DONE</Name>
-    <RootNamespace>HAL_USART_DONE</RootNamespace>
+    <AssemblyName>HAL_USART</AssemblyName>
+    <Name>HAL_USART</Name>
+    <RootNamespace>HAL_USART</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
