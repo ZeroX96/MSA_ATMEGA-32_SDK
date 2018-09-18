@@ -104,7 +104,9 @@ usart_ret_types usart_send_arr(usart_t* usart_obj,uint8_t *arr_add);
 
 usart_ret_types usart_receive_byte(usart_t * usart_obj,msa_u8* byte);
 
-usart_ret_types usart_receive_arr(usart_t * usart_obj,msa_u8* arr_add);
+usart_ret_types usart_receive_arr(usart_t * usart_obj,msa_u8* arr_add,msa_u8 arr_size);
 
 usart_ret_types usart_set_isr_RXC_callback(usart_t * usart_obj,void (*vptr_cb)(void));
+
+usart_ret_types usart_set_isr_TXC_callback(usart_t * usart_obj,void (*vptr_cb)(void));
 #endif /* HAL_USART_H_ */

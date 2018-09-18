@@ -101,7 +101,7 @@ usart_ret_types usart_receive_byte(usart_t * usart_obj,msa_u8* byte)
 			while(!((*(volatile msa_u8*)0x2b) & (1<<RXC)))
 			;
 			*byte=(*(volatile msa_u8*)0x2c);
-			PORTA=(*(volatile msa_u8*)0x2c);
+			(*(volatile msa_u8*)0x2b)|=(1<<RXC);
 		}
 		else
 		{
@@ -126,6 +126,7 @@ usart_ret_types usart_send_byte(usart_t * usart_obj,msa_u8* byte)
 			while ( !( (*(volatile msa_u8*)0x2b) & (1<<UDRE) ) )
 			;
 				(*(volatile msa_u8*)0x2c)=*byte;
+				
 			
 		} 
 		else
@@ -170,22 +171,23 @@ usart_ret_types usart_send_arr(usart_t* usart_obj,uint8_t *arr_add)
 	return ret_val;
 }
 
-usart_ret_types usart_receive_arr(usart_t * usart_obj,msa_u8* arr_add)
+usart_ret_types usart_receive_arr(usart_t * usart_obj,msa_u8* arr_add,msa_u8 arr_size)
 {
 	usart_ret_types ret_val=NO_USART_ERRORS;
-	static msa_u8 data_in_cntr=1;
+	msa_u8 data_in_cntr=0,temp=0;
+	
 	if ( (usart_obj != NULL) && (arr_add != NULL) )
 	{
 		if (usart_obj->obj_device_state == INITIATED)
 		{
-			while( ((*(arr_add+data_in_cntr-1)) != 'q') && (data_in_cntr <= MAX_IN_ARR_SZE) )
+			while( (temp != 13) && (data_in_cntr < (arr_size) ) )
 			{
-				while(!((*(volatile msa_u8*)0x2b) & (1<<RXC)))
-				;
-				*(arr_add+data_in_cntr)=(*(volatile msa_u8*)0x2c);
-				data_in_cntr++;
+				usart_receive_byte(usart_obj,&temp);
+				arr_add[data_in_cntr++]=temp;
+				if(temp == '\0')
+				break;
 			}
-			*(arr_add+data_in_cntr)=0;
+			arr_add[data_in_cntr]=0;
 		}
 		else
 		{
@@ -220,6 +222,7 @@ usart_ret_types usart_set_isr_RXC_callback(usart_t * usart_obj,void (*vptr_cb)(v
 	{
 		ret_val=INVALID_PARAMS;
 	}
+	PORTA=0xff;
 	return ret_val;
 	
 	
@@ -246,6 +249,7 @@ usart_ret_types usart_set_isr_TXC_callback(usart_t * usart_obj,void (*vptr_cb)(v
 	{
 		ret_val=INVALID_PARAMS;
 	}
+	PORTA=0xff;
 	return ret_val;
 	
 	
