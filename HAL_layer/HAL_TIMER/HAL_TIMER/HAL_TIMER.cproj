@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>HAL_USART</AssemblyName>
-    <Name>HAL_USART</Name>
-    <RootNamespace>HAL_USART</RootNamespace>
+    <AssemblyName>HAL_TIMER</AssemblyName>
+    <Name>HAL_TIMER</Name>
+    <RootNamespace>HAL_TIMER</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -134,19 +134,13 @@
     <Compile Include="common.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="hal_USART.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="hal_USART.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="hal_USART_CFG.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MSA_AVR-REGS_SUMMARY.h">
+    <Compile Include="timers.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tmers.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
