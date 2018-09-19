@@ -1,0 +1,650 @@
+
+TimerManagementUnit.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000316  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000038a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000018  00800060  00800060  0000038a  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000038a  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003bc  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000088  00000000  00000000  000003f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000bb4  00000000  00000000  00000480  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000737  00000000  00000000  00001034  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000541  00000000  00000000  0000176b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000148  00000000  00000000  00001cac  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000051c  00000000  00000000  00001df4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000038c  00000000  00000000  00002310  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000080  00000000  00000000  0000269c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 88 00 	jmp	0x110	; 0x110 <__vector_10>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a8 37       	cpi	r26, 0x78	; 120
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 4e 00 	call	0x9c	; 0x9c <main>
+  74:	0c 94 89 01 	jmp	0x312	; 0x312 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <led_toggle_A>:
+#include "TMU.h"
+
+void led_toggle_A(void)
+{
+	//write code here
+	PORTA^=0xff;
+  7c:	8b b3       	in	r24, 0x1b	; 27
+  7e:	80 95       	com	r24
+  80:	8b bb       	out	0x1b, r24	; 27
+  82:	08 95       	ret
+
+00000084 <led_toggle_B>:
+}
+
+void led_toggle_B(void)
+{
+	//write code here
+	PORTB^=0xff;
+  84:	88 b3       	in	r24, 0x18	; 24
+  86:	80 95       	com	r24
+  88:	88 bb       	out	0x18, r24	; 24
+  8a:	08 95       	ret
+
+0000008c <led_toggle_C>:
+}
+
+void led_toggle_C(void)
+{
+	//write code here
+	PORTC^=0xff;
+  8c:	85 b3       	in	r24, 0x15	; 21
+  8e:	80 95       	com	r24
+  90:	85 bb       	out	0x15, r24	; 21
+  92:	08 95       	ret
+
+00000094 <led_toggle_D>:
+}
+
+void led_toggle_D(void)
+{
+	//write code here
+	PORTD^=0xff;
+  94:	82 b3       	in	r24, 0x12	; 18
+  96:	80 95       	com	r24
+  98:	82 bb       	out	0x12, r24	; 18
+  9a:	08 95       	ret
+
+0000009c <main>:
+	//_delay_ms(1000);
+	
+}
+
+int main(void)
+{
+  9c:	cf 93       	push	r28
+  9e:	df 93       	push	r29
+  a0:	cd b7       	in	r28, 0x3d	; 61
+  a2:	de b7       	in	r29, 0x3e	; 62
+  a4:	a0 97       	sbiw	r28, 0x20	; 32
+  a6:	0f b6       	in	r0, 0x3f	; 63
+  a8:	f8 94       	cli
+  aa:	de bf       	out	0x3e, r29	; 62
+  ac:	0f be       	out	0x3f, r0	; 63
+  ae:	cd bf       	out	0x3d, r28	; 61
+	TMU_STR_ELEMENT obj1,obj2,obj3,obj4;
+	DDRA=0xff;
+  b0:	8f ef       	ldi	r24, 0xFF	; 255
+  b2:	8a bb       	out	0x1a, r24	; 26
+	DDRB=0xff;
+  b4:	87 bb       	out	0x17, r24	; 23
+	DDRC=0xff;
+  b6:	84 bb       	out	0x14, r24	; 20
+	DDRD=0xff;
+  b8:	81 bb       	out	0x11, r24	; 17
+	TMU_ErrorTypes exe_res=tmu_init(10);
+  ba:	8a e0       	ldi	r24, 0x0A	; 10
+  bc:	90 e0       	ldi	r25, 0x00	; 0
+  be:	0e 94 b6 00 	call	0x16c	; 0x16c <tmu_init>
+	/*if (exe_res == NO_ERRORS)
+	{*/
+		exe_res=tmu_start_timer( &obj1,PERIODIC,50,led_toggle_A);
+  c2:	2e e3       	ldi	r18, 0x3E	; 62
+  c4:	30 e0       	ldi	r19, 0x00	; 0
+  c6:	42 e3       	ldi	r20, 0x32	; 50
+  c8:	50 e0       	ldi	r21, 0x00	; 0
+  ca:	60 e0       	ldi	r22, 0x00	; 0
+  cc:	ce 01       	movw	r24, r28
+  ce:	01 96       	adiw	r24, 0x01	; 1
+  d0:	0e 94 d3 00 	call	0x1a6	; 0x1a6 <tmu_start_timer>
+		exe_res=tmu_start_timer( &obj2,PERIODIC,100,led_toggle_B);
+  d4:	22 e4       	ldi	r18, 0x42	; 66
+  d6:	30 e0       	ldi	r19, 0x00	; 0
+  d8:	44 e6       	ldi	r20, 0x64	; 100
+  da:	50 e0       	ldi	r21, 0x00	; 0
+  dc:	60 e0       	ldi	r22, 0x00	; 0
+  de:	ce 01       	movw	r24, r28
+  e0:	09 96       	adiw	r24, 0x09	; 9
+  e2:	0e 94 d3 00 	call	0x1a6	; 0x1a6 <tmu_start_timer>
+		exe_res=tmu_start_timer( &obj3,PERIODIC,500,led_toggle_C);
+  e6:	26 e4       	ldi	r18, 0x46	; 70
+  e8:	30 e0       	ldi	r19, 0x00	; 0
+  ea:	44 ef       	ldi	r20, 0xF4	; 244
+  ec:	51 e0       	ldi	r21, 0x01	; 1
+  ee:	60 e0       	ldi	r22, 0x00	; 0
+  f0:	ce 01       	movw	r24, r28
+  f2:	41 96       	adiw	r24, 0x11	; 17
+  f4:	0e 94 d3 00 	call	0x1a6	; 0x1a6 <tmu_start_timer>
+		exe_res=tmu_start_timer( &obj4,PERIODIC,1000,led_toggle_D);
+  f8:	2a e4       	ldi	r18, 0x4A	; 74
+  fa:	30 e0       	ldi	r19, 0x00	; 0
+  fc:	48 ee       	ldi	r20, 0xE8	; 232
+  fe:	53 e0       	ldi	r21, 0x03	; 3
+ 100:	60 e0       	ldi	r22, 0x00	; 0
+ 102:	ce 01       	movw	r24, r28
+ 104:	49 96       	adiw	r24, 0x19	; 25
+ 106:	0e 94 d3 00 	call	0x1a6	; 0x1a6 <tmu_start_timer>
+    {
+		//PORTC=0x55;
+		//_delay_ms(250);
+		//PORTC=0xaa;
+		//_delay_ms(250);
+		tmu_dispatch();
+ 10a:	0e 94 34 01 	call	0x268	; 0x268 <tmu_dispatch>
+ 10e:	fd cf       	rjmp	.-6      	; 0x10a <main+0x6e>
+
+00000110 <__vector_10>:
+//static ecore_u32 MAIN_COUNTER=0;
+static bool_t tmu_initiated=E_FALSE;
+static ecore_u16 tmu_Resolution=0 ;
+
+ISR(TIMER0_COMP_vect)
+{
+ 110:	1f 92       	push	r1
+ 112:	0f 92       	push	r0
+ 114:	0f b6       	in	r0, 0x3f	; 63
+ 116:	0f 92       	push	r0
+ 118:	11 24       	eor	r1, r1
+ 11a:	2f 93       	push	r18
+ 11c:	3f 93       	push	r19
+ 11e:	8f 93       	push	r24
+ 120:	9f 93       	push	r25
+ 122:	af 93       	push	r26
+ 124:	bf 93       	push	r27
+ 126:	ef 93       	push	r30
+ 128:	ff 93       	push	r31
+ 12a:	a4 e6       	ldi	r26, 0x64	; 100
+ 12c:	b0 e0       	ldi	r27, 0x00	; 0
+ 12e:	28 e7       	ldi	r18, 0x78	; 120
+ 130:	30 e0       	ldi	r19, 0x00	; 0
+	for (ecore_u8 i=0; i<MAX_TIMERS_NO; i++)
+	{
+		if (tmu_internal_bufer[i])	//if there is a valid address process else skip
+ 132:	ed 91       	ld	r30, X+
+ 134:	fd 91       	ld	r31, X+
+ 136:	30 97       	sbiw	r30, 0x00	; 0
+ 138:	29 f0       	breq	.+10     	; 0x144 <__vector_10+0x34>
+		{
+			tmu_internal_bufer[i]->remaining_time--;			
+ 13a:	82 81       	ldd	r24, Z+2	; 0x02
+ 13c:	93 81       	ldd	r25, Z+3	; 0x03
+ 13e:	01 97       	sbiw	r24, 0x01	; 1
+ 140:	93 83       	std	Z+3, r25	; 0x03
+ 142:	82 83       	std	Z+2, r24	; 0x02
+static bool_t tmu_initiated=E_FALSE;
+static ecore_u16 tmu_Resolution=0 ;
+
+ISR(TIMER0_COMP_vect)
+{
+	for (ecore_u8 i=0; i<MAX_TIMERS_NO; i++)
+ 144:	a2 17       	cp	r26, r18
+ 146:	b3 07       	cpc	r27, r19
+ 148:	a1 f7       	brne	.-24     	; 0x132 <__vector_10+0x22>
+		{
+			tmu_internal_bufer[i]->remaining_time--;			
+		}
+		
+	}
+	TCNT0=0;
+ 14a:	12 be       	out	0x32, r1	; 50
+	OCR0=78;
+ 14c:	8e e4       	ldi	r24, 0x4E	; 78
+ 14e:	8c bf       	out	0x3c, r24	; 60
+	sei();
+ 150:	78 94       	sei
+}
+ 152:	ff 91       	pop	r31
+ 154:	ef 91       	pop	r30
+ 156:	bf 91       	pop	r27
+ 158:	af 91       	pop	r26
+ 15a:	9f 91       	pop	r25
+ 15c:	8f 91       	pop	r24
+ 15e:	3f 91       	pop	r19
+ 160:	2f 91       	pop	r18
+ 162:	0f 90       	pop	r0
+ 164:	0f be       	out	0x3f, r0	; 63
+ 166:	0f 90       	pop	r0
+ 168:	1f 90       	pop	r1
+ 16a:	18 95       	reti
+
+0000016c <tmu_init>:
+
+TMU_ErrorTypes tmu_init(ecore_u16 resolution)
+{
+ 16c:	e4 e6       	ldi	r30, 0x64	; 100
+ 16e:	f0 e0       	ldi	r31, 0x00	; 0
+ 170:	28 e7       	ldi	r18, 0x78	; 120
+ 172:	30 e0       	ldi	r19, 0x00	; 0
+	for(int i = 0; i < MAX_TIMERS_NO; i++) 
+	{
+		tmu_internal_bufer[i] = NULL;
+ 174:	11 92       	st	Z+, r1
+ 176:	11 92       	st	Z+, r1
+	sei();
+}
+
+TMU_ErrorTypes tmu_init(ecore_u16 resolution)
+{
+	for(int i = 0; i < MAX_TIMERS_NO; i++) 
+ 178:	e2 17       	cp	r30, r18
+ 17a:	f3 07       	cpc	r31, r19
+ 17c:	d9 f7       	brne	.-10     	; 0x174 <tmu_init+0x8>
+	{
+		tmu_internal_bufer[i] = NULL;
+	}
+	TMU_ErrorTypes s_ret_val=NO_ERRORS;
+	tmu_Resolution=resolution;
+ 17e:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <_edata+0x1>
+ 182:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+	tmu_initiated=E_TRUE;
+ 186:	81 e0       	ldi	r24, 0x01	; 1
+ 188:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <tmu_initiated>
+	//null the internal buffer...think about it
+	TCCR0=0x03;
+ 18c:	83 e0       	ldi	r24, 0x03	; 3
+ 18e:	83 bf       	out	0x33, r24	; 51
+	TCNT0=0;
+ 190:	12 be       	out	0x32, r1	; 50
+	OCR0=78;
+ 192:	8e e4       	ldi	r24, 0x4E	; 78
+ 194:	8c bf       	out	0x3c, r24	; 60
+	TIMSK=1<<1;
+ 196:	82 e0       	ldi	r24, 0x02	; 2
+ 198:	89 bf       	out	0x39, r24	; 57
+	TIFR |=1;
+ 19a:	88 b7       	in	r24, 0x38	; 56
+ 19c:	81 60       	ori	r24, 0x01	; 1
+ 19e:	88 bf       	out	0x38, r24	; 56
+	sei();
+ 1a0:	78 94       	sei
+	return s_ret_val;
+}
+ 1a2:	80 e0       	ldi	r24, 0x00	; 0
+ 1a4:	08 95       	ret
+
+000001a6 <tmu_start_timer>:
+
+TMU_ErrorTypes tmu_start_timer(TMU_STR_ELEMENT *obj,Timer_Type timer_Type,ecore_u16 timer_Period,void (*CB_func)(void))
+{
+ 1a6:	cf 93       	push	r28
+ 1a8:	df 93       	push	r29
+ 1aa:	fc 01       	movw	r30, r24
+ 1ac:	c6 2f       	mov	r28, r22
+	cli();
+ 1ae:	f8 94       	cli
+	TMU_ErrorTypes s_ret_val=NO_ERRORS;
+		if( (tmu_initiated == E_TRUE) )
+ 1b0:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <tmu_initiated>
+ 1b4:	91 30       	cpi	r25, 0x01	; 1
+ 1b6:	91 f5       	brne	.+100    	; 0x21c <tmu_start_timer+0x76>
+		{
+			if (tmu_internal_bufer_counter < MAX_TIMERS_NO )
+ 1b8:	d0 91 63 00 	lds	r29, 0x0063	; 0x800063 <tmu_internal_bufer_counter>
+ 1bc:	da 30       	cpi	r29, 0x0A	; 10
+ 1be:	50 f5       	brcc	.+84     	; 0x214 <tmu_start_timer+0x6e>
+			{
+				if ( (obj != NULL) && ( (timer_Type == PERIODIC) || (timer_Type == ONESHOOT) ) && (timer_Period != 0) && (CB_func != NULL) )
+ 1c0:	30 97       	sbiw	r30, 0x00	; 0
+ 1c2:	21 f1       	breq	.+72     	; 0x20c <tmu_start_timer+0x66>
+ 1c4:	62 30       	cpi	r22, 0x02	; 2
+ 1c6:	10 f5       	brcc	.+68     	; 0x20c <tmu_start_timer+0x66>
+ 1c8:	41 15       	cp	r20, r1
+ 1ca:	51 05       	cpc	r21, r1
+ 1cc:	f9 f0       	breq	.+62     	; 0x20c <tmu_start_timer+0x66>
+ 1ce:	21 15       	cp	r18, r1
+ 1d0:	31 05       	cpc	r19, r1
+ 1d2:	e1 f0       	breq	.+56     	; 0x20c <tmu_start_timer+0x66>
+				{
+					obj->func_CB=CB_func;
+ 1d4:	31 83       	std	Z+1, r19	; 0x01
+ 1d6:	20 83       	st	Z, r18
+					obj->period=timer_Period/tmu_Resolution;	//so the user may set it every one msec. or five msec.s //test it work and rethink later
+ 1d8:	60 91 60 00 	lds	r22, 0x0060	; 0x800060 <_edata>
+ 1dc:	70 91 61 00 	lds	r23, 0x0061	; 0x800061 <_edata+0x1>
+ 1e0:	ca 01       	movw	r24, r20
+ 1e2:	0e 94 75 01 	call	0x2ea	; 0x2ea <__udivmodhi4>
+ 1e6:	75 83       	std	Z+5, r23	; 0x05
+ 1e8:	64 83       	std	Z+4, r22	; 0x04
+					obj->remaining_time=obj->period;
+ 1ea:	73 83       	std	Z+3, r23	; 0x03
+ 1ec:	62 83       	std	Z+2, r22	; 0x02
+					obj->timer_type=timer_Type;
+ 1ee:	c6 83       	std	Z+6, r28	; 0x06
+					obj->index=tmu_internal_bufer_counter;
+ 1f0:	d7 83       	std	Z+7, r29	; 0x07
+					tmu_internal_bufer[tmu_internal_bufer_counter]=obj;
+ 1f2:	ad 2f       	mov	r26, r29
+ 1f4:	b0 e0       	ldi	r27, 0x00	; 0
+ 1f6:	aa 0f       	add	r26, r26
+ 1f8:	bb 1f       	adc	r27, r27
+ 1fa:	ac 59       	subi	r26, 0x9C	; 156
+ 1fc:	bf 4f       	sbci	r27, 0xFF	; 255
+ 1fe:	ed 93       	st	X+, r30
+ 200:	fc 93       	st	X, r31
+					tmu_internal_bufer_counter++;
+ 202:	df 5f       	subi	r29, 0xFF	; 255
+ 204:	d0 93 63 00 	sts	0x0063, r29	; 0x800063 <tmu_internal_bufer_counter>
+}
+
+TMU_ErrorTypes tmu_start_timer(TMU_STR_ELEMENT *obj,Timer_Type timer_Type,ecore_u16 timer_Period,void (*CB_func)(void))
+{
+	cli();
+	TMU_ErrorTypes s_ret_val=NO_ERRORS;
+ 208:	80 e0       	ldi	r24, 0x00	; 0
+					obj->period=timer_Period/tmu_Resolution;	//so the user may set it every one msec. or five msec.s //test it work and rethink later
+					obj->remaining_time=obj->period;
+					obj->timer_type=timer_Type;
+					obj->index=tmu_internal_bufer_counter;
+					tmu_internal_bufer[tmu_internal_bufer_counter]=obj;
+					tmu_internal_bufer_counter++;
+ 20a:	0b c0       	rjmp	.+22     	; 0x222 <tmu_start_timer+0x7c>
+				} 
+				else
+				{
+					PORTD=0x3;
+ 20c:	83 e0       	ldi	r24, 0x03	; 3
+ 20e:	82 bb       	out	0x12, r24	; 18
+					s_ret_val=INVALID_PARAMS;
+ 210:	82 e0       	ldi	r24, 0x02	; 2
+ 212:	07 c0       	rjmp	.+14     	; 0x222 <tmu_start_timer+0x7c>
+				}
+				
+			} 
+			else
+			{
+					PORTD=0x7;
+ 214:	87 e0       	ldi	r24, 0x07	; 7
+ 216:	82 bb       	out	0x12, r24	; 18
+				s_ret_val=MAX_NO_REACHED;
+ 218:	83 e0       	ldi	r24, 0x03	; 3
+ 21a:	03 c0       	rjmp	.+6      	; 0x222 <tmu_start_timer+0x7c>
+			}
+
+		}
+		else
+		{
+					PORTD=0x7;
+ 21c:	87 e0       	ldi	r24, 0x07	; 7
+ 21e:	82 bb       	out	0x12, r24	; 18
+			s_ret_val=TIMER_NOT_INITIATED;
+ 220:	81 e0       	ldi	r24, 0x01	; 1
+		}
+	sei();
+ 222:	78 94       	sei
+	return s_ret_val;
+}
+ 224:	df 91       	pop	r29
+ 226:	cf 91       	pop	r28
+ 228:	08 95       	ret
+
+0000022a <tmu_stop_timer>:
+TMU_ErrorTypes tmu_stop_timer(TMU_STR_ELEMENT *obj)
+{
+ 22a:	fc 01       	movw	r30, r24
+	cli();
+ 22c:	f8 94       	cli
+		TMU_ErrorTypes s_ret_val=NO_ERRORS;
+		if (obj != NULL)
+ 22e:	89 2b       	or	r24, r25
+ 230:	c1 f0       	breq	.+48     	; 0x262 <tmu_stop_timer+0x38>
+		{
+			obj->func_CB=NULL;
+ 232:	11 82       	std	Z+1, r1	; 0x01
+ 234:	10 82       	st	Z, r1
+			obj->period=0;
+ 236:	15 82       	std	Z+5, r1	; 0x05
+ 238:	14 82       	std	Z+4, r1	; 0x04
+			obj->remaining_time=0;
+ 23a:	13 82       	std	Z+3, r1	; 0x03
+ 23c:	12 82       	std	Z+2, r1	; 0x02
+			obj->timer_type=INVALID_TYPE;
+ 23e:	82 e0       	ldi	r24, 0x02	; 2
+ 240:	86 83       	std	Z+6, r24	; 0x06
+			tmu_internal_bufer[obj->index]=NULL;
+ 242:	a7 81       	ldd	r26, Z+7	; 0x07
+ 244:	b0 e0       	ldi	r27, 0x00	; 0
+ 246:	aa 0f       	add	r26, r26
+ 248:	bb 1f       	adc	r27, r27
+ 24a:	ac 59       	subi	r26, 0x9C	; 156
+ 24c:	bf 4f       	sbci	r27, 0xFF	; 255
+ 24e:	1d 92       	st	X+, r1
+ 250:	1c 92       	st	X, r1
+			obj->index=0;		
+ 252:	17 82       	std	Z+7, r1	; 0x07
+			tmu_internal_bufer_counter--;
+ 254:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <tmu_internal_bufer_counter>
+ 258:	81 50       	subi	r24, 0x01	; 1
+ 25a:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <tmu_internal_bufer_counter>
+	return s_ret_val;
+}
+TMU_ErrorTypes tmu_stop_timer(TMU_STR_ELEMENT *obj)
+{
+	cli();
+		TMU_ErrorTypes s_ret_val=NO_ERRORS;
+ 25e:	80 e0       	ldi	r24, 0x00	; 0
+ 260:	01 c0       	rjmp	.+2      	; 0x264 <tmu_stop_timer+0x3a>
+			obj->index=0;		
+			tmu_internal_bufer_counter--;
+		} 
+		else
+		{
+			s_ret_val=INVALID_PARAMS;
+ 262:	82 e0       	ldi	r24, 0x02	; 2
+		}
+	sei();
+ 264:	78 94       	sei
+	return s_ret_val;
+
+}
+ 266:	08 95       	ret
+
+00000268 <tmu_dispatch>:
+TMU_ErrorTypes tmu_dispatch(void)
+{
+ 268:	ef 92       	push	r14
+ 26a:	ff 92       	push	r15
+ 26c:	0f 93       	push	r16
+ 26e:	1f 93       	push	r17
+ 270:	cf 93       	push	r28
+ 272:	df 93       	push	r29
+	cli();
+ 274:	f8 94       	cli
+		TMU_ErrorTypes s_ret_val=NO_ERRORS;
+		if (tmu_initiated)
+ 276:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <tmu_initiated>
+ 27a:	88 23       	and	r24, r24
+ 27c:	69 f1       	breq	.+90     	; 0x2d8 <tmu_dispatch+0x70>
+ 27e:	c4 e6       	ldi	r28, 0x64	; 100
+ 280:	d0 e0       	ldi	r29, 0x00	; 0
+ 282:	0f 2e       	mov	r0, r31
+ 284:	f8 e7       	ldi	r31, 0x78	; 120
+ 286:	ef 2e       	mov	r14, r31
+ 288:	f0 e0       	ldi	r31, 0x00	; 0
+ 28a:	ff 2e       	mov	r15, r31
+ 28c:	f0 2d       	mov	r31, r0
+		{
+			for (ecore_u8 i=0; i<MAX_TIMERS_NO; i++)
+			{
+				if (tmu_internal_bufer[i])	//if there is a valid address process else skip
+ 28e:	e8 81       	ld	r30, Y
+ 290:	f9 81       	ldd	r31, Y+1	; 0x01
+ 292:	30 97       	sbiw	r30, 0x00	; 0
+ 294:	d9 f0       	breq	.+54     	; 0x2cc <tmu_dispatch+0x64>
+				{
+					if( (tmu_internal_bufer[i]->remaining_time) <= 0)
+ 296:	82 81       	ldd	r24, Z+2	; 0x02
+ 298:	93 81       	ldd	r25, Z+3	; 0x03
+ 29a:	18 16       	cp	r1, r24
+ 29c:	19 06       	cpc	r1, r25
+ 29e:	b4 f0       	brlt	.+44     	; 0x2cc <tmu_dispatch+0x64>
+					{
+						//PORTD=tmu_internal_bufer[0]->remaining_time;
+						tmu_internal_bufer[i]->func_CB();
+ 2a0:	01 90       	ld	r0, Z+
+ 2a2:	f0 81       	ld	r31, Z
+ 2a4:	e0 2d       	mov	r30, r0
+ 2a6:	09 95       	icall
+						tmu_internal_bufer[i]->remaining_time+=tmu_internal_bufer[i]->period;
+ 2a8:	e8 81       	ld	r30, Y
+ 2aa:	f9 81       	ldd	r31, Y+1	; 0x01
+ 2ac:	22 81       	ldd	r18, Z+2	; 0x02
+ 2ae:	33 81       	ldd	r19, Z+3	; 0x03
+ 2b0:	84 81       	ldd	r24, Z+4	; 0x04
+ 2b2:	95 81       	ldd	r25, Z+5	; 0x05
+ 2b4:	82 0f       	add	r24, r18
+ 2b6:	93 1f       	adc	r25, r19
+ 2b8:	93 83       	std	Z+3, r25	; 0x03
+ 2ba:	82 83       	std	Z+2, r24	; 0x02
+						if( tmu_internal_bufer[i]->timer_type == ONESHOOT)
+ 2bc:	e8 81       	ld	r30, Y
+ 2be:	f9 81       	ldd	r31, Y+1	; 0x01
+ 2c0:	86 81       	ldd	r24, Z+6	; 0x06
+ 2c2:	81 30       	cpi	r24, 0x01	; 1
+ 2c4:	19 f4       	brne	.+6      	; 0x2cc <tmu_dispatch+0x64>
+						tmu_stop_timer(tmu_internal_bufer[i]);
+ 2c6:	cf 01       	movw	r24, r30
+ 2c8:	0e 94 15 01 	call	0x22a	; 0x22a <tmu_stop_timer>
+ 2cc:	22 96       	adiw	r28, 0x02	; 2
+{
+	cli();
+		TMU_ErrorTypes s_ret_val=NO_ERRORS;
+		if (tmu_initiated)
+		{
+			for (ecore_u8 i=0; i<MAX_TIMERS_NO; i++)
+ 2ce:	ce 15       	cp	r28, r14
+ 2d0:	df 05       	cpc	r29, r15
+ 2d2:	e9 f6       	brne	.-70     	; 0x28e <tmu_dispatch+0x26>
+
+}
+TMU_ErrorTypes tmu_dispatch(void)
+{
+	cli();
+		TMU_ErrorTypes s_ret_val=NO_ERRORS;
+ 2d4:	80 e0       	ldi	r24, 0x00	; 0
+ 2d6:	01 c0       	rjmp	.+2      	; 0x2da <tmu_dispatch+0x72>
+			}
+		
+		}
+		else
+		{
+			s_ret_val=TIMER_NOT_INITIATED;
+ 2d8:	81 e0       	ldi	r24, 0x01	; 1
+		}
+	sei();
+ 2da:	78 94       	sei
+	return s_ret_val;
+}
+ 2dc:	df 91       	pop	r29
+ 2de:	cf 91       	pop	r28
+ 2e0:	1f 91       	pop	r17
+ 2e2:	0f 91       	pop	r16
+ 2e4:	ff 90       	pop	r15
+ 2e6:	ef 90       	pop	r14
+ 2e8:	08 95       	ret
+
+000002ea <__udivmodhi4>:
+ 2ea:	aa 1b       	sub	r26, r26
+ 2ec:	bb 1b       	sub	r27, r27
+ 2ee:	51 e1       	ldi	r21, 0x11	; 17
+ 2f0:	07 c0       	rjmp	.+14     	; 0x300 <__udivmodhi4_ep>
+
+000002f2 <__udivmodhi4_loop>:
+ 2f2:	aa 1f       	adc	r26, r26
+ 2f4:	bb 1f       	adc	r27, r27
+ 2f6:	a6 17       	cp	r26, r22
+ 2f8:	b7 07       	cpc	r27, r23
+ 2fa:	10 f0       	brcs	.+4      	; 0x300 <__udivmodhi4_ep>
+ 2fc:	a6 1b       	sub	r26, r22
+ 2fe:	b7 0b       	sbc	r27, r23
+
+00000300 <__udivmodhi4_ep>:
+ 300:	88 1f       	adc	r24, r24
+ 302:	99 1f       	adc	r25, r25
+ 304:	5a 95       	dec	r21
+ 306:	a9 f7       	brne	.-22     	; 0x2f2 <__udivmodhi4_loop>
+ 308:	80 95       	com	r24
+ 30a:	90 95       	com	r25
+ 30c:	bc 01       	movw	r22, r24
+ 30e:	cd 01       	movw	r24, r26
+ 310:	08 95       	ret
+
+00000312 <_exit>:
+ 312:	f8 94       	cli
+
+00000314 <__stop_program>:
+ 314:	ff cf       	rjmp	.-2      	; 0x314 <__stop_program>
