@@ -1,0 +1,276 @@
+
+lcd_return_types lcd_comm_out(g_lcd_t* lcd_obj,lcd_commands_t lcd_command)  //optimize the repeation of the delay func
+{
+	#if NO_OF_DATA_LINES == 4
+	//4bits mode
+	if (lcd_obj->obj_data_pins_beginning == PORT_PIN_FOUR)
+	{
+		//the high nipple
+		PORTX= (PORTX & 0x0f) | (lcd_command & 0xf0);
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+		_delay_us(20);
+		
+		//the low nipple
+		PORTX= ( (PORTX & 0x0f) | (lcd_command<<4) );
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+	
+	} 
+	else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_THREE)
+	{
+		//the high nipple
+		PORTX= (PORTX & 0x87) | ( (lcd_command & 0xf0) >> 1 );
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+		_delay_us(20);
+		
+		//the low nipple
+		PORTX= ( (PORTX & 0x87) | ((lcd_command & 0x0f)<<3) );
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+	}
+	else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_TWO)
+	{
+		//the high nipple
+		PORTX= (PORTX & 0xc3) | ( (lcd_command & 0xf0) >> 2 );
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+		_delay_us(20);
+		
+		//the low nipple
+		PORTX= ( (PORTX & 0xc3) | ((lcd_command & 0x0f)<<2) );
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+	}
+	else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_ONE)
+	{
+		//the high nipple
+		PORTX= (PORTX & 0xe1) | ( (lcd_command & 0xf0) >> 3 );
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+		_delay_us(20);
+		
+		//the low nipple
+		PORTX= ( (PORTX & 0xe1) | ((lcd_command & 0x0f)<<1) );
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+	}
+	else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_ZERO)
+	{
+		//the high nipple
+		PORTX= (PORTX & 0xf0) | ( lcd_command >> 4);
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+		_delay_us(20);
+		
+		//the low nipple
+		PORTX= ( (PORTX & 0xf0) | (lcd_command  & 0x0f) );
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+	}
+	
+	
+	
+	
+	optimized to 
+	
+	-------------
+	-------------------------------------------------------------------------------------------------------
+		#if NO_OF_DATA_LINES == 4
+		//4bits mode
+		if (lcd_obj->obj_data_pins_beginning == PORT_PIN_FOUR)
+		{
+			//the high nipple
+			PORTX= (PORTX & 0x0f) | (lcd_command & 0xf0);
+		} .
+		else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_THREE)
+		{
+			//the high nipple
+			PORTX= (PORTX & 0x87) | ( (lcd_command & 0xf0) >> 1 );
+		}
+		else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_TWO)
+		{
+			//the high nipple
+			PORTX= (PORTX & 0xc3) | ( (lcd_command & 0xf0) >> 2 );
+		}
+		else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_ONE)
+		{
+			//the high nipple
+			PORTX= (PORTX & 0xe1) | ( (lcd_command & 0xf0) >> 3 );
+		}
+		else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_ZERO)
+		{
+			//the high nipple
+			PORTX= (PORTX & 0xf0) | ( lcd_command >> 4);
+		}
+	
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+	
+	
+		_delay_us(20);
+	
+	
+		if (lcd_obj->obj_data_pins_beginning == PORT_PIN_FOUR)
+		{
+			//the low nipple
+			PORTX= ( (PORTX & 0x0f) | (lcd_command<<4) );
+		}
+		else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_THREE)
+		{
+			//the low nipple
+			PORTX= ( (PORTX & 0x87) | ((lcd_command & 0x0f)<<3) );
+		}
+		else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_TWO)
+		{
+			//the low nipple
+			PORTX= ( (PORTX & 0xc3) | ((lcd_command & 0x0f)<<2) );
+		}
+		else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_ONE)
+		{
+			//the low nipple
+			PORTX= ( (PORTX & 0xe1) | ((lcd_command & 0x0f)<<1) );
+		}
+		else									    //PORT_PIN_ZERO
+		{
+			//the low nipple
+			PORTX= ( (PORTX & 0xf0) | (lcd_command  & 0x0f) );
+		}
+	
+		//a high to low pulse to make tthe lcd latch the data in
+		set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		_delay_us(1);
+		set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+
+		
+		
+		-------------------------------------
+
+lcd_return_types lcd_comm_out(g_lcd_t* lcd_obj,lcd_commands_t lcd_command)  //optimize the repeation of the delay func
+{
+	lcd_return_types ret_val=NO_LCD_ERRORS;
+	if( (lcd_obj != NULL) && ( (lcd_command >=0x01) && (lcd_command <= 0xc0) ) )
+	{
+		#if NO_OF_DATA_LINES == 4
+			//4bits mode>>>many if statements i know but this is to reduce the repetition of the high to low pulse and the delay and so on>>>then it's for optimization 
+			if (lcd_obj->obj_data_pins_beginning == PORT_PIN_FOUR)
+			{
+				//the high nipple
+				PORTX= (PORTX & 0x0f) | (lcd_command & 0xf0);
+			} 
+			else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_THREE)
+			{
+				//the high nipple
+				PORTX= (PORTX & 0x87) | ( (lcd_command & 0xf0) >> 1 );
+			}
+			else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_TWO)
+			{
+				//the high nipple
+				PORTX= (PORTX & 0xc3) | ( (lcd_command & 0xf0) >> 2 );
+			}
+			else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_ONE)
+			{
+				//the high nipple
+				PORTX= (PORTX & 0xe1) | ( (lcd_command & 0xf0) >> 3 );
+			}
+			else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_ZERO)
+			{
+				//the high nipple
+				PORTX= (PORTX & 0xf0) | ( lcd_command >> 4);
+			}
+	
+			//a high to low pulse to make tthe lcd latch the data in
+			set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+			_delay_us(1);
+			set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+	
+	
+			_delay_us(20);
+	
+	
+			if (lcd_obj->obj_data_pins_beginning == PORT_PIN_FOUR)
+			{
+				//the low nipple
+				PORTX= ( (PORTX & 0x0f) | (lcd_command<<4) );
+			}
+			else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_THREE)
+			{
+				//the low nipple
+				PORTX= ( (PORTX & 0x87) | ((lcd_command & 0x0f)<<3) );
+			}
+			else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_TWO)
+			{
+				//the low nipple
+				PORTX= ( (PORTX & 0xc3) | ((lcd_command & 0x0f)<<2) );
+			}
+			else if (lcd_obj->obj_data_pins_beginning == PORT_PIN_ONE)
+			{
+				//the low nipple
+				PORTX= ( (PORTX & 0xe1) | ((lcd_command & 0x0f)<<1) );
+			}
+			else									    //PORT_PIN_ZERO
+			{
+				//the low nipple
+				PORTX= ( (PORTX & 0xf0) | (lcd_command  & 0x0f) );
+			}
+	
+		
+	
+		#elif NO_OF_DATA_LINES == 8
+			//8bits mode
+			write_port((gpio_bases *)lcd_obj->obj_data_port,(msa_u8)&lcd_command);
+		#else
+	
+			#error "invalid number of data lines.it can be 4 or 8 otherwise error"
+		#endif
+		
+			//a high to low pulse to make tthe lcd latch the data in
+			set_pin_high((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+			_delay_us(1);
+			set_pin_low((gpio_bases *)lcd_obj->obj_comm_port,(gpio_bases *)lcd_obj->obj_E_pin);
+		
+		
+			//a delay after each command
+			if ( (lcd_command == RETURN_HOME) || (lcd_command == CLEAR_SCREEN) )
+			{
+				_delay_ms(2);
+			} 
+			else
+			{
+				_delay_us(120);
+			}
+	}
+}
