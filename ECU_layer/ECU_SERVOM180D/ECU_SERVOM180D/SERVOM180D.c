@@ -6,7 +6,7 @@
  */ 
 
 #include <avr/io.h>
-
+#include "hal_PWM.h"
 
 int main(void)
 {

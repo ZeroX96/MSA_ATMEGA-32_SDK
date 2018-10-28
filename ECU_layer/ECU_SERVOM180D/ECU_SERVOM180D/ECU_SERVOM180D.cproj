@@ -118,7 +118,19 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="main.c">
+    <Compile Include="common.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hal_PWM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hal_PWM.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hal_PWM_CFG.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SERVOM180D.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
