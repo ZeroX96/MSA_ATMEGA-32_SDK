@@ -1,2 +1,8 @@
 -error handling module
 -if i have two devices with the same functions lcd_msa96 and lcd_msa18 4ex and differ in theire prop.s and config.s then there must be an interface in the service layer to handle them as the user dont need to decide every time and even need not to know and pla pla pla
+-ADC
+-SPI
+-I2C
+-COMM
+-SERVO_MODULE
+-DC_MOTOR
