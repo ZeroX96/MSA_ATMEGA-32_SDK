@@ -12,6 +12,7 @@
 #include <avr/io.h>
 #include "hal_PWM_CFG.h"
 #include "common.h"
+#include <util/delay.h>
 #define WGMn1 2
 #define WGMn0 6
 #define COMn 4
@@ -19,6 +20,12 @@
 //the higher the period/the smaller the freq ,the higher the resolution
 
 //rethink about all the coming i.e i need the formula or to get a val from it pwm 
+
+typedef enum
+{
+	NOT_CONFIGED,
+	CONFIGED,
+}pwm_module_state_t;
 
 typedef enum
 {
@@ -56,6 +63,7 @@ typedef enum
 	NO_PWM_ERRORS=0,
 	INVALID_PWM_PARAMS,
 	THE_NEEDED_PRESCALER_IMPOSSIBLE,
+	MODULE_NOT_CONFIGED,
 }pwm_error_t;
 
 typedef enum
@@ -72,10 +80,18 @@ typedef struct
 	msa_u32 pwm_freq_obj;
 	pwm_duty_cycle_t pwm_duty_cycle_obj;
 	prescaler_select_t prescaler_obj;
+	pwm_module_state_t pwm_module_config_state_obj;
 }st_pwm_object;
 
 pwm_error_t pwm_init(st_pwm_object*pwm_obj,timer_bases_t pwm_base ,pwm_output_mode_t pwm_mode 
 ,pwm_operating_mode_t pwm_op_mode,msa_u32 pwm_freq,pwm_duty_cycle_t pwm_duty_cycle);
+
+pwm_error_t pwm_edit(st_pwm_object*pwm_obj,pwm_output_mode_t pwm_mode,pwm_operating_mode_t pwm_op_mode
+,msa_u32 pwm_freq,pwm_duty_cycle_t pwm_duty_cycle);
+
+pwm_error_t pwm_stop(st_pwm_object *pwm_obj);
+pwm_error_t pwm_run(st_pwm_object *pwm_obj);
+pwm_error_t pwm_deinit(st_pwm_object *pwm_obj);
 // 
 // #define Fout_FAST			(Fosc /(256*prescaler) )
 // #define DUTYOUT_FAST		( ( (ocr+1) /256 ) *100 )
