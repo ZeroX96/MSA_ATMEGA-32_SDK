@@ -68,6 +68,7 @@ typedef enum
 
 typedef enum
 {
+	ONE_PERCENT=1,TWO_PERCENT=2,
 	FIVE_PERCENT=5,TEN_PERCENT=10,
 	TWENTY_PERCENT=20,FIFTY_PERCENT=50,
 }pwm_duty_cycle_t;//the inverted non-inverted modes

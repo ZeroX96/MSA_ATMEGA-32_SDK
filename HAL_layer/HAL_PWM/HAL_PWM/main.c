@@ -21,20 +21,25 @@ int main(void)
 	DDRB=0xff;
 	PORTB=0xff;
 	DDRD=0xff;
-	pwm_error_t res= pwm_init(&pwm_1,TIMER_0,NON_INVERTED,FAST_PWM,31250,TWENTY_PERCENT);;
+	pwm_error_t res= pwm_init(&pwm_1,TIMER_0,NON_INVERTED,FAST_PWM,31250,TWENTY_PERCENT);
+				//res= pwm_init(&pwm_2,TIMER_2,NON_INVERTED,FAST_PWM,31250,TEN_PERCENT|FIVE_PERCENT);
+				msa_u8 duty_cntr=1;
     while (1) 
     {
-		res= pwm_edit(&pwm_1,NON_INVERTED,FAST_PWM,1000000,TWENTY_PERCENT);
-		PORTD=0xff;
-		_delay_ms(1000);
-		res= pwm_stop(&pwm_1); 
-		//pwm_edit(&pwm_1,INVERTED,FAST_PWM,1000000,TWENTY_PERCENT);
-		PORTD=0x00;
-		_delay_ms(1000);
-		res= pwm_edit(&pwm_1,NON_INVERTED,FAST_PWM,1000000,TWENTY_PERCENT);
-		PORTD=0xff;
-		_delay_ms(1000);
-		pwm_deinit(&pwm_1);
+		duty_cntr+=5;
+	    res= pwm_edit(&pwm_1,NON_INVERTED,FAST_PWM,50000,duty_cntr);
+	    //res= pwm_edit(&pwm_2,INVERTED,FAST_PWM,1000000,TWENTY_PERCENT);
+		//PORTD=0xff;
+		//_delay_ms(1000);
+		//res= pwm_stop(&pwm_1); 
+		////pwm_edit(&pwm_1,INVERTED,FAST_PWM,1000000,TWENTY_PERCENT);
+		//PORTD=0x00;
+		_delay_ms(500);
+		//res= pwm_edit(&pwm_1,INVERTED,FAST_PWM,1000000,FIFTY_PERCENT|TEN_PERCENT);
+		//res= pwm_edit(&pwm_2,NON_INVERTED,FAST_PWM,1000000,FIFTY_PERCENT|TEN_PERCENT);
+		//PORTD=0xff;
+		//_delay_ms(500);
+		//pwm_deinit(&pwm_1);
     }
 }
 

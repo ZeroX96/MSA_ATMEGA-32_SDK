@@ -6,8 +6,6 @@
  */ 
 
 #include "hal_PWM.h"
-#include "hal_PWM_CFG.h"
-
 
 #define ON_PWM_SRC(PORT,PIN) (PORT |= (1<<PIN) )
 #define OFF_PWM_SRC(PORT,PIN) (PORT &=~ (1<<PIN) )
