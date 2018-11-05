@@ -118,6 +118,15 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="hal_I2C.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hal_I2C.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="hal_I2C_CFG.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
