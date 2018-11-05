@@ -67,7 +67,7 @@ if (		 (usart_obj != NULL)														&&
 				(*(volatile msa_u8*)0x2a) |=(1<<RXCIE)|(1<<UDRIE);	
 			}
 		}
-		
+		//storing config data
 		usart_obj->obj_data_bits_no=data_bits_no;
 		usart_obj->obj_device_state=INITIATED;
 		usart_obj->obj_notifications_mode=notifications_mode;
@@ -209,7 +209,6 @@ usart_ret_types usart_set_isr_RXC_callback(usart_t * usart_obj,void (*vptr_cb)(v
 	{
 		if (usart_obj->obj_device_state == INITIATED)
 		{
-			usart_obj->obj_vptr_RXC_cb=vptr_cb;
 			vptr_RXC_cb=vptr_cb;
 			
 		}
@@ -236,7 +235,6 @@ usart_ret_types usart_set_isr_TXC_callback(usart_t * usart_obj,void (*vptr_cb)(v
 	{
 		if (usart_obj->obj_device_state == INITIATED)
 		{
-			usart_obj->obj_vptr_TXC_cb=vptr_cb;
 			vptr_TXC_cb=vptr_cb;
 
 		}
