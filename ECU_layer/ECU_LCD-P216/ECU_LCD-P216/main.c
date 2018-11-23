@@ -10,8 +10,7 @@
 #include "LCD_P216.h"
 /*
 
-lcd_return_types lcd_init (g_lcd_t* lcd_obj,gpio_bases data_port,beginning_of_data_pins data_pins_beginning,gpio_bases comm_port,
-						   gpio_pin_no RS_pin,gpio_pin_no RW_pin,gpio_pin_no E_pin);
+lcd_return_types lcd_init (lcd_obj,data_port,data_pins_beginning,comm_port,RS_pin,RW_pin,E_pin);
 
 lcd_return_types lcd_data_out(g_lcd_t* lcd_obj,msa_u8 lcd_data);
 lcd_return_types lcd_array_data_out(g_lcd_t* lcd_obj,msa_u8* lcd_array_data);
@@ -24,20 +23,24 @@ int main(void)
 	g_lcd_t lcd_obj_1;
 	lcd_init(&lcd_obj_1,BASE_D,PORT_PIN_FOUR,BASE_C,PIN_TWO,PIN_THREE,PIN_FOUR);
 	msa_u8 lcd_array_data[13]="Mahmoud Saad";
+	
     while (1) 
     {
 	    lcd_data_out(&lcd_obj_1,'M');
+	    PORTD|=0x0f;
 		_delay_ms(500);
-	    lcd_data_out(&lcd_obj_1,'S');
+		PORTD &= 0xf0;
+		_delay_ms(500);
+	    /*lcd_data_out(&lcd_obj_1,'S');
 		_delay_ms(500);
 	    lcd_data_out(&lcd_obj_1,'A');
 		_delay_ms(500);
-		lcd_comm_out(&lcd_obj_1,CLEAR_SCREEN);
+		 //lcd_comm_out(&lcd_obj_1,CLEAR_SCREEN);
 		_delay_ms(500);		
 		lcd_array_data_out(&lcd_obj_1,lcd_array_data);
 		_delay_ms(500);
-		lcd_comm_out(&lcd_obj_1,CLEAR_SCREEN);
-		_delay_ms(500);
+		//lcd_comm_out(&lcd_obj_1,CLEAR_SCREEN);
+		_delay_ms(500);*/
 	}
 }
 

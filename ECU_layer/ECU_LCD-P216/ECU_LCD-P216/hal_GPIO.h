@@ -33,7 +33,7 @@ typedef enum
 
 gpio_errors set_port_output	(gpio_bases *base);
 gpio_errors set_pin_output	(gpio_bases *base,gpio_pin_no pin_no);
-gpio_errors write_port		(gpio_bases *base,msa_u8 *val);
+gpio_errors write_port		(gpio_bases *base,msa_u8 val);
 gpio_errors set_pin_high(gpio_bases *base,gpio_pin_no pin_no);
 gpio_errors set_pin_low(gpio_bases *base,gpio_pin_no pin_no);
 

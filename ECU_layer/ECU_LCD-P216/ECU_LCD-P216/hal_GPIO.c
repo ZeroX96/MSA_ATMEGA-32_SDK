@@ -100,14 +100,14 @@ gpio_errors read_port(gpio_bases *base,msa_u8 *val)
 #endif
 
 //edited the gpio write_port(gpio_bases *base,msa_u8 *val) to fulfill the lcd driver requirements
-gpio_errors write_port(gpio_bases *base,msa_u8 *val)
+gpio_errors write_port(gpio_bases *base,msa_u8 val)
 {
 	
 	gpio_errors b_ret_val=NO_ERRORS;
-	if((base >= (gpio_bases*) BASE_D) && (base <= (gpio_bases*) BASE_A) && (val != NULL))
+	if((base >= (gpio_bases*) BASE_D) && (base <= (gpio_bases*) BASE_A))
 	{
 		
-		*((msa_u8 *)base+PORT_OFFSET)=*val;
+		*((msa_u8 *)base+PORT_OFFSET)=val;
 	}
 	else
 	{
