@@ -157,6 +157,8 @@ pwm_error_t pwm_run(st_pwm_object *pwm_obj)
 	{
 		if (pwm_obj->pwm_module_config_state_obj == CONFIGED)
 		{
+			//was going to store the registers in the stop func and restore them here but it would need more effort and i'm busy so, "???? ?????"
+			//so if had time in the future,edit the stop and run functions
 			pwm_init(pwm_obj,pwm_obj->pwm_base_obj,pwm_obj->pwm_mode_obj,pwm_obj->pwm_op_mode_obj,pwm_obj->pwm_freq_obj,pwm_obj->pwm_duty_cycle_obj);
 		} 
 		else

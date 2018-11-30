@@ -93,6 +93,7 @@ pwm_error_t pwm_edit(st_pwm_object*pwm_obj,pwm_output_mode_t pwm_mode,pwm_operat
 pwm_error_t pwm_stop(st_pwm_object *pwm_obj);
 pwm_error_t pwm_run(st_pwm_object *pwm_obj);
 pwm_error_t pwm_deinit(st_pwm_object *pwm_obj);
+//pwm_error_t Pwm_SetDutyCycle(Pwm_ChannelType ChannelNumber,uint16 DutyCycle);AUTOSAR
 // 
 // #define Fout_FAST			(Fosc /(256*prescaler) )
 // #define DUTYOUT_FAST		( ( (ocr+1) /256 ) *100 )

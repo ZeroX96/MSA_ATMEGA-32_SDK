@@ -37,8 +37,9 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../ecu_SERVOM.c \
 ../hal_PWM.c \
-../SERVOM180D.c
+../main.c
 
 
 PREPROCESSING_SRCS += 
@@ -48,20 +49,24 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+ecu_SERVOM.o \
 hal_PWM.o \
-SERVOM180D.o
+main.o
 
 OBJS_AS_ARGS +=  \
+ecu_SERVOM.o \
 hal_PWM.o \
-SERVOM180D.o
+main.o
 
 C_DEPS +=  \
+ecu_SERVOM.d \
 hal_PWM.d \
-SERVOM180D.d
+main.d
 
 C_DEPS_AS_ARGS +=  \
+ecu_SERVOM.d \
 hal_PWM.d \
-SERVOM180D.d
+main.d
 
 OUTPUT_FILE_PATH +=ECU_SERVOM180D.elf
 
@@ -77,6 +82,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

@@ -121,6 +121,15 @@
     <Compile Include="common.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="ecu_SERVOM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ecu_SERVOM.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ecu_SERVOM_CFG.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="hal_PWM.c">
       <SubType>compile</SubType>
     </Compile>
@@ -130,7 +139,7 @@
     <Compile Include="hal_PWM_CFG.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SERVOM180D.c">
+    <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
