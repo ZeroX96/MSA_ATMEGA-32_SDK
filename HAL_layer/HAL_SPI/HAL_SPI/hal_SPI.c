@@ -42,7 +42,7 @@ spi_error_t hal_spiInit(str_spi_objectInfo_t *strg_obj,spi_driver_base_t driver_
 		//actual initialization
 		*((volatile msa_u8 *)driver_base+CTRL_REG_OFFSET)	|= (freq_select & 0x03)|(transfer_mode<<CPHA)|(mode << MSTR);
 		*((volatile msa_u8 *)driver_base+CTRL_REG_OFFSET)	|= (ENABLE<<SPE)|(notfics_mode<<SPIE)|(data_order<<DORD);
-		*((volatile msa_u8 *)driver_base+STATUS_REG_OFFSET) = ( (freq_select&0xfc)>>2 );	//test the res is -4?? or worked well...>>edited and worked
+		*((volatile msa_u8 *)driver_base+STATUS_REG_OFFSET) = ( (freq_select&0xfcUL)>>2 );	//test the res is -4?? or worked well...>>edited and worked
 		if (notfics_mode == SPI_INTERRUPTING)
 		{
 			sei();
@@ -64,7 +64,7 @@ spi_error_t hal_spiRecieveByte(str_spi_objectInfo_t * strg_obj,msa_u8* DataByte)
 		if (strg_obj->driver_state_obj == DRIVER_INITIATED)
 		{
 			
-			while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET)) & (1<<SPIF)))
+			while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET)) & (1<<SPIF))) //fixed an error,was testing the 7th bit in the data reg wich is wrong
 			;
 			*DataByte=(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET));
 			(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))|=(1<<SPIF);
@@ -92,7 +92,7 @@ spi_error_t hal_spiSendByte(str_spi_objectInfo_t * strg_obj,msa_u8* DataByte)
 		{
 			
 			(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*DataByte;
-			while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET)) & (1<<SPIF)))
+			while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET)) & (1<<SPIF)))//fixed an error,was testing the 7th bit in the data reg wich is wrong
 			;
 			//(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))|=(1<<SPIF);
 			//where is the fucken add????????????????????????????????????????????????????????????
@@ -122,10 +122,10 @@ spi_error_t hal_spiSendArr(str_spi_objectInfo_t * strg_obj,msa_u8* DataArray)
 			msa_u8 i=0;
 			for (i=0;*(DataArray+i) ;i++)
 			{
-				while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET)) & (1<<SPIF)))
+				while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET)) & (1<<SPIF)))
 				;
 				(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*(DataArray+i);
-				(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))|=(1<<SPIF);
+				(*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET))|=(1<<SPIF);
 				//where is the fucken add????????????????????????????????????????????????????????????				
 			}
 		}

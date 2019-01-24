@@ -22,11 +22,11 @@ spi_error_t hal_setSpiIsrCallback(str_spi_objectInfo_t * strg_obj,void (*vptr_cb
 
 int main(void)
 {
-	DDRD=0xff;
-	str_spi_objectInfo_t obj_1;
-	msa_u8 data_add='m';
-	hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_32,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);
-	hal_spiSendByte(&obj_1,&data_add);
+	//DDRD=0xff;
+	//str_spi_objectInfo_t obj_1;
+	//msa_u8 data_add='m';
+	//hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_32,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);
+	//hal_spiSendByte(&obj_1,&data_add);
     while (1) 
     {
 		PORTD^=0x45;
