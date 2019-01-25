@@ -9,6 +9,7 @@
 #ifndef HAL_SPI_CFG_H_
 #define HAL_SPI_CFG_H_
 
+#define F_CPU 1000000UL
 
 
 

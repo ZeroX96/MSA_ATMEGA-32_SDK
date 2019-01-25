@@ -8,9 +8,11 @@
 
 #ifndef HAL_SPI_H_
 #define HAL_SPI_H_
+#include "hal_SPI_CFG.h"
 #include <avr/interrupt.h>
 #include "common.h"
-
+#include <avr/io.h>
+#include <util/delay.h>
 /*
 #define FALLING_EDGE 
 #define RISING_EDGE
@@ -119,7 +121,7 @@ spi_error_t hal_spiInit( str_spi_objectInfo_t *strg_obj,spi_driver_base_t driver
 					   );
 spi_error_t hal_spiSendByte(str_spi_objectInfo_t *strg_obj,msa_u8 *DataByte);
 spi_error_t hal_spiSendArr(str_spi_objectInfo_t * strg_obj,msa_u8* DataArray);
-spi_error_t hal_spiRecieveByte(str_spi_objectInfo_t *strg_obj,msa_u8 *DataByte);
+spi_error_t hal_spiRecieveByte(str_spi_objectInfo_t *strg_obj,msa_u8 *DataByte,msa_u8 *Data2Bexchanged);//data2Bexchanged is the data to be sent when the master initiates the clock and the default is 0xff
 spi_error_t hal_spiRecieveArr(str_spi_objectInfo_t *strg_obj,msa_u8 *DataArray,msa_u8 arr_size);
 spi_error_t hal_spiDeinit(str_spi_objectInfo_t *strg_obj);
 spi_error_t hal_setSpiIsrCallback(str_spi_objectInfo_t * strg_obj,void (*vptr_cb)(void));

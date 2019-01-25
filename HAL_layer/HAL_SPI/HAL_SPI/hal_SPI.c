@@ -19,6 +19,13 @@
 #define SPIE				7	//bit  7   used to enable the driver interrupts
 #define ENABLE				1
 #define SPIF				7
+
+//SPI_PINS according to the atmega32,otherwise..edit this
+#define SPI_PIN_MOSI		5
+#define SPI_PIN_MISO		6
+#define SPI_PIN_SCK			7
+#define SPI_PIN_SS			4
+
 static void (*spi_interrupt_handler)(void);
 
 spi_error_t hal_spiInit(str_spi_objectInfo_t *strg_obj,spi_driver_base_t driver_base,spi_sck_freq_select_t	freq_select,
@@ -42,8 +49,26 @@ spi_error_t hal_spiInit(str_spi_objectInfo_t *strg_obj,spi_driver_base_t driver_
 		//actual initialization
 		*((volatile msa_u8 *)driver_base+CTRL_REG_OFFSET)	|= (freq_select & 0x03)|(transfer_mode<<CPHA)|(mode << MSTR);
 		*((volatile msa_u8 *)driver_base+CTRL_REG_OFFSET)	|= (ENABLE<<SPE)|(notfics_mode<<SPIE)|(data_order<<DORD);
-		*((volatile msa_u8 *)driver_base+STATUS_REG_OFFSET) = ( (freq_select&0xfcUL)>>2 );	//test the res is -4?? or worked well...>>edited and worked
-		if (notfics_mode == SPI_INTERRUPTING)
+		*((volatile msa_u8 *)driver_base+STATUS_REG_OFFSET) |= ( (freq_select&0xfcUL)>>2 );	//test the res is -4?? or worked well...>>edited and worked
+		
+		//configuring the driver pins
+		if (mode == MASTER_EN)
+		{
+			//again,this is according to the atmega32 mcu
+			SET_BIT(DDRB,SPI_PIN_SS);
+			SET_BIT(DDRB,SPI_PIN_SCK);
+			SET_BIT(DDRB,SPI_PIN_MOSI);
+			CLEAR_BIT(DDRB,SPI_PIN_MISO);
+		} 
+		else //slave_en
+		{ 
+			//again,this is according to the atmega32 mcu
+			CLEAR_BIT(DDRB,SPI_PIN_SS);
+			CLEAR_BIT(DDRB,SPI_PIN_SCK);
+			CLEAR_BIT(DDRB,SPI_PIN_MOSI);
+			SET_BIT  (DDRB,SPI_PIN_MISO);
+		}
+		if (notfics_mode == SPI_INTERRUPTING) //re-edit not to override the interrupt status,or the condition with the previous interrupt status
 		{
 			sei();
 		}
@@ -56,18 +81,26 @@ spi_error_t hal_spiInit(str_spi_objectInfo_t *strg_obj,spi_driver_base_t driver_
 	return ret_val;
 }
 
-spi_error_t hal_spiRecieveByte(str_spi_objectInfo_t * strg_obj,msa_u8* DataByte)
+spi_error_t hal_spiRecieveByte(str_spi_objectInfo_t *strg_obj,msa_u8 *DataByte,msa_u8 *Data2Bexchanged)//data2Bexchanged is the data to be sent when the master initiates the clock and the default is 0xff
 {
 	spi_error_t ret_val=NO_SPI_ERROR;
 	if ( (strg_obj != NULL) && (DataByte != NULL) )
 	{
 		if (strg_obj->driver_state_obj == DRIVER_INITIATED)
 		{
-			
+			if (*Data2Bexchanged == 0)//error may want to send a Zero,edit
+			{
+				(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=0xff;
+			} 
+			else
+			{
+				(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*Data2Bexchanged;
+			}
 			while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET)) & (1<<SPIF))) //fixed an error,was testing the 7th bit in the data reg wich is wrong
 			;
+			_delay_us(5);
 			*DataByte=(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET));
-			(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))|=(1<<SPIF);
+			//(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))|=(1<<SPIF);//test
 			//where is the fucken add????????????????????????????????????????????????????????????
 		}
 		else
@@ -83,15 +116,16 @@ spi_error_t hal_spiRecieveByte(str_spi_objectInfo_t * strg_obj,msa_u8* DataByte)
 }
 
 
-spi_error_t hal_spiSendByte(str_spi_objectInfo_t * strg_obj,msa_u8* DataByte)
+spi_error_t hal_spiSendByte(str_spi_objectInfo_t * strg_obj,msa_u8 *DataByte)
 {
 	spi_error_t ret_val=NO_SPI_ERROR;
 	if ( (strg_obj != NULL) && (DataByte != NULL) )
 	{
 		if (strg_obj->driver_state_obj == DRIVER_INITIATED)
 		{
-			
+			_delay_us(5);
 			(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*DataByte;
+			//SPDR=DataByte;
 			while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET)) & (1<<SPIF)))//fixed an error,was testing the 7th bit in the data reg wich is wrong
 			;
 			//(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))|=(1<<SPIF);
@@ -142,8 +176,8 @@ spi_error_t hal_spiSendArr(str_spi_objectInfo_t * strg_obj,msa_u8* DataArray)
 
 	return ret_val;
 }
-
-spi_error_t hal_spiRecieveArr(str_spi_objectInfo_t *strg_obj,msa_u8 *DataArray,msa_u8 arr_size)
+/*
+spi_error_t hal_spiRecieveArr(str_spi_objectInfo_t *strg_obj,msa_u8 *DataArray,msa_u8 arr_size,msa_u8*array2Bexchanged)
 {
 	spi_error_t ret_val=NO_SPI_ERROR;
 	msa_u8 data_in_cntr=0,temp=0;
@@ -154,7 +188,7 @@ spi_error_t hal_spiRecieveArr(str_spi_objectInfo_t *strg_obj,msa_u8 *DataArray,m
 		{
 			while( (temp != 13) && (data_in_cntr < (arr_size) ) )
 			{
-				hal_spiRecieveByte(strg_obj,&temp);
+				hal_spiRecieveByte(strg_obj,&temp,);
 				DataArray[data_in_cntr++]=temp;
 				if(temp == '\0')
 				break;
@@ -172,7 +206,7 @@ spi_error_t hal_spiRecieveArr(str_spi_objectInfo_t *strg_obj,msa_u8 *DataArray,m
 	}
 	return ret_val;
 }
-
+*/
 
 spi_error_t hal_spiDeinit(str_spi_objectInfo_t *strg_obj)
 {
