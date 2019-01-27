@@ -20,27 +20,29 @@ spi_error_t hal_spiDeinit(str_spi_objectInfo_t         *strg_obj);
 spi_error_t hal_setSpiIsrCallback(str_spi_objectInfo_t *strg_obj,void (*vptr_cb)(void));
 #endif
 //The Master Portion of code
-#if 0
+#if 1
 int main(void)
 {
 	DDRD=0xff;
 	str_spi_objectInfo_t obj_1;
-	msa_u8 data_add=7;
+	msa_u8 data_out=0,data_in=0;
 	hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_16,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);
 	_delay_ms(10);
 	//hal_spiSendByte(&obj_1,&data_add);
     while (1) 
     {
-		hal_spiSendByte(&obj_1,&data_add);
+		hal_spiSendByte(&obj_1,&data_out);
+		
 		_delay_ms(1000);
 		PORTD++;
+		data_out++;
 		//
 		//data_add++;
     }
 }
 #endif
 //the Slave Portion of Code
-#if 1
+#if 0
 int main(void)
 {
 	DDRD=0xff;
