@@ -16,6 +16,9 @@
 #include "hal_SPI_CFG.h"
 #include "hal_SPI.h"
 
+//for the Interrupts
+#include <avr/interrupt.h>
+
 //for the delay functions and will revisit when using the RTOS,NOTE>>>>>>>>>>>>>>>>>>>>>>>
 #include <util/delay.h>
 

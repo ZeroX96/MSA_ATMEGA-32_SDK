@@ -5,7 +5,7 @@
  *  Author: Mahmoud
  */ 
 #include "hal_SPI.h"
-#include "hal_SPI_CFG.h"
+
 
 
 #define CTRL_REG_OFFSET		0
@@ -81,56 +81,22 @@ spi_error_t hal_spiInit(str_spi_objectInfo_t *strg_obj,spi_driver_base_t driver_
 	return ret_val;
 }
 
-spi_error_t hal_spiRecieveByte(str_spi_objectInfo_t *strg_obj,msa_u8 *DataByte,msa_u8 *Data2Bexchanged)//data2Bexchanged is the data to be sent when the master initiates the clock and the default is 0xff
+
+spi_error_t hal_spiExchangeDATA(str_spi_objectInfo_t * strg_obj,msa_u8 *ByteOUT,msa_u8 *ByteIN)
 {
 	spi_error_t ret_val=NO_SPI_ERROR;
-	if ( (strg_obj != NULL) && (DataByte != NULL) )
+	if ( (strg_obj != NULL) && (ByteOUT != NULL) && (ByteIN != NULL) )
 	{
 		if (strg_obj->driver_state_obj == DRIVER_INITIATED)
 		{
-			if (*Data2Bexchanged == 0)//error may want to send a Zero,edit
-			{
-				(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=0xff;
-			} 
-			else
-			{
-				(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*Data2Bexchanged;
-			}
-			while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET)) & (1<<SPIF))) //fixed an error,was testing the 7th bit in the data reg wich is wrong
-			;
-			_delay_us(5);
-			*DataByte=(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET));
-			//(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))|=(1<<SPIF);//test
-			//where is the fucken add????????????????????????????????????????????????????????????
-		}
-		else
-		{
-			ret_val=DRIVER_NOT_INITIATED;
-		}
-	}
-	else
-	{
-		ret_val=INVALID_SPI_PARAMS;
-	}
-	return ret_val;
-}
-
-
-spi_error_t hal_spiSendByte(str_spi_objectInfo_t * strg_obj,msa_u8 *DataByte)
-{
-	spi_error_t ret_val=NO_SPI_ERROR;
-	if ( (strg_obj != NULL) && (DataByte != NULL) )
-	{
-		if (strg_obj->driver_state_obj == DRIVER_INITIATED)
-		{
-			_delay_us(5);
-			(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*DataByte;
-			//SPDR=DataByte;
+			_delay_us(4);////for safety but remove if made an error with the CAN Driver
+			//put the outgoing byte to be sent
+			(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*ByteOUT;
+			//wait the exchange completion
 			while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET)) & (1<<SPIF)))//fixed an error,was testing the 7th bit in the data reg wich is wrong
 			;
-			//(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))|=(1<<SPIF);
-			//where is the fucken add????????????????????????????????????????????????????????????
-			
+			//take the incoming byte that was received
+			*ByteIN=(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET));
 			
 		}
 		else
@@ -146,67 +112,25 @@ spi_error_t hal_spiSendByte(str_spi_objectInfo_t * strg_obj,msa_u8 *DataByte)
 	
 }
 
-spi_error_t hal_spiSendArr(str_spi_objectInfo_t * strg_obj,msa_u8* DataArray)
+spi_error_t hal_spiExchangeDataPacket(str_spi_objectInfo_t * strg_obj,msa_u8 *PacketOUT,msa_u8 *PacketIN,msa_u8 Packet_Size)
 {
 	spi_error_t ret_val=NO_SPI_ERROR;
-	if ( (strg_obj != NULL) && (DataArray != NULL) )
+	if ((strg_obj != NULL) && (PacketOUT != NULL) && (PacketIN != NULL) && (Packet_Size >= 0) )
 	{
-		if (strg_obj->driver_state_obj == DRIVER_INITIATED)
+		msa_u8 data_counter=0;
+		while(Packet_Size > 0)
 		{
-			msa_u8 i=0;
-			for (i=0;*(DataArray+i) ;i++)
-			{
-				while(!((*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET)) & (1<<SPIF)))
-				;
-				(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*(DataArray+i);
-				(*(volatile msa_u8*)(strg_obj->driver_base_obj+STATUS_REG_OFFSET))|=(1<<SPIF);
-				//where is the fucken add????????????????????????????????????????????????????????????				
-			}
+			hal_spiExchangeDATA(strg_obj,(PacketOUT+data_counter),(PacketIN+data_counter));
+			Packet_Size--;
+			data_counter++;
 		}
-		else
-		{
-			ret_val=SPI_DRIVER_NOT_INITIATED;
-		}
-	}
-	else
-	{
-		ret_val=INVALID_SPI_PARAMS;
-	}
-
-
-	return ret_val;
-}
-/*
-spi_error_t hal_spiRecieveArr(str_spi_objectInfo_t *strg_obj,msa_u8 *DataArray,msa_u8 arr_size,msa_u8*array2Bexchanged)
-{
-	spi_error_t ret_val=NO_SPI_ERROR;
-	msa_u8 data_in_cntr=0,temp=0;
-	
-	if ( (strg_obj != NULL) && (DataArray != NULL) )
-	{
-		if (strg_obj->driver_state_obj == DRIVER_INITIATED)
-		{
-			while( (temp != 13) && (data_in_cntr < (arr_size) ) )
-			{
-				hal_spiRecieveByte(strg_obj,&temp,);
-				DataArray[data_in_cntr++]=temp;
-				if(temp == '\0')
-				break;
-			}
-			DataArray[data_in_cntr]=0;
-		}
-		else
-		{
-			ret_val=DRIVER_NOT_INITIATED;
-		}
-	}
+	} 
 	else
 	{
 		ret_val=INVALID_SPI_PARAMS;
 	}
 	return ret_val;
 }
-*/
 
 spi_error_t hal_spiDeinit(str_spi_objectInfo_t *strg_obj)
 {
@@ -264,6 +188,6 @@ ISR(SPI_STC_vect)
 {
 	if (spi_interrupt_handler)
 	{
-		(*spi_interrupt_handler)();
+		(void)(*spi_interrupt_handler)();
 	}
 }
