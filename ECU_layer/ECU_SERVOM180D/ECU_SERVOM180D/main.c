@@ -8,6 +8,16 @@
 #include <avr/io.h>
 #include "hal_PWM.h"
 
+
+
+
+int main(void)
+{
+	while (1) 
+    {		
+	}
+}
+/*
 int main(void)
 {
     st_pwm_object pwm_obj1;
@@ -33,3 +43,4 @@ int main(void)
    }
 }
 
+*/
