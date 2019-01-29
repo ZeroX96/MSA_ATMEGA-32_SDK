@@ -8,7 +8,7 @@
 
 #ifndef HAL_SPI_H_
 #define HAL_SPI_H_
-#include "includes.h"
+#include "../includes.h"
 
 /*
 #define FALLING_EDGE 
@@ -110,5 +110,26 @@ spi_error_t hal_spiDeinit(str_spi_objectInfo_t *strg_obj);
 spi_error_t hal_setSpiIsrCallback(str_spi_objectInfo_t * strg_obj,void (*vptr_cb)(void));
 
 
+
+//The Master Portion of code
+#if 0
+int main(void)
+{
+	DDRD=0xff;
+	str_spi_objectInfo_t obj_1;
+	msa_u8 data_add=7;
+	hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_16,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);
+	_delay_ms(10);
+	//hal_spiSendByte(&obj_1,&data_add);
+	while (1)
+	{
+		hal_spiSendByte(&obj_1,&data_add);
+		_delay_ms(1000);
+		PORTD++;
+		//
+		//data_add++;
+	}
+}
+#endif
 
 #endif /* HAL_SPI_H_ */

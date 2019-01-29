@@ -13,8 +13,8 @@
 #include "common.h"
 
 //used the spi driver but only the needed functions and edited some function names
-#include "hal_SPI_CFG.h"
-#include "hal_SPI.h"
+#include "spi/hal_SPI_CFG.h"
+#include "spi/hal_SPI.h"
 
 //for the Interrupts
 #include <avr/interrupt.h>

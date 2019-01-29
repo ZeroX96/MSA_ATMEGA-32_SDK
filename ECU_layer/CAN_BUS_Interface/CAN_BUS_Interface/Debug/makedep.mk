@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-hal_SPI.c
-
 main.c
+
+SPI\hal_SPI.c
 
