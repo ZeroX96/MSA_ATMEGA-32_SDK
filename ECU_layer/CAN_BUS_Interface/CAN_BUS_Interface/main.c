@@ -8,10 +8,18 @@
 
 int main(void)
 {
-		while (1)
+	str_spi_objectInfo_t obj_1;
+	hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_16,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);
+	_delay_us(10);
+	while (1)
 	{
+		PORTA=0xff;
+		_delay_ms(1);
+		PORTA=0x00;
+		_delay_ms(1);
 		
 	}
+	return 0;
 }
 
 //test_1_spi_modified
@@ -25,7 +33,6 @@ int main(void)
 	msa_u8 data_in[10]={0};
 	hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_16,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);
 	_delay_ms(10);
-	//hal_spiSendByte(&obj_1,&data_add);
 	while (1)
 	{
 		hal_spiExchangeDataPacket(&obj_1,data_out,data_in,10);
@@ -57,7 +64,6 @@ int main(void)
 	 msa_u8 data_out=0,data_in=0;
 	 hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_16,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);
 	 _delay_ms(10);
-	 //hal_spiSendByte(&obj_1,&data_add);
 	 while (1)
 	 {
 		 hal_spiExchangeDATA(&obj_1,&data_out,&data_in);
