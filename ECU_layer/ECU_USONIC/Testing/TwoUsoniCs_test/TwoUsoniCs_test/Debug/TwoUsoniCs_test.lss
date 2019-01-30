@@ -1,0 +1,654 @@
+
+TwoUsoniCs_test.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000398  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000026  00800060  00000398  0000042c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000002a  00800086  00800086  00000452  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000452  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000484  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000000a8  00000000  00000000  000004c0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000cf2  00000000  00000000  00000568  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000894  00000000  00000000  0000125a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000653  00000000  00000000  00001aee  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000148  00000000  00000000  00002144  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000455  00000000  00000000  0000228c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000039a  00000000  00000000  000026e1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000078  00000000  00000000  00002a7b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 19 01 	jmp	0x232	; 0x232 <__vector_1>
+   8:	0c 94 44 01 	jmp	0x288	; 0x288 <__vector_2>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 fe 00 	jmp	0x1fc	; 0x1fc <__vector_5>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e8 e9       	ldi	r30, 0x98	; 152
+  68:	f3 e0       	ldi	r31, 0x03	; 3
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a6 38       	cpi	r26, 0x86	; 134
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	20 e0       	ldi	r18, 0x00	; 0
+  78:	a6 e8       	ldi	r26, 0x86	; 134
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	a0 3b       	cpi	r26, 0xB0	; 176
+  82:	b2 07       	cpc	r27, r18
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 49 00 	call	0x92	; 0x92 <main>
+  8a:	0c 94 ca 01 	jmp	0x394	; 0x394 <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <main>:
+ * Author : Mahmoud
+ */
+#include "INCLUDES.h"
+int main(void)
+{
+	DDRC=0xff;
+  92:	8f ef       	ldi	r24, 0xFF	; 255
+  94:	84 bb       	out	0x14, r24	; 20
+	usart_init();
+  96:	0e 94 78 00 	call	0xf0	; 0xf0 <usart_init>
+	//ultrasonic
+	DDRD &=~(2<<2);      //setting the interrupt pin as an input
+  9a:	8b 98       	cbi	0x11, 3	; 17
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  9c:	2f e7       	ldi	r18, 0x7F	; 127
+  9e:	88 e3       	ldi	r24, 0x38	; 56
+  a0:	91 e0       	ldi	r25, 0x01	; 1
+  a2:	21 50       	subi	r18, 0x01	; 1
+  a4:	80 40       	sbci	r24, 0x00	; 0
+  a6:	90 40       	sbci	r25, 0x00	; 0
+  a8:	e1 f7       	brne	.-8      	; 0xa2 <main+0x10>
+  aa:	00 c0       	rjmp	.+0      	; 0xac <main+0x1a>
+  ac:	00 00       	nop
+	_delay_ms(50);
+	GICR|=(1<<INT0)|(1<<INT1);//	//enabling interrupt0 & interrupt1
+  ae:	8b b7       	in	r24, 0x3b	; 59
+  b0:	80 6c       	ori	r24, 0xC0	; 192
+  b2:	8b bf       	out	0x3b, r24	; 59
+	MCUCR|=(1<<ISC00)|(1<<ISC10);   //setting interrupt triggering at any logic change for both interrupts
+  b4:	85 b7       	in	r24, 0x35	; 53
+  b6:	85 60       	ori	r24, 0x05	; 5
+  b8:	85 bf       	out	0x35, r24	; 53
+	TIMSK|=(1<<TOIE2);
+  ba:	89 b7       	in	r24, 0x39	; 57
+  bc:	80 64       	ori	r24, 0x40	; 64
+  be:	89 bf       	out	0x39, r24	; 57
+	sei();               //enabling global interrupts
+  c0:	78 94       	sei
+	static uint8_t usonic0;
+	static uint8_t usonic1;
+    while (1) 
+    {
+	    usonic0=read_ultra_sonic0();
+  c2:	0e 94 99 00 	call	0x132	; 0x132 <read_ultra_sonic0>
+	    send_usonic0(usonic0);
+  c6:	90 e0       	ldi	r25, 0x00	; 0
+  c8:	0e 94 b2 00 	call	0x164	; 0x164 <send_usonic0>
+	    usonic1=read_ultra_sonic1();
+  cc:	0e 94 c4 00 	call	0x188	; 0x188 <read_ultra_sonic1>
+	    send_usonic1(usonic1);
+  d0:	90 e0       	ldi	r25, 0x00	; 0
+  d2:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <send_usonic1>
+		usart_send('\r');
+  d6:	8d e0       	ldi	r24, 0x0D	; 13
+  d8:	0e 94 7f 00 	call	0xfe	; 0xfe <usart_send>
+  dc:	2f e7       	ldi	r18, 0x7F	; 127
+  de:	89 ea       	ldi	r24, 0xA9	; 169
+  e0:	93 e0       	ldi	r25, 0x03	; 3
+  e2:	21 50       	subi	r18, 0x01	; 1
+  e4:	80 40       	sbci	r24, 0x00	; 0
+  e6:	90 40       	sbci	r25, 0x00	; 0
+  e8:	e1 f7       	brne	.-8      	; 0xe2 <main+0x50>
+  ea:	00 c0       	rjmp	.+0      	; 0xec <main+0x5a>
+  ec:	00 00       	nop
+  ee:	e9 cf       	rjmp	.-46     	; 0xc2 <main+0x30>
+
+000000f0 <usart_init>:
+#include "UART.h"
+
+//the usart
+void usart_init (void )
+{
+	UCSRB=(1<<TXEN)|(1<<RXEN);
+  f0:	88 e1       	ldi	r24, 0x18	; 24
+  f2:	8a b9       	out	0x0a, r24	; 10
+	UCSRC=(1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);
+  f4:	86 e8       	ldi	r24, 0x86	; 134
+  f6:	80 bd       	out	0x20, r24	; 32
+	UBRRL=0x33; //9600 @ 8mhz
+  f8:	83 e3       	ldi	r24, 0x33	; 51
+  fa:	89 b9       	out	0x09, r24	; 9
+  fc:	08 95       	ret
+
+000000fe <usart_send>:
+}
+void usart_send(unsigned char ch)
+{
+	while (!(UCSRA &(1<<UDRE)))
+  fe:	5d 9b       	sbis	0x0b, 5	; 11
+ 100:	fe cf       	rjmp	.-4      	; 0xfe <usart_send>
+	;
+	UDR=ch;
+ 102:	8c b9       	out	0x0c, r24	; 12
+ 104:	08 95       	ret
+
+00000106 <usart_send_arr>:
+}
+void usart_send_arr(uint8_t *val)
+{
+ 106:	0f 93       	push	r16
+ 108:	1f 93       	push	r17
+ 10a:	cf 93       	push	r28
+ 10c:	fc 01       	movw	r30, r24
+	unsigned char i=0;
+	for (i=0;val[i] ;i++)
+ 10e:	80 81       	ld	r24, Z
+ 110:	88 23       	and	r24, r24
+ 112:	59 f0       	breq	.+22     	; 0x12a <usart_send_arr+0x24>
+ 114:	8f 01       	movw	r16, r30
+ 116:	c0 e0       	ldi	r28, 0x00	; 0
+	{
+		usart_send(val[i]);
+ 118:	0e 94 7f 00 	call	0xfe	; 0xfe <usart_send>
+	UDR=ch;
+}
+void usart_send_arr(uint8_t *val)
+{
+	unsigned char i=0;
+	for (i=0;val[i] ;i++)
+ 11c:	cf 5f       	subi	r28, 0xFF	; 255
+ 11e:	f8 01       	movw	r30, r16
+ 120:	ec 0f       	add	r30, r28
+ 122:	f1 1d       	adc	r31, r1
+ 124:	80 81       	ld	r24, Z
+ 126:	81 11       	cpse	r24, r1
+ 128:	f7 cf       	rjmp	.-18     	; 0x118 <usart_send_arr+0x12>
+	{
+		usart_send(val[i]);
+	}
+	//usart_send('\n');
+	
+}
+ 12a:	cf 91       	pop	r28
+ 12c:	1f 91       	pop	r17
+ 12e:	0f 91       	pop	r16
+ 130:	08 95       	ret
+
+00000132 <read_ultra_sonic0>:
+static volatile char SHOWB [16];			// displaying digital output as it's sent as ascii
+
+//  the ultrasonic0 using counter 1
+uint8_t read_ultra_sonic0(void) //0000 0011
+{
+	PORTC |=(1<<0);
+ 132:	a8 9a       	sbi	0x15, 0	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 134:	88 e2       	ldi	r24, 0x28	; 40
+ 136:	8a 95       	dec	r24
+ 138:	f1 f7       	brne	.-4      	; 0x136 <read_ultra_sonic0+0x4>
+	_delay_us(15);		//triggering the sensor for 15usec
+	PORTC &=~(1<<0);
+ 13a:	a8 98       	cbi	0x15, 0	; 21
+ 13c:	85 e8       	ldi	r24, 0x85	; 133
+ 13e:	8a 95       	dec	r24
+ 140:	f1 f7       	brne	.-4      	; 0x13e <read_ultra_sonic0+0xc>
+ 142:	00 00       	nop
+	//(pulse0/58) +(1*OVF_CNTR_0);	//getting the distance based on formula on introduction
+	//test the delay here??//to get more accurate values
+	_delay_us(50);
+	return ( pulse0 / (58 * (F_CPU/1000000) ));// + (1*OVF_CNTR_0) );//the res is not exact :{ i.e didnt cover ovf.s
+ 144:	60 91 ae 00 	lds	r22, 0x00AE	; 0x8000ae <pulse0>
+ 148:	70 91 af 00 	lds	r23, 0x00AF	; 0x8000af <pulse0+0x1>
+ 14c:	07 2e       	mov	r0, r23
+ 14e:	00 0c       	add	r0, r0
+ 150:	88 0b       	sbc	r24, r24
+ 152:	99 0b       	sbc	r25, r25
+ 154:	20 ed       	ldi	r18, 0xD0	; 208
+ 156:	31 e0       	ldi	r19, 0x01	; 1
+ 158:	40 e0       	ldi	r20, 0x00	; 0
+ 15a:	50 e0       	ldi	r21, 0x00	; 0
+ 15c:	0e 94 73 01 	call	0x2e6	; 0x2e6 <__udivmodsi4>
+ 160:	82 2f       	mov	r24, r18
+}
+ 162:	08 95       	ret
+
+00000164 <send_usonic0>:
+    } else if (__radix < 2 || __radix > 36) {
+	*__s = 0;
+	return __s;
+    } else {
+	extern char *__itoa_ncheck (int, char *, unsigned char);
+	return __itoa_ncheck (__val, __s, __radix);
+ 164:	4a e0       	ldi	r20, 0x0A	; 10
+ 166:	6c e9       	ldi	r22, 0x9C	; 156
+ 168:	70 e0       	ldi	r23, 0x00	; 0
+ 16a:	0e 94 95 01 	call	0x32a	; 0x32a <__itoa_ncheck>
+void send_usonic0(uint16_t COUNTA)
+{
+	itoa(COUNTA,SHOWA,10);
+	usart_send_arr("usonic0 data = ");
+ 16e:	80 e6       	ldi	r24, 0x60	; 96
+ 170:	90 e0       	ldi	r25, 0x00	; 0
+ 172:	0e 94 83 00 	call	0x106	; 0x106 <usart_send_arr>
+	usart_send_arr(SHOWA);
+ 176:	8c e9       	ldi	r24, 0x9C	; 156
+ 178:	90 e0       	ldi	r25, 0x00	; 0
+ 17a:	0e 94 83 00 	call	0x106	; 0x106 <usart_send_arr>
+	usart_send_arr("    ");
+ 17e:	80 e7       	ldi	r24, 0x70	; 112
+ 180:	90 e0       	ldi	r25, 0x00	; 0
+ 182:	0e 94 83 00 	call	0x106	; 0x106 <usart_send_arr>
+ 186:	08 95       	ret
+
+00000188 <read_ultra_sonic1>:
+}
+
+//  the ultrasonic1 using counter 2
+uint8_t read_ultra_sonic1(void) //0000 0011
+{
+	PORTC |=(1<<1);
+ 188:	a9 9a       	sbi	0x15, 1	; 21
+ 18a:	88 e2       	ldi	r24, 0x28	; 40
+ 18c:	8a 95       	dec	r24
+ 18e:	f1 f7       	brne	.-4      	; 0x18c <read_ultra_sonic1+0x4>
+	_delay_us(15);		//triggering the sensor for 15usec
+	PORTC &=~(1<<1);
+ 190:	a9 98       	cbi	0x15, 1	; 21
+ 192:	85 e8       	ldi	r24, 0x85	; 133
+ 194:	8a 95       	dec	r24
+ 196:	f1 f7       	brne	.-4      	; 0x194 <read_ultra_sonic1+0xc>
+ 198:	00 00       	nop
+	_delay_us(50);
+	//return ( pulse1 / (58 * (F_CPU/1000000) ));// + (1*OVF_CNTR_0) );//the res is not exact :{ i.e didnt cover ovf.s
+
+	return ( (pulse1+ (OVF_VAL*OVF_CNTR_1))/(58 * (F_CPU/1000000)) );	//getting the distance based on formula on introduction
+ 19a:	40 91 96 00 	lds	r20, 0x0096	; 0x800096 <OVF_CNTR_1>
+ 19e:	50 91 97 00 	lds	r21, 0x0097	; 0x800097 <OVF_CNTR_1+0x1>
+ 1a2:	80 91 9a 00 	lds	r24, 0x009A	; 0x80009a <pulse1>
+ 1a6:	90 91 9b 00 	lds	r25, 0x009B	; 0x80009b <pulse1+0x1>
+ 1aa:	2e e5       	ldi	r18, 0x5E	; 94
+ 1ac:	31 e0       	ldi	r19, 0x01	; 1
+ 1ae:	42 9f       	mul	r20, r18
+ 1b0:	b0 01       	movw	r22, r0
+ 1b2:	43 9f       	mul	r20, r19
+ 1b4:	70 0d       	add	r23, r0
+ 1b6:	52 9f       	mul	r21, r18
+ 1b8:	70 0d       	add	r23, r0
+ 1ba:	11 24       	eor	r1, r1
+ 1bc:	68 0f       	add	r22, r24
+ 1be:	79 1f       	adc	r23, r25
+ 1c0:	07 2e       	mov	r0, r23
+ 1c2:	00 0c       	add	r0, r0
+ 1c4:	88 0b       	sbc	r24, r24
+ 1c6:	99 0b       	sbc	r25, r25
+ 1c8:	20 ed       	ldi	r18, 0xD0	; 208
+ 1ca:	31 e0       	ldi	r19, 0x01	; 1
+ 1cc:	40 e0       	ldi	r20, 0x00	; 0
+ 1ce:	50 e0       	ldi	r21, 0x00	; 0
+ 1d0:	0e 94 73 01 	call	0x2e6	; 0x2e6 <__udivmodsi4>
+ 1d4:	82 2f       	mov	r24, r18
+	
+}
+ 1d6:	08 95       	ret
+
+000001d8 <send_usonic1>:
+ 1d8:	4a e0       	ldi	r20, 0x0A	; 10
+ 1da:	66 e8       	ldi	r22, 0x86	; 134
+ 1dc:	70 e0       	ldi	r23, 0x00	; 0
+ 1de:	0e 94 95 01 	call	0x32a	; 0x32a <__itoa_ncheck>
+void send_usonic1(uint16_t COUNTB)
+{
+	
+	itoa(COUNTB,SHOWB,10);
+	usart_send_arr("usonic1 data = ");
+ 1e2:	85 e7       	ldi	r24, 0x75	; 117
+ 1e4:	90 e0       	ldi	r25, 0x00	; 0
+ 1e6:	0e 94 83 00 	call	0x106	; 0x106 <usart_send_arr>
+	usart_send_arr(SHOWB);
+ 1ea:	86 e8       	ldi	r24, 0x86	; 134
+ 1ec:	90 e0       	ldi	r25, 0x00	; 0
+ 1ee:	0e 94 83 00 	call	0x106	; 0x106 <usart_send_arr>
+	usart_send_arr("    ");
+ 1f2:	80 e7       	ldi	r24, 0x70	; 112
+ 1f4:	90 e0       	ldi	r25, 0x00	; 0
+ 1f6:	0e 94 83 00 	call	0x106	; 0x106 <usart_send_arr>
+ 1fa:	08 95       	ret
+
+000001fc <__vector_5>:
+	
+}
+
+ISR(TIMER2_OVF_vect)
+{
+ 1fc:	1f 92       	push	r1
+ 1fe:	0f 92       	push	r0
+ 200:	0f b6       	in	r0, 0x3f	; 63
+ 202:	0f 92       	push	r0
+ 204:	11 24       	eor	r1, r1
+ 206:	8f 93       	push	r24
+ 208:	9f 93       	push	r25
+	OVF_CNTR_1++;
+ 20a:	80 91 96 00 	lds	r24, 0x0096	; 0x800096 <OVF_CNTR_1>
+ 20e:	90 91 97 00 	lds	r25, 0x0097	; 0x800097 <OVF_CNTR_1+0x1>
+ 212:	01 96       	adiw	r24, 0x01	; 1
+ 214:	90 93 97 00 	sts	0x0097, r25	; 0x800097 <OVF_CNTR_1+0x1>
+ 218:	80 93 96 00 	sts	0x0096, r24	; 0x800096 <OVF_CNTR_1>
+	PORTC^=(1<<5);
+ 21c:	95 b3       	in	r25, 0x15	; 21
+ 21e:	80 e2       	ldi	r24, 0x20	; 32
+ 220:	89 27       	eor	r24, r25
+ 222:	85 bb       	out	0x15, r24	; 21
+}
+ 224:	9f 91       	pop	r25
+ 226:	8f 91       	pop	r24
+ 228:	0f 90       	pop	r0
+ 22a:	0f be       	out	0x3f, r0	; 63
+ 22c:	0f 90       	pop	r0
+ 22e:	1f 90       	pop	r1
+ 230:	18 95       	reti
+
+00000232 <__vector_1>:
+ //later on if used this algo, notice if the val couldn't be read, dont move the servo this turn :D <3 
+
+
+//interrupt service routine when there is a change in logic level for the USONIC_0
+ISR(INT0_vect)
+{
+ 232:	1f 92       	push	r1
+ 234:	0f 92       	push	r0
+ 236:	0f b6       	in	r0, 0x3f	; 63
+ 238:	0f 92       	push	r0
+ 23a:	11 24       	eor	r1, r1
+ 23c:	8f 93       	push	r24
+ 23e:	9f 93       	push	r25
+
+	if (state0==1)//when logic from HIGH to LOW
+ 240:	80 91 ac 00 	lds	r24, 0x00AC	; 0x8000ac <state0>
+ 244:	90 91 ad 00 	lds	r25, 0x00AD	; 0x8000ad <state0+0x1>
+ 248:	01 97       	sbiw	r24, 0x01	; 1
+ 24a:	71 f4       	brne	.+28     	; 0x268 <__vector_1+0x36>
+	{
+
+		TCCR1B=0;//disabling counter
+ 24c:	1e bc       	out	0x2e, r1	; 46
+
+		pulse0=TCNT1;//count memory is updated to integer
+ 24e:	8c b5       	in	r24, 0x2c	; 44
+ 250:	9d b5       	in	r25, 0x2d	; 45
+ 252:	90 93 af 00 	sts	0x00AF, r25	; 0x8000af <pulse0+0x1>
+ 256:	80 93 ae 00 	sts	0x00AE, r24	; 0x8000ae <pulse0>
+
+		TCNT1=0;//resetting the counter memory
+ 25a:	1d bc       	out	0x2d, r1	; 45
+ 25c:	1c bc       	out	0x2c, r1	; 44
+
+		state0=0;
+ 25e:	10 92 ad 00 	sts	0x00AD, r1	; 0x8000ad <state0+0x1>
+ 262:	10 92 ac 00 	sts	0x00AC, r1	; 0x8000ac <state0>
+ 266:	09 c0       	rjmp	.+18     	; 0x27a <__vector_1+0x48>
+
+	}
+	else//when logic change from LOW to HIGH
+	{
+
+		TCCR1B|=(1<<CS10);//enabling counter
+ 268:	8e b5       	in	r24, 0x2e	; 46
+ 26a:	81 60       	ori	r24, 0x01	; 1
+ 26c:	8e bd       	out	0x2e, r24	; 46
+
+		state0=1;
+ 26e:	81 e0       	ldi	r24, 0x01	; 1
+ 270:	90 e0       	ldi	r25, 0x00	; 0
+ 272:	90 93 ad 00 	sts	0x00AD, r25	; 0x8000ad <state0+0x1>
+ 276:	80 93 ac 00 	sts	0x00AC, r24	; 0x8000ac <state0>
+
+	}
+
+}
+ 27a:	9f 91       	pop	r25
+ 27c:	8f 91       	pop	r24
+ 27e:	0f 90       	pop	r0
+ 280:	0f be       	out	0x3f, r0	; 63
+ 282:	0f 90       	pop	r0
+ 284:	1f 90       	pop	r1
+ 286:	18 95       	reti
+
+00000288 <__vector_2>:
+
+//interrupt service routine when there is a change in logic level for the USONIC_0
+ISR(INT1_vect)
+{
+ 288:	1f 92       	push	r1
+ 28a:	0f 92       	push	r0
+ 28c:	0f b6       	in	r0, 0x3f	; 63
+ 28e:	0f 92       	push	r0
+ 290:	11 24       	eor	r1, r1
+ 292:	8f 93       	push	r24
+ 294:	9f 93       	push	r25
+
+	if (state1==1)//when logic from HIGH to LOW
+ 296:	80 91 98 00 	lds	r24, 0x0098	; 0x800098 <state1>
+ 29a:	90 91 99 00 	lds	r25, 0x0099	; 0x800099 <state1+0x1>
+ 29e:	01 97       	sbiw	r24, 0x01	; 1
+ 2a0:	91 f4       	brne	.+36     	; 0x2c6 <__vector_2+0x3e>
+	{
+
+		TCCR2=0;//disabling counter
+ 2a2:	15 bc       	out	0x25, r1	; 37
+
+		pulse1=TCNT2;//count memory is updated to integer
+ 2a4:	84 b5       	in	r24, 0x24	; 36
+ 2a6:	90 e0       	ldi	r25, 0x00	; 0
+ 2a8:	90 93 9b 00 	sts	0x009B, r25	; 0x80009b <pulse1+0x1>
+ 2ac:	80 93 9a 00 	sts	0x009A, r24	; 0x80009a <pulse1>
+
+		TCNT1=0;//resetting the counter memory
+ 2b0:	1d bc       	out	0x2d, r1	; 45
+ 2b2:	1c bc       	out	0x2c, r1	; 44
+
+		state1=0;
+ 2b4:	10 92 99 00 	sts	0x0099, r1	; 0x800099 <state1+0x1>
+ 2b8:	10 92 98 00 	sts	0x0098, r1	; 0x800098 <state1>
+		OVF_CNTR_1=0;
+ 2bc:	10 92 97 00 	sts	0x0097, r1	; 0x800097 <OVF_CNTR_1+0x1>
+ 2c0:	10 92 96 00 	sts	0x0096, r1	; 0x800096 <OVF_CNTR_1>
+ 2c4:	09 c0       	rjmp	.+18     	; 0x2d8 <__vector_2+0x50>
+
+	}
+	else//when logic change from LOW to HIGH
+	{
+
+		TCCR2|=(1<<CS21)|(1<<CS21);//enabling counter
+ 2c6:	85 b5       	in	r24, 0x25	; 37
+ 2c8:	82 60       	ori	r24, 0x02	; 2
+ 2ca:	85 bd       	out	0x25, r24	; 37
+
+		state1=1;
+ 2cc:	81 e0       	ldi	r24, 0x01	; 1
+ 2ce:	90 e0       	ldi	r25, 0x00	; 0
+ 2d0:	90 93 99 00 	sts	0x0099, r25	; 0x800099 <state1+0x1>
+ 2d4:	80 93 98 00 	sts	0x0098, r24	; 0x800098 <state1>
+
+	}
+
+ 2d8:	9f 91       	pop	r25
+ 2da:	8f 91       	pop	r24
+ 2dc:	0f 90       	pop	r0
+ 2de:	0f be       	out	0x3f, r0	; 63
+ 2e0:	0f 90       	pop	r0
+ 2e2:	1f 90       	pop	r1
+ 2e4:	18 95       	reti
+
+000002e6 <__udivmodsi4>:
+ 2e6:	a1 e2       	ldi	r26, 0x21	; 33
+ 2e8:	1a 2e       	mov	r1, r26
+ 2ea:	aa 1b       	sub	r26, r26
+ 2ec:	bb 1b       	sub	r27, r27
+ 2ee:	fd 01       	movw	r30, r26
+ 2f0:	0d c0       	rjmp	.+26     	; 0x30c <__udivmodsi4_ep>
+
+000002f2 <__udivmodsi4_loop>:
+ 2f2:	aa 1f       	adc	r26, r26
+ 2f4:	bb 1f       	adc	r27, r27
+ 2f6:	ee 1f       	adc	r30, r30
+ 2f8:	ff 1f       	adc	r31, r31
+ 2fa:	a2 17       	cp	r26, r18
+ 2fc:	b3 07       	cpc	r27, r19
+ 2fe:	e4 07       	cpc	r30, r20
+ 300:	f5 07       	cpc	r31, r21
+ 302:	20 f0       	brcs	.+8      	; 0x30c <__udivmodsi4_ep>
+ 304:	a2 1b       	sub	r26, r18
+ 306:	b3 0b       	sbc	r27, r19
+ 308:	e4 0b       	sbc	r30, r20
+ 30a:	f5 0b       	sbc	r31, r21
+
+0000030c <__udivmodsi4_ep>:
+ 30c:	66 1f       	adc	r22, r22
+ 30e:	77 1f       	adc	r23, r23
+ 310:	88 1f       	adc	r24, r24
+ 312:	99 1f       	adc	r25, r25
+ 314:	1a 94       	dec	r1
+ 316:	69 f7       	brne	.-38     	; 0x2f2 <__udivmodsi4_loop>
+ 318:	60 95       	com	r22
+ 31a:	70 95       	com	r23
+ 31c:	80 95       	com	r24
+ 31e:	90 95       	com	r25
+ 320:	9b 01       	movw	r18, r22
+ 322:	ac 01       	movw	r20, r24
+ 324:	bd 01       	movw	r22, r26
+ 326:	cf 01       	movw	r24, r30
+ 328:	08 95       	ret
+
+0000032a <__itoa_ncheck>:
+ 32a:	bb 27       	eor	r27, r27
+ 32c:	4a 30       	cpi	r20, 0x0A	; 10
+ 32e:	31 f4       	brne	.+12     	; 0x33c <__itoa_ncheck+0x12>
+ 330:	99 23       	and	r25, r25
+ 332:	22 f4       	brpl	.+8      	; 0x33c <__itoa_ncheck+0x12>
+ 334:	bd e2       	ldi	r27, 0x2D	; 45
+ 336:	90 95       	com	r25
+ 338:	81 95       	neg	r24
+ 33a:	9f 4f       	sbci	r25, 0xFF	; 255
+ 33c:	0c 94 a1 01 	jmp	0x342	; 0x342 <__utoa_common>
+
+00000340 <__utoa_ncheck>:
+ 340:	bb 27       	eor	r27, r27
+
+00000342 <__utoa_common>:
+ 342:	fb 01       	movw	r30, r22
+ 344:	55 27       	eor	r21, r21
+ 346:	aa 27       	eor	r26, r26
+ 348:	88 0f       	add	r24, r24
+ 34a:	99 1f       	adc	r25, r25
+ 34c:	aa 1f       	adc	r26, r26
+ 34e:	a4 17       	cp	r26, r20
+ 350:	10 f0       	brcs	.+4      	; 0x356 <__utoa_common+0x14>
+ 352:	a4 1b       	sub	r26, r20
+ 354:	83 95       	inc	r24
+ 356:	50 51       	subi	r21, 0x10	; 16
+ 358:	b9 f7       	brne	.-18     	; 0x348 <__utoa_common+0x6>
+ 35a:	a0 5d       	subi	r26, 0xD0	; 208
+ 35c:	aa 33       	cpi	r26, 0x3A	; 58
+ 35e:	08 f0       	brcs	.+2      	; 0x362 <__utoa_common+0x20>
+ 360:	a9 5d       	subi	r26, 0xD9	; 217
+ 362:	a1 93       	st	Z+, r26
+ 364:	00 97       	sbiw	r24, 0x00	; 0
+ 366:	79 f7       	brne	.-34     	; 0x346 <__utoa_common+0x4>
+ 368:	b1 11       	cpse	r27, r1
+ 36a:	b1 93       	st	Z+, r27
+ 36c:	11 92       	st	Z+, r1
+ 36e:	cb 01       	movw	r24, r22
+ 370:	0c 94 ba 01 	jmp	0x374	; 0x374 <strrev>
+
+00000374 <strrev>:
+ 374:	dc 01       	movw	r26, r24
+ 376:	fc 01       	movw	r30, r24
+ 378:	67 2f       	mov	r22, r23
+ 37a:	71 91       	ld	r23, Z+
+ 37c:	77 23       	and	r23, r23
+ 37e:	e1 f7       	brne	.-8      	; 0x378 <strrev+0x4>
+ 380:	32 97       	sbiw	r30, 0x02	; 2
+ 382:	04 c0       	rjmp	.+8      	; 0x38c <strrev+0x18>
+ 384:	7c 91       	ld	r23, X
+ 386:	6d 93       	st	X+, r22
+ 388:	70 83       	st	Z, r23
+ 38a:	62 91       	ld	r22, -Z
+ 38c:	ae 17       	cp	r26, r30
+ 38e:	bf 07       	cpc	r27, r31
+ 390:	c8 f3       	brcs	.-14     	; 0x384 <strrev+0x10>
+ 392:	08 95       	ret
+
+00000394 <_exit>:
+ 394:	f8 94       	cli
+
+00000396 <__stop_program>:
+ 396:	ff cf       	rjmp	.-2      	; 0x396 <__stop_program>
