@@ -141,6 +141,9 @@
     <Compile Include="CAN_MCP2515\ecu_CAN_CFG.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="CAN_MCP2515\MCP2515_RAL.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="CAN_MCP2515\NOTES.h">
       <SubType>compile</SubType>
     </Compile>

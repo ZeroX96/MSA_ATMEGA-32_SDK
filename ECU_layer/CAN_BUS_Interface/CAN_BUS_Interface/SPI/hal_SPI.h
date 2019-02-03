@@ -90,15 +90,6 @@ typedef struct
 	spi_cfg_state_t			driver_state_obj;
 }str_spi_objectInfo_t;
 
-/*
-typedef enum
-{
-	
-}spi_;
-*/
-
-//7th-bit = 0 for reading
-//7th-bit = 1 for writing
 //SPCOL will be set if i write on SPDR during a data transfer op.
 spi_error_t hal_spiInit( str_spi_objectInfo_t *strg_obj,spi_driver_base_t driver_base,spi_sck_freq_select_t	freq_select,
 						 spi_operating_mode_t mode,spi_notifcs_mode_t notfics_mode,spi_transfer_modes_t transfer_mode,

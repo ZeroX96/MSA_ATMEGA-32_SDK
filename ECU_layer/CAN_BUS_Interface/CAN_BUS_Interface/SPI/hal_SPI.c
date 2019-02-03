@@ -89,7 +89,7 @@ spi_error_t hal_spiExchangeDATA(str_spi_objectInfo_t * strg_obj,msa_u8 *ByteOUT,
 	{
 		if (strg_obj->driver_state_obj == DRIVER_INITIATED)
 		{
-			_delay_us(4);////for safety but remove if made an error with the CAN Driver
+			_delay_us(2);////for safety but edit if made an error with the CAN Driver
 			//put the outgoing byte to be sent
 			(*(volatile msa_u8*)(strg_obj->driver_base_obj+DATA_REG_OFFSET))=*ByteOUT;
 			//wait the exchange completion
@@ -118,7 +118,7 @@ spi_error_t hal_spiExchangeDataPacket(str_spi_objectInfo_t * strg_obj,msa_u8 *Pa
 	if ((strg_obj != NULL) && (PacketOUT != NULL) && (PacketIN != NULL) && (Packet_Size >= 0) )
 	{
 		msa_u8 data_counter=0;
-		while(Packet_Size > 0)
+		while(Packet_Size > 0)//ooooooooooh yeaaaaaaaaaaaaaaah
 		{
 			hal_spiExchangeDATA(strg_obj,(PacketOUT+data_counter),(PacketIN+data_counter));
 			Packet_Size--;
