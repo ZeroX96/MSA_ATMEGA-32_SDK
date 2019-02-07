@@ -42,6 +42,10 @@ can_errors_t ecu_can_init(can_configs_t *can_cfg_obj)
 		
 		SET_BIT(DDRB,SS_PIN);//based on avr arch and atmega32 reg_map set the ss pin as an output pin
 		SET_BIT(PORTB,SS_PIN);//make the pin high
+		
+		
+		//initializing the CAN controller
+		
 		can_cfg_obj->initialization_state=DEVICE_INITIATED;
 		
 		//??????? ????	
@@ -171,7 +175,6 @@ can_errors_t ecu_can_write(can_configs_t *can_cfg_obj,msa_u8 targeted_add,msa_u8
 	return exe_state;	
 }
 
-
 can_errors_t ecu_can_LoadTXBuffer(can_configs_t *can_cfg_obj,tx_buff_add_t tx_buff,msa_u8 *transmitted_buffer,msa_u8 data_size)
 {
 	
@@ -235,9 +238,6 @@ can_errors_t ecu_can_RequestToSend(can_configs_t *can_cfg_obj,rts_buffer_select_
 	return exe_state;
 }
 
-//Each status bit returned in this command may also be
-//read by using the standard read command with the
-//appropriate register address
 can_errors_t ecu_can_readStatus(can_configs_t *can_cfg_obj,msa_u8 *received_status_byte)
 {
 	can_errors_t exe_state=NO_CAN_ERRORS;

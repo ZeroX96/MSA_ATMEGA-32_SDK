@@ -93,8 +93,70 @@ typedef enum
 	RTS_TXB0_TXB1_TXB2	=0x07,
 }rts_buffer_select_t;
 
+typedef enum
+{
+								//SJW: Synchronization Jump Width Length bits <1:0>
+	SJW_1_TQ	=0X00,			//00= Length = 1 x TQ
+	SJW_2_TQ	=0X01,			//01= Length = 2 x TQ
+	SJW_3_TQ	=0X10,			//10= Length = 3 x TQ
+	SJW_4_TQ	=0X11,			//11= Length = 4 x TQ	
+}synch_jmp_width_t;
+
+typedef enum
+{
+						//BTLMODE: PS2 Bit Time Length bit
+	BTLMODE_0	=0x00,	//Length of PS2 is the greater of PS1 and IPT (2 TQ)
+	BTLMODE_1	=0x01,	//Length of PS2 determined by PHSEG22:PHSEG20 bits of CNF3
+}btl_mode_t;
+
+typedef enum
+{
+							//SAM: Sample Point Configuration bit
+	ONE_TIME	=0x00,		//Bus line is sampled once at the sample point
+	THREE_TIMES	=0x01,		//Bus line is sampled three times at the sample point
+}sampling_no_t;
+
+typedef enum 
+{
+	LENGTH_1_TQ=0x00,
+	LENGTH_2_TQ=0x01,
+	LENGTH_3_TQ=0x02,
+	LENGTH_4_TQ=0x03,
+	LENGTH_5_TQ=0x04,
+	LENGTH_6_TQ=0x05,
+	LENGTH_7_TQ=0x06,
+	LENGTH_8_TQ=0x07,
+}segment_length_t;
+
+typedef enum
+{
+	//WAKFIL: Wake-up Filter bit
+	DISABLED	=0x00,	//0= Wake-up filter disabled
+	ENABLED		=0x01,	//1= Wake-up filter enabled
+}wake_up_filter_t;
+
+typedef enum
+{
+								//SOF: Start-of-Frame signal bit
+	CLOCKOUT_FUNCTION	=0x00,	//0= Wake-up filter disabled
+	SOF_SIGNAL			=0x01,	//1= Wake-up filter enabled
+}start_of_frame_t;
+
+typedef struct  
+{
+	start_of_frame_t	start_of_frame_obj;
+	synch_jmp_width_t	synch_jmp_width_obj;
+	btl_mode_t		    btl_mode_obj;
+	sampling_no_t		sampling_number_obj;
+	segment_length_t	phase1_seg_length_obj;
+	segment_length_t	phase2_seg_length_obj;
+	segment_length_t	propagation_seg_length_obj;
+	wake_up_filter_t	wake_up_filter_obj;
+}gs_cfg_regs_t;
+
 typedef struct
 {
+	
 	device_init_state_t initialization_state;
 	
 }can_configs_t;
@@ -109,4 +171,39 @@ can_errors_t ecu_can_readStatus(can_configs_t *cfg_obj,msa_u8 *received_status_b
 can_errors_t ecu_can_RXStatus(can_configs_t *cfg_obj,msa_u8 *received_status_byte);
 can_errors_t ecu_can_BitModify(can_configs_t *cfg_obj,msa_u8 targeted_add,msa_u8 modification_mask,msa_u8 *transmitted_buffer,msa_u8 data_size);
 // #ByMSA
+
+#if 0
+//////////////////////////////////////
+
+//*****************************************************************************
+//
+// API Function prototypes
+//
+//***************************************************************************** from TI as a ref.
+extern void CANBitTimingGet(uint32_t ui32Base, tCANBitClkParms *psClkParms);
+extern void CANBitTimingSet(uint32_t ui32Base, tCANBitClkParms *psClkParms);
+extern uint32_t CANBitRateSet(uint32_t ui32Base, uint32_t ui32SourceClock,
+                              uint32_t ui32BitRate);
+extern void CANDisable(uint32_t ui32Base);
+extern void CANEnable(uint32_t ui32Base);
+extern bool CANErrCntrGet(uint32_t ui32Base, uint32_t *pui32RxCount,
+                          uint32_t *pui32TxCount);
+extern void CANInit(uint32_t ui32Base);
+extern void CANIntClear(uint32_t ui32Base, uint32_t ui32IntClr);
+extern void CANIntDisable(uint32_t ui32Base, uint32_t ui32IntFlags);
+extern void CANIntEnable(uint32_t ui32Base, uint32_t ui32IntFlags);
+extern void CANIntRegister(uint32_t ui32Base, void (*pfnHandler)(void));
+extern uint32_t CANIntStatus(uint32_t ui32Base, tCANIntStsReg eIntStsReg);
+extern void CANIntUnregister(uint32_t ui32Base);
+extern void CANMessageClear(uint32_t ui32Base, uint32_t ui32ObjID);
+extern void CANMessageGet(uint32_t ui32Base, uint32_t ui32ObjID,
+                          tCANMsgObject *psMsgObject, bool bClrPendingInt);
+extern void CANMessageSet(uint32_t ui32Base, uint32_t ui32ObjID,
+                          tCANMsgObject *psMsgObject, tMsgObjType eMsgType);
+extern bool CANRetryGet(uint32_t ui32Base);
+extern void CANRetrySet(uint32_t ui32Base, bool bAutoRetry);
+extern uint32_t CANStatusGet(uint32_t ui32Base, tCANStsReg eStatusReg);
+
+//////////////////////////////////////
+#endif
 #endif /* ECU_CAN_H_ */

@@ -65,4 +65,10 @@ sending
 -The command is followed by the address of the register, the mask byte and finally the data byte.
 ->The mask byte determines which bits in the register will be allowed to change. A ‘1’ in the mask byte will allow a bit in the register to change, while a ‘0’ will not.
 ->The data byte determines what value the modified bits in the register will be changed to. A ‘1’ in the data byte will set the bit and a ‘0’ will clear the bit, provided that the mask for that bit is set to a ‘1’
+
+
+
+//BIT-TIMING
+
+
 #endif
