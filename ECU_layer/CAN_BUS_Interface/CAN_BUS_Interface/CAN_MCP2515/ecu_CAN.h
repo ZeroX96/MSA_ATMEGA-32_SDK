@@ -141,9 +141,14 @@ typedef enum
 	CLOCKOUT_FUNCTION	=0x00,	//0= Wake-up filter disabled
 	SOF_SIGNAL			=0x01,	//1= Wake-up filter enabled
 }start_of_frame_t;
+// 
+// typedef struct  
+// {
+// }gs_cfg_regs_t;
 
-typedef struct  
+typedef struct
 {
+	msa_u8				baud_rate_prescaler_obj;
 	start_of_frame_t	start_of_frame_obj;
 	synch_jmp_width_t	synch_jmp_width_obj;
 	btl_mode_t		    btl_mode_obj;
@@ -152,11 +157,6 @@ typedef struct
 	segment_length_t	phase2_seg_length_obj;
 	segment_length_t	propagation_seg_length_obj;
 	wake_up_filter_t	wake_up_filter_obj;
-}gs_cfg_regs_t;
-
-typedef struct
-{
-	
 	device_init_state_t initialization_state;
 	
 }can_configs_t;

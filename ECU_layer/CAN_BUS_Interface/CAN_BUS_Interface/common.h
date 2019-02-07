@@ -4,8 +4,6 @@
  * Created: 02/08/2018 17:52:27
  *  Author: Mahmoud
  */ 
-
-
 #ifndef COMMON_H_
 #define COMMON_H_
 

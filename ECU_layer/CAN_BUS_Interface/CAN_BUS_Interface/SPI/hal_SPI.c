@@ -7,7 +7,6 @@
 #include "hal_SPI.h"
 
 
-
 #define CTRL_REG_OFFSET		0
 #define STATUS_REG_OFFSET	1
 #define DATA_REG_OFFSET		2
@@ -80,7 +79,6 @@ spi_error_t hal_spiInit(str_spi_objectInfo_t *strg_obj,spi_driver_base_t driver_
 	}
 	return ret_val;
 }
-
 
 spi_error_t hal_spiExchangeDATA(str_spi_objectInfo_t * strg_obj,msa_u8 *ByteOUT,msa_u8 *ByteIN)
 {
@@ -157,7 +155,6 @@ spi_error_t hal_spiDeinit(str_spi_objectInfo_t *strg_obj)
 	}
 	return ret_val;
 }
-
 
 spi_error_t hal_setSpiIsrCallback(str_spi_objectInfo_t * strg_obj,void (*vptr_cb)(void))
 {
