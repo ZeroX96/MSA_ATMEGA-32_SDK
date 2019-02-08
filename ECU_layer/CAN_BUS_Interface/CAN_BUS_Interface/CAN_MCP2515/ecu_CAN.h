@@ -138,9 +138,22 @@ typedef enum
 typedef enum
 {
 								//SOF: Start-of-Frame signal bit
-	CLOCKOUT_FUNCTION	=0x00,	//0= Wake-up filter disabled
-	SOF_SIGNAL			=0x01,	//1= Wake-up filter enabled
+	CLOCKOUT_FUNCTION	=0x00,	// 
+	SOF_SIGNAL			=0x01,	// 
 }start_of_frame_t;
+
+typedef enum
+{
+	RX0_FULL_BUFFER,
+	RX1_FULL_BUFFER,
+	TX0_EMPTY_BUFFER,
+	TX1_EMPTY_BUFFER,
+	TX2_EMPTY_BUFFER,
+	ERROR_INTERRUPT,
+	WAKE_UP,
+	MESSAGE_ERROR,
+}interrupt_source_t;
+
 // 
 // typedef struct  
 // {
@@ -158,7 +171,6 @@ typedef struct
 	segment_length_t	propagation_seg_length_obj;
 	wake_up_filter_t	wake_up_filter_obj;
 	device_init_state_t initialization_state;
-	
 }can_configs_t;
 
 can_errors_t ecu_can_init(can_configs_t *cfg_obj); //init the spi driver,set the driver status and sets the cs pin high
@@ -170,6 +182,14 @@ can_errors_t ecu_can_RequestToSend(can_configs_t *cfg_obj,rts_buffer_select_t bu
 can_errors_t ecu_can_readStatus(can_configs_t *cfg_obj,msa_u8 *received_status_byte);
 can_errors_t ecu_can_RXStatus(can_configs_t *cfg_obj,msa_u8 *received_status_byte);
 can_errors_t ecu_can_BitModify(can_configs_t *cfg_obj,msa_u8 targeted_add,msa_u8 modification_mask,msa_u8 *transmitted_buffer,msa_u8 data_size);
+
+
+extern void CANIntClear(can_configs_t *cfg_obj, int_src);//after performing the int source req,clear the flag bit
+extern void CANIntDisable(can_configs_t *cfg_obj, uint32_t ui32IntFlags);
+extern void CANIntEnable(can_configs_t *cfg_obj, interrupt_source_t int_src);
+extern void CANIntRegister(uint32_t ui32Base, void (*pfnHandler)(void));//???
+extern uint32_t CANIntStatus(can_configs_t *cfg_obj, );
+
 // #ByMSA
 
 #if 0

@@ -339,4 +339,27 @@ can_errors_t ecu_can_BitModify(can_configs_t *can_cfg_obj,msa_u8 targeted_add,ms
 	return exe_state;
 }
 
+can_errors_t ecu_can_IntEnable(can_configs_t *can_cfg_obj,interrupt_source_t int_src)
+{
+	can_errors_t exe_state=NO_CAN_ERRORS;
+	if( (can_cfg_obj != NULL) && (transmitted_buffer != NULL) && (data_size >= 1) )//the data size must be at least one
+	{
+		if(can_cfg_obj->initialization_state == DEVICE_INITIATED)
+		{
+		}
+		else
+		{
+			exe_state=DEVICE_NOT_INITIATED;//revise this val later
+		}
+	}
+	else
+	{
+		exe_state=INVALID_CAN_PARAMS;
+	}
+	return exe_state;
+
+}
+
+
+
 // #ByMSA
