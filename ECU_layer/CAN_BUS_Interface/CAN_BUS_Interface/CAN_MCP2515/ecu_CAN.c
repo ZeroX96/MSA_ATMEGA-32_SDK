@@ -342,10 +342,13 @@ can_errors_t ecu_can_BitModify(can_configs_t *can_cfg_obj,msa_u8 targeted_add,ms
 can_errors_t ecu_can_IntEnable(can_configs_t *can_cfg_obj,interrupt_source_t int_src)
 {
 	can_errors_t exe_state=NO_CAN_ERRORS;
-	if( (can_cfg_obj != NULL) && (transmitted_buffer != NULL) && (data_size >= 1) )//the data size must be at least one
+	if( (can_cfg_obj != NULL) && ( (int_src >= RX0_FULL_BUFFER) && (int_src >= MESSAGE_ERROR) ) )//the data size must be at least one
 	{
 		if(can_cfg_obj->initialization_state == DEVICE_INITIATED)
 		{
+			int_src=(1<<int_src);	//set the prospective int source bit in the byte
+			exe_state=ecu_can_BitModify(can_cfg_obj,CANINTE,int_src,&int_src,1);	//used the bit_modify func not to affect the remaining bits in the register 
+																					//used the same val "int_src" as the flag because it does what is needed and it's exactly right 
 		}
 		else
 		{
@@ -360,6 +363,64 @@ can_errors_t ecu_can_IntEnable(can_configs_t *can_cfg_obj,interrupt_source_t int
 
 }
 
+can_errors_t ecu_can_IntDisable(can_configs_t *can_cfg_obj,interrupt_source_t int_src)
+{
+	can_errors_t exe_state=NO_CAN_ERRORS;
+	if( (can_cfg_obj != NULL) && ( (int_src >= RX0_FULL_BUFFER) && (int_src >= MESSAGE_ERROR) ) )//the data size must be at least one
+	{
+		if(can_cfg_obj->initialization_state == DEVICE_INITIATED)
+		{
+			int_src&=~(1<<int_src);	//clear the prospective int source bit in the byte,write ZERO
+			exe_state=ecu_can_BitModify(can_cfg_obj,CANINTE,(~(int_src)),&int_src,1);	//used the bit_modify func not to affect the remaining bits in the register
+																						//used the same val "int_src" and performed a "NOT" oeration so the mask works well
+		}
+		else
+		{
+			exe_state=DEVICE_NOT_INITIATED;//revise this val later
+		}
+	}
+	else
+	{
+		exe_state=INVALID_CAN_PARAMS;
+	}
+	return exe_state;
 
+}
+
+can_errors_t ecu_can_IntByteCFG(can_configs_t *can_cfg_obj,interrupts_struct_t *int_obj)
+{
+	can_errors_t exe_state=NO_CAN_ERRORS;
+	if( (can_cfg_obj != NULL) && (int_obj != NULL) )//the data size must be at least one
+	{
+		if(can_cfg_obj->initialization_state == DEVICE_INITIATED)
+		{
+			msa_u8 interrupts_byte = (  
+										(( (int_obj->RX0_FULL_BUFFER_interrupt  == 1 ) ? 1 : 0 ) << RX0_FULL_BUFFER )|
+										(( (int_obj->RX1_FULL_BUFFER_interrupt  == 1 ) ? 1 : 0 ) << RX1_FULL_BUFFER )|
+										(( (int_obj->TX0_EMPTY_BUFFER_interrupt == 1 ) ? 1 : 0 ) << TX0_EMPTY_BUFFER)|
+										(( (int_obj->TX1_EMPTY_BUFFER_interrupt == 1 ) ? 1 : 0 ) << TX1_EMPTY_BUFFER)|
+										(( (int_obj->TX2_EMPTY_BUFFER_interrupt == 1 ) ? 1 : 0 ) << TX2_EMPTY_BUFFER)|
+										(( (int_obj->ERROR_interrupt            == 1 ) ? 1 : 0 ) << ERROR_INTERRUPT )|
+										(( (int_obj->WAKE_UP_interrupt			== 1 ) ? 1 : 0 ) << WAKE_UP         )|
+										(( (int_obj->MESSAGE_ERROR_interrupt	== 1 ) ? 1 : 0 ) << MESSAGE_ERROR   )
+									  );
+			
+			
+			
+			exe_state=ecu_can_BitModify(can_cfg_obj,CANINTE,(~(int_src)),&int_src,1);	//used the bit_modify func not to affect the remaining bits in the register
+			//used the same val "int_src" and performed a "NOT" oeration so the mask works well
+		}
+		else
+		{
+			exe_state=DEVICE_NOT_INITIATED;//revise this val later
+		}
+	}
+	else
+	{
+		exe_state=INVALID_CAN_PARAMS;
+	}
+	return exe_state;
+
+}
 
 // #ByMSA

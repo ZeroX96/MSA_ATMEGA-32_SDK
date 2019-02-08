@@ -173,6 +173,19 @@ typedef struct
 	device_init_state_t initialization_state;
 }can_configs_t;
 
+typedef struct  
+{
+	unsigned  int  RX0_FULL_BUFFER_interrupt	:  1;
+	unsigned  int  RX1_FULL_BUFFER_interrupt	:  1;
+	unsigned  int  TX0_EMPTY_BUFFER_interrupt	:  1;
+	unsigned  int  TX1_EMPTY_BUFFER_interrupt	:  1;
+	unsigned  int  TX2_EMPTY_BUFFER_interrupt	:  1;
+	unsigned  int  ERROR_interrupt				:  1;
+	unsigned  int  WAKE_UP_interrupt			:  1;
+	unsigned  int  MESSAGE_ERROR_interrupt		:  1;
+}interrupts_struct_t;
+	
+
 can_errors_t ecu_can_init(can_configs_t *cfg_obj); //init the spi driver,set the driver status and sets the cs pin high
 can_errors_t ecu_can_reset(can_configs_t *cfg_obj);//performs the reset instruction
 can_errors_t ecu_can_read(can_configs_t *cfg_obj,msa_u8 wanted_add,msa_u8 *receiving_buffer,msa_u8 data_size);//performs the read instruction
