@@ -5,7 +5,8 @@
  *  Author: Mahmoud
  */ 
 #include "ecu_CAN.h"
-#if 0
+
+#if 0	//the spi driver APIs
 hal_spiInit(				str_spi_objectInfo_t	*strg_obj,
 							spi_driver_base_t		driver_base,
 							spi_sck_freq_select_t	freq_select,
@@ -387,6 +388,28 @@ can_errors_t ecu_can_IntDisable(can_configs_t *can_cfg_obj,interrupt_source_t in
 
 }
 
+can_errors_t ecu_can_IntStatus(can_configs_t *can_cfg_obj,msa_u8 *received_status_byte)
+{
+	can_errors_t exe_state=NO_CAN_ERRORS;
+	if( (can_cfg_obj != NULL) && (received_status_byte != NULL) )//the data size must be at least one
+	{
+		if(can_cfg_obj->initialization_state == DEVICE_INITIATED)
+		{
+			exe_state=ecu_can_read(can_cfg_obj,CANINTF,received_status_byte,1);
+		}
+		else
+		{
+			exe_state=DEVICE_NOT_INITIATED;//revise this val later
+		}
+	}
+	else
+	{
+		exe_state=INVALID_CAN_PARAMS;
+	}
+	return exe_state;
+}
+
+#if 0  //the comming function isn't complete and shouldn't be used as there is an error,will work right for the first time only 
 can_errors_t ecu_can_IntByteCFG(can_configs_t *can_cfg_obj,interrupts_struct_t *int_obj)
 {
 	can_errors_t exe_state=NO_CAN_ERRORS;
@@ -394,7 +417,9 @@ can_errors_t ecu_can_IntByteCFG(can_configs_t *can_cfg_obj,interrupts_struct_t *
 	{
 		if(can_cfg_obj->initialization_state == DEVICE_INITIATED)
 		{
-			msa_u8 interrupts_byte = (  
+			msa_u8 interrupts_byte = (  //the error is here >>if wanted to write a ZERO in a bit,will be neglicted so the sol is 
+										//instead of shifting the result,the result will select an OR"ing with ONE or "AND"ing with ZERO
+										//for later on edits 
 										(( (int_obj->RX0_FULL_BUFFER_interrupt  == 1 ) ? 1 : 0 ) << RX0_FULL_BUFFER )|
 										(( (int_obj->RX1_FULL_BUFFER_interrupt  == 1 ) ? 1 : 0 ) << RX1_FULL_BUFFER )|
 										(( (int_obj->TX0_EMPTY_BUFFER_interrupt == 1 ) ? 1 : 0 ) << TX0_EMPTY_BUFFER)|
@@ -403,7 +428,8 @@ can_errors_t ecu_can_IntByteCFG(can_configs_t *can_cfg_obj,interrupts_struct_t *
 										(( (int_obj->ERROR_interrupt            == 1 ) ? 1 : 0 ) << ERROR_INTERRUPT )|
 										(( (int_obj->WAKE_UP_interrupt			== 1 ) ? 1 : 0 ) << WAKE_UP         )|
 										(( (int_obj->MESSAGE_ERROR_interrupt	== 1 ) ? 1 : 0 ) << MESSAGE_ERROR   )
-									  );
+									  );	//so now the interrupts register can be writen @ one time :D 
+									  
 			
 			
 			
@@ -422,5 +448,7 @@ can_errors_t ecu_can_IntByteCFG(can_configs_t *can_cfg_obj,interrupts_struct_t *
 	return exe_state;
 
 }
+#endif
+
 
 // #ByMSA

@@ -185,7 +185,7 @@ typedef struct
 	unsigned  int  MESSAGE_ERROR_interrupt		:  1;
 }interrupts_struct_t;
 	
-
+//DONE
 can_errors_t ecu_can_init(can_configs_t *cfg_obj); //init the spi driver,set the driver status and sets the cs pin high
 can_errors_t ecu_can_reset(can_configs_t *cfg_obj);//performs the reset instruction
 can_errors_t ecu_can_read(can_configs_t *cfg_obj,msa_u8 wanted_add,msa_u8 *receiving_buffer,msa_u8 data_size);//performs the read instruction
@@ -195,11 +195,12 @@ can_errors_t ecu_can_RequestToSend(can_configs_t *cfg_obj,rts_buffer_select_t bu
 can_errors_t ecu_can_readStatus(can_configs_t *cfg_obj,msa_u8 *received_status_byte);
 can_errors_t ecu_can_RXStatus(can_configs_t *cfg_obj,msa_u8 *received_status_byte);
 can_errors_t ecu_can_BitModify(can_configs_t *cfg_obj,msa_u8 targeted_add,msa_u8 modification_mask,msa_u8 *transmitted_buffer,msa_u8 data_size);
+can_errors_t ecu_can_IntDisable(can_configs_t *can_cfg_obj,interrupt_source_t int_src);
+can_errors_t ecu_can_IntEnable(can_configs_t *can_cfg_obj,interrupt_source_t int_src);
+can_errors_t ecu_can_IntStatus(can_configs_t *can_cfg_obj);
 
 
 extern void CANIntClear(can_configs_t *cfg_obj, int_src);//after performing the int source req,clear the flag bit
-extern void CANIntDisable(can_configs_t *cfg_obj, uint32_t ui32IntFlags);
-extern void CANIntEnable(can_configs_t *cfg_obj, interrupt_source_t int_src);
 extern void CANIntRegister(uint32_t ui32Base, void (*pfnHandler)(void));//???
 extern uint32_t CANIntStatus(can_configs_t *cfg_obj, );
 
