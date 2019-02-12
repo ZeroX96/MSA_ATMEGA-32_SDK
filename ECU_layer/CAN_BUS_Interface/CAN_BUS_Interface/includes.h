@@ -9,6 +9,7 @@
 #ifndef INCLUDES_H_
 #define INCLUDES_H_
 
+//Generally
 #include <avr/io.h>
 #include "common.h"
 
@@ -18,6 +19,7 @@
 
 //for the Interrupts
 #include <avr/interrupt.h>
+#include "EXT_INTERRUPTS/external_interrupts.h"
 
 //for the delay functions and will revisit when using the RTOS,NOTE>>>>>>>>>>>>>>>>>>>>>>>
 #include <util/delay.h>

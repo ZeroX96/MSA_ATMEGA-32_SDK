@@ -150,6 +150,12 @@
     <Compile Include="common.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="EXT_INTERRUPTS\external_interrupts.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="EXT_INTERRUPTS\external_interrupts.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="includes.h">
       <SubType>compile</SubType>
     </Compile>
@@ -168,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CAN_MCP2515" />
+    <Folder Include="EXT_INTERRUPTS" />
     <Folder Include="SPI" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

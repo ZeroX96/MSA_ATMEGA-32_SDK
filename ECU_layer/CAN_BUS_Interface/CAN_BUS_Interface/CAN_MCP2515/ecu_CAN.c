@@ -40,7 +40,9 @@ can_errors_t ecu_can_init(can_configs_t *can_cfg_obj)
 		
 		//initializing the spi driver
 		hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_16,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);	//reconfig according the can controller specifications
-		
+		//initializing the AVR interrupt
+		exe_state = init_interrrupts();
+		exe_state = set_interrupt(ISR_NO,LOW_LEVEL);		
 		SET_BIT(DDRB,SS_PIN);//based on avr arch and atmega32 reg_map set the ss pin as an output pin
 		CLEAR_BIT(PORTB,SS_PIN);
 		
@@ -52,6 +54,8 @@ can_errors_t ecu_can_init(can_configs_t *can_cfg_obj)
 						   };
 		exe_state=ecu_can_write(can_cfg_obj,CNF3,init_arr,3);	//first try:- to write to sequential registers by	continuing 
 																//to clock in data bytes, as long as CS is held low.
+
+		
 		can_cfg_obj->initialization_state=DEVICE_INITIATED;
 		SET_BIT(PORTB,SS_PIN);//make the pin high
 		//??????? ????	
@@ -68,7 +72,7 @@ can_errors_t ecu_can_reset(can_configs_t *can_cfg_obj)
 	can_errors_t exe_state=NO_CAN_ERRORS;
 	if (can_cfg_obj != NULL)
 	{
-		if(can_cfg_obj->)
+		if(can_cfg_obj->initialization_state == DEVICE_INITIATED)
 		{
 			CLEAR_BIT(PORTB,SS_PIN);	//CSlow
 			can_instructions_t instruction=RESET;
@@ -408,6 +412,16 @@ can_errors_t ecu_can_IntStatus(can_configs_t *can_cfg_obj,msa_u8 *received_statu
 	}
 	return exe_state;
 }
+
+//if enabled the mcp2515 interrupt generation this pin will be pulled low till all the isr sources have been serviced
+
+ISR(ISR_NAME)
+{
+	//next when using an RTOS move the following to a task with a high priority and the isr just releases it's SEMAPHORE
+	
+	
+}
+
 
 #if 0  //the comming function isn't complete and shouldn't be used as there is an error,will work right for the first time only 
 can_errors_t ecu_can_IntByteCFG(can_configs_t *can_cfg_obj,interrupts_struct_t *int_obj)
