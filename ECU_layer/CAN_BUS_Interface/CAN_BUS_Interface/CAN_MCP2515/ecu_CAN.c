@@ -31,6 +31,15 @@ hal_setSpiIsrCallback(		str_spi_objectInfo_t	*strg_obj,
 
 static str_spi_objectInfo_t obj_1;//holds the spi configurations		//for the future..it's not good,if have more than one spi/can driver then what will happen??
 									//fixed>>will store this in the cfg_obj//but will edit the code laer :F
+
+#define getMode (readRegister(CANSTAT) >> 5);
+can_errors_t ecu_can_getMode(can_configs_t *can_cfg_obj)
+{
+	
+}
+#define setMode(mode) { changeBits(CANCTRL, (7 << REQOP0), \
+(mode << REQOP0)); while(getMode != mode); }
+
 can_errors_t ecu_can_init(can_configs_t *can_cfg_obj)
 {
 	can_errors_t exe_state=NO_CAN_ERRORS;
