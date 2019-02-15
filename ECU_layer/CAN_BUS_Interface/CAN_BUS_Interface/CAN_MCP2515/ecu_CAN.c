@@ -32,13 +32,36 @@ hal_setSpiIsrCallback(		str_spi_objectInfo_t	*strg_obj,
 static str_spi_objectInfo_t obj_1;//holds the spi configurations		//for the future..it's not good,if have more than one spi/can driver then what will happen??
 									//fixed>>will store this in the cfg_obj//but will edit the code laer :F
 
-#define getMode (readRegister(CANSTAT) >> 5);
-can_errors_t ecu_can_getMode(can_configs_t *can_cfg_obj)
+
+can_errors_t ecu_can_getMode(can_configs_t *can_cfg_obj,msa_u8 *mode_got)
 {
-	
+	can_errors_t exe_res=NO_CAN_ERRORS;
+	if (can_cfg_obj != NULL)
+	{
+		exe_res = ecu_can_read(can_cfg_obj,CANSTAT,mode_got,1);
+		*mode_got = ((*mode_got)>>5);//just care about the chip mode
+	} 
+	else
+	{
+		exe_res = INVALID_CAN_PARAMS;
+	}
+	return exe_res;	
 }
-#define setMode(mode) { changeBits(CANCTRL, (7 << REQOP0), \
-(mode << REQOP0)); while(getMode != mode); }
+can_errors_t ecu_can_setMode(can_configs_t *can_cfg_obj,msa_u8 *mode_wanted)
+{
+	can_errors_t exe_res=NO_CAN_ERRORS;
+	if (can_cfg_obj != NULL)
+	{
+		*mode_wanted = ((*mode_wanted)<<REQOP0);//just care about the chip mode
+		exe_res = ecu_can_BitModify(can_cfg_obj,CANSTAT,(7 << REQOP0),mode_wanted);
+	}
+	else
+	{
+		exe_res = INVALID_CAN_PARAMS;
+	}
+	return exe_res;
+}
+#define setMode(mode) { changeBits(CANCTRL, ,); while(getMode != mode); }
 
 can_errors_t ecu_can_init(can_configs_t *can_cfg_obj)
 {
@@ -318,11 +341,11 @@ can_errors_t ecu_can_RXStatus(can_configs_t *can_cfg_obj,msa_u8 *received_status
 	return exe_state;
 }
 
-can_errors_t ecu_can_BitModify(can_configs_t *can_cfg_obj,msa_u8 targeted_add,msa_u8 modification_mask,msa_u8 *transmitted_buffer,msa_u8 data_size)
+can_errors_t ecu_can_BitModify(can_configs_t *can_cfg_obj,msa_u8 targeted_add,msa_u8 modification_mask,msa_u8 *transmitted_buffer)
 {
 	
 	can_errors_t exe_state=NO_CAN_ERRORS;
-	if( (can_cfg_obj != NULL) && (transmitted_buffer != NULL) && (data_size >= 1) )//the data size must be at least one
+	if( (can_cfg_obj != NULL) && (transmitted_buffer != NULL) )//the data size must be at least one
 	{
 		if(can_cfg_obj->initialization_state == DEVICE_INITIATED)
 		{
