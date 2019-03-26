@@ -39,15 +39,18 @@ can_errors_t ecu_can_init(can_configs_t *can_cfg_obj)
 		//check that the configurations are right and in the config_object
 		
 		//initializing the spi driver
-		hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_16,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);	//reconfig according the can controller specifications
+		hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_4,MASTER_EN,SPI_POLLING,MODE_1,MSB_FIRST);	//reconfig according the can controller specifications
 		//initializing the AVR interrupt
 		exe_state = init_interrrupts();
 		exe_state = set_interrupt(ISR_NO,LOW_LEVEL);		
 		SET_BIT(DDRB,SS_PIN);//based on avr arch and atmega32 reg_map set the ss pin as an output pin
 		CLEAR_BIT(PORTB,SS_PIN);
-		
-		
+		//begin the mcp_initialization and interfacing
+		can_cfg_obj->initialization_state=DEVICE_INITIATED;
+		//resetting the mcu to ensure a startup
+		exe_state = ecu_can_reset(can_cfg_obj);
 		//initializing the CAN controller
+		//setting the bit timing
 		msa_u8 init_arr[3]={( (can_cfg_obj->phase2_seg_length_obj) | (can_cfg_obj->wake_up_filter_obj<<WAKFIL) | (can_cfg_obj->start_of_frame_obj<<SOF) ),
 							( (can_cfg_obj->btl_mode_obj<<BTLMODE) | (can_cfg_obj->sampling_number_obj<<SAM  ) | (can_cfg_obj->phase1_seg_length_obj<<PHSEG10) | (can_cfg_obj->propagation_seg_length_obj<<PRSEG0) ),
 							( (can_cfg_obj->synch_jmp_width_obj<<SJW0) | (can_cfg_obj->baud_rate_prescaler_obj) )
@@ -56,7 +59,7 @@ can_errors_t ecu_can_init(can_configs_t *can_cfg_obj)
 																//to clock in data bytes, as long as CS is held low.
 
 		
-		can_cfg_obj->initialization_state=DEVICE_INITIATED;
+		
 		SET_BIT(PORTB,SS_PIN);//make the pin high
 		//??????? ????	
 	} 
@@ -343,6 +346,7 @@ can_errors_t ecu_can_BitModify(can_configs_t *can_cfg_obj,msa_u8 targeted_add,ms
 	}
 	return exe_state;
 }
+
 
 can_errors_t ecu_can_IntEnable(can_configs_t *can_cfg_obj,interrupt_source_t int_src)
 {

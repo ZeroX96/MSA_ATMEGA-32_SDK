@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 0000078f  00000000  00000000  000015bb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000006b4  00000000  00000000  00001d4a  2**0
+  8 .debug_line   000006a8  00000000  00000000  00001d4a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001d0  00000000  00000000  00002400  2**2
+  9 .debug_frame  000001d0  00000000  00000000  000023f4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000006b5  00000000  00000000  000025d0  2**0
+ 10 .debug_str    00000708  00000000  00000000  000025c4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000009f7  00000000  00000000  00002c85  2**0
+ 11 .debug_loc    000009f7  00000000  00000000  00002ccc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000080  00000000  00000000  0000367c  2**0
+ 12 .debug_ranges 00000080  00000000  00000000  000036c3  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -455,12 +455,6 @@ ISR(USART_UDRE_vect)
  324:	18 95       	reti
 
 00000326 <main>:
-{
-	msa_u8 temp='M';
-	usart_send_byte(&usart_1,&temp);
-}
-int main(void)
-{
  326:	cf 93       	push	r28
  328:	df 93       	push	r29
  32a:	cd b7       	in	r28, 0x3d	; 61
@@ -471,9 +465,6 @@ int main(void)
  334:	de bf       	out	0x3e, r29	; 62
  336:	0f be       	out	0x3f, r0	; 63
  338:	cd bf       	out	0x3d, r28	; 61
-    /* Replace with your application code */
-
-	usart_init(&usart_1,B_SENDER_N_RECEIVER,ONE_STP_BIT,NO_PARITY,EIGHT,POLLING_DRIVEN,FALLING_EDGE); 
  33a:	cc 24       	eor	r12, r12
  33c:	c3 94       	inc	r12
  33e:	ee 24       	eor	r14, r14
@@ -485,16 +476,8 @@ int main(void)
  34a:	8a e8       	ldi	r24, 0x8A	; 138
  34c:	90 e0       	ldi	r25, 0x00	; 0
  34e:	0e 94 49 00 	call	0x92	; 0x92 <usart_init>
-    msa_u8 got_val;
-	msa_u8 temp_val=' ';
  352:	80 e2       	ldi	r24, 0x20	; 32
  354:	8a 83       	std	Y+2, r24	; 0x02
-	msa_u8 arr[10];
-	//usart_set_isr_TXC_callback(&usart_1,usart_send);
-	while (1) 
-    {
-		
-		usart_receive_arr(&usart_1,arr,10);
  356:	4a e0       	ldi	r20, 0x0A	; 10
  358:	be 01       	movw	r22, r28
  35a:	6d 5f       	subi	r22, 0xFD	; 253
@@ -502,21 +485,17 @@ int main(void)
  35e:	8a e8       	ldi	r24, 0x8A	; 138
  360:	90 e0       	ldi	r25, 0x00	; 0
  362:	0e 94 fb 00 	call	0x1f6	; 0x1f6 <usart_receive_arr>
- 		usart_send_arr(&usart_1,arr);
  366:	be 01       	movw	r22, r28
  368:	6d 5f       	subi	r22, 0xFD	; 253
  36a:	7f 4f       	sbci	r23, 0xFF	; 255
  36c:	8a e8       	ldi	r24, 0x8A	; 138
  36e:	90 e0       	ldi	r25, 0x00	; 0
  370:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <usart_send_arr>
- 		//usart_send_byte(&usart_1,(msa_u8 *)&val);
-		usart_send_arr(&usart_1,arr_add2);		
  374:	64 e6       	ldi	r22, 0x64	; 100
  376:	70 e0       	ldi	r23, 0x00	; 0
  378:	8a e8       	ldi	r24, 0x8A	; 138
  37a:	90 e0       	ldi	r25, 0x00	; 0
  37c:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <usart_send_arr>
-		usart_receive_byte(&usart_1,&got_val);
  380:	be 01       	movw	r22, r28
  382:	6f 5f       	subi	r22, 0xFF	; 255
  384:	7f 4f       	sbci	r23, 0xFF	; 255
@@ -538,35 +517,28 @@ int main(void)
  39a:	e1 f7       	brne	.-8      	; 0x394 <main+0x6e>
  39c:	00 c0       	rjmp	.+0      	; 0x39e <main+0x78>
  39e:	00 00       	nop
-		_delay_ms(500);
-		usart_send_arr(&usart_1,arr_add);
  3a0:	62 e7       	ldi	r22, 0x72	; 114
  3a2:	70 e0       	ldi	r23, 0x00	; 0
  3a4:	8a e8       	ldi	r24, 0x8A	; 138
  3a6:	90 e0       	ldi	r25, 0x00	; 0
  3a8:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <usart_send_arr>
-		usart_send_byte(&usart_1,&got_val);
  3ac:	be 01       	movw	r22, r28
  3ae:	6f 5f       	subi	r22, 0xFF	; 255
  3b0:	7f 4f       	sbci	r23, 0xFF	; 255
  3b2:	8a e8       	ldi	r24, 0x8A	; 138
  3b4:	90 e0       	ldi	r25, 0x00	; 0
  3b6:	0e 94 c3 00 	call	0x186	; 0x186 <usart_send_byte>
-		usart_send_byte(&usart_1,&temp_val);
  3ba:	be 01       	movw	r22, r28
  3bc:	6e 5f       	subi	r22, 0xFE	; 254
  3be:	7f 4f       	sbci	r23, 0xFF	; 255
  3c0:	8a e8       	ldi	r24, 0x8A	; 138
  3c2:	90 e0       	ldi	r25, 0x00	; 0
  3c4:	0e 94 c3 00 	call	0x186	; 0x186 <usart_send_byte>
-		//usart_receive_arr(&usart_1,got_arr);
-		usart_send_arr(&usart_1,arr_add);
  3c8:	62 e7       	ldi	r22, 0x72	; 114
  3ca:	70 e0       	ldi	r23, 0x00	; 0
  3cc:	8a e8       	ldi	r24, 0x8A	; 138
  3ce:	90 e0       	ldi	r25, 0x00	; 0
  3d0:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <usart_send_arr>
-		usart_send_arr(&usart_1,got_arr);
  3d4:	60 e0       	ldi	r22, 0x00	; 0
  3d6:	70 e0       	ldi	r23, 0x00	; 0
  3d8:	8a e8       	ldi	r24, 0x8A	; 138
