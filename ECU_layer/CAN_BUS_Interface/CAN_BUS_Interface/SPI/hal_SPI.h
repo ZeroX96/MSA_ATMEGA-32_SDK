@@ -8,8 +8,11 @@
 
 #ifndef HAL_SPI_H_
 #define HAL_SPI_H_
-#include "../includes.h"
-
+#include <avr/io.h>
+#include "hal_SPI_CFG.h"
+#include "common.h"
+#include <avr/interrupt.h>
+#include <util/delay.h>
 /*
 #define FALLING_EDGE 
 #define RISING_EDGE

@@ -9,8 +9,11 @@
 #ifndef HAL_SPI_CFG_H_
 #define HAL_SPI_CFG_H_
 
-#define F_CPU 16000000UL
+#ifndef F_CPU
+#define F_CPU 8000000UL
+#endif
 
+#define DEBUGGING 0
 
 
 
