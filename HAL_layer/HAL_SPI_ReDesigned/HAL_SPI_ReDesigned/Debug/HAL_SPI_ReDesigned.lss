@@ -1,0 +1,326 @@
+
+HAL_SPI_ReDesigned.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000206  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000027a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000002  00800060  00800060  0000027a  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000027a  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002ac  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000068  00000000  00000000  000002e8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000dab  00000000  00000000  00000350  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000078c  00000000  00000000  000010fb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000527  00000000  00000000  00001887  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  0000012c  00000000  00000000  00001db0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000006cf  00000000  00000000  00001edc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000053d  00000000  00000000  000025ab  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000048  00000000  00000000  00002ae8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 a1 00 	jmp	0x142	; 0x142 <__vector_12>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a2 36       	cpi	r26, 0x62	; 98
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 ca 00 	call	0x194	; 0x194 <main>
+  74:	0c 94 01 01 	jmp	0x202	; 0x202 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <hal_spiInit>:
+	}
+#endif
+	return ret_val;
+	
+	
+}
+  7c:	cf 92       	push	r12
+  7e:	df 92       	push	r13
+  80:	ef 92       	push	r14
+  82:	0f 93       	push	r16
+  84:	fc 01       	movw	r30, r24
+  86:	f8 94       	cli
+  88:	60 83       	st	Z, r22
+  8a:	81 e0       	ldi	r24, 0x01	; 1
+  8c:	86 83       	std	Z+6, r24	; 0x06
+  8e:	41 83       	std	Z+1, r20	; 0x01
+  90:	22 83       	std	Z+2, r18	; 0x02
+  92:	e4 82       	std	Z+4, r14	; 0x04
+  94:	03 83       	std	Z+3, r16	; 0x03
+  96:	c5 82       	std	Z+5, r12	; 0x05
+  98:	21 30       	cpi	r18, 0x01	; 1
+  9a:	19 f5       	brne	.+70     	; 0xe2 <hal_spiInit+0x66>
+  9c:	bc 9a       	sbi	0x17, 4	; 23
+  9e:	bf 9a       	sbi	0x17, 7	; 23
+  a0:	bd 9a       	sbi	0x17, 5	; 23
+  a2:	be 98       	cbi	0x17, 6	; 23
+  a4:	e6 2f       	mov	r30, r22
+  a6:	f0 e0       	ldi	r31, 0x00	; 0
+  a8:	90 81       	ld	r25, Z
+  aa:	8e 2d       	mov	r24, r14
+  ac:	88 0f       	add	r24, r24
+  ae:	88 0f       	add	r24, r24
+  b0:	80 61       	ori	r24, 0x10	; 16
+  b2:	24 2f       	mov	r18, r20
+  b4:	23 70       	andi	r18, 0x03	; 3
+  b6:	82 2b       	or	r24, r18
+  b8:	89 2b       	or	r24, r25
+  ba:	80 83       	st	Z, r24
+  bc:	20 81       	ld	r18, Z
+  be:	30 e2       	ldi	r19, 0x20	; 32
+  c0:	c3 9e       	mul	r12, r19
+  c2:	c0 01       	movw	r24, r0
+  c4:	11 24       	eor	r1, r1
+  c6:	80 64       	ori	r24, 0x40	; 64
+  c8:	90 e8       	ldi	r25, 0x80	; 128
+  ca:	09 9f       	mul	r16, r25
+  cc:	60 01       	movw	r12, r0
+  ce:	11 24       	eor	r1, r1
+  d0:	8c 29       	or	r24, r12
+  d2:	82 2b       	or	r24, r18
+  d4:	80 83       	st	Z, r24
+  d6:	81 81       	ldd	r24, Z+1	; 0x01
+  d8:	46 95       	lsr	r20
+  da:	46 95       	lsr	r20
+  dc:	48 2b       	or	r20, r24
+  de:	41 83       	std	Z+1, r20	; 0x01
+  e0:	0f c0       	rjmp	.+30     	; 0x100 <hal_spiInit+0x84>
+  e2:	bc 98       	cbi	0x17, 4	; 23
+  e4:	bf 98       	cbi	0x17, 7	; 23
+  e6:	bd 98       	cbi	0x17, 5	; 23
+  e8:	be 9a       	sbi	0x17, 6	; 23
+  ea:	e6 2f       	mov	r30, r22
+  ec:	f0 e0       	ldi	r31, 0x00	; 0
+  ee:	90 81       	ld	r25, Z
+  f0:	80 e8       	ldi	r24, 0x80	; 128
+  f2:	08 9f       	mul	r16, r24
+  f4:	90 01       	movw	r18, r0
+  f6:	11 24       	eor	r1, r1
+  f8:	82 2f       	mov	r24, r18
+  fa:	80 64       	ori	r24, 0x40	; 64
+  fc:	89 2b       	or	r24, r25
+  fe:	80 83       	st	Z, r24
+ 100:	01 30       	cpi	r16, 0x01	; 1
+ 102:	09 f4       	brne	.+2      	; 0x106 <hal_spiInit+0x8a>
+ 104:	78 94       	sei
+ 106:	80 e0       	ldi	r24, 0x00	; 0
+ 108:	0f 91       	pop	r16
+ 10a:	ef 90       	pop	r14
+ 10c:	df 90       	pop	r13
+ 10e:	cf 90       	pop	r12
+ 110:	08 95       	ret
+
+00000112 <hal_spiExchangeDATA>:
+ 112:	25 e0       	ldi	r18, 0x05	; 5
+ 114:	2a 95       	dec	r18
+ 116:	f1 f7       	brne	.-4      	; 0x114 <hal_spiExchangeDATA+0x2>
+ 118:	00 00       	nop
+ 11a:	dc 01       	movw	r26, r24
+ 11c:	ec 91       	ld	r30, X
+ 11e:	f0 e0       	ldi	r31, 0x00	; 0
+ 120:	db 01       	movw	r26, r22
+ 122:	2c 91       	ld	r18, X
+ 124:	22 83       	std	Z+2, r18	; 0x02
+ 126:	fc 01       	movw	r30, r24
+ 128:	a0 81       	ld	r26, Z
+ 12a:	b0 e0       	ldi	r27, 0x00	; 0
+ 12c:	fd 01       	movw	r30, r26
+ 12e:	31 96       	adiw	r30, 0x01	; 1
+ 130:	80 81       	ld	r24, Z
+ 132:	88 23       	and	r24, r24
+ 134:	ec f7       	brge	.-6      	; 0x130 <hal_spiExchangeDATA+0x1e>
+ 136:	12 96       	adiw	r26, 0x02	; 2
+ 138:	8c 91       	ld	r24, X
+ 13a:	da 01       	movw	r26, r20
+ 13c:	8c 93       	st	X, r24
+ 13e:	80 e0       	ldi	r24, 0x00	; 0
+ 140:	08 95       	ret
+
+00000142 <__vector_12>:
+
+ISR(SPI_STC_vect)
+{
+ 142:	1f 92       	push	r1
+ 144:	0f 92       	push	r0
+ 146:	0f b6       	in	r0, 0x3f	; 63
+ 148:	0f 92       	push	r0
+ 14a:	11 24       	eor	r1, r1
+ 14c:	2f 93       	push	r18
+ 14e:	3f 93       	push	r19
+ 150:	4f 93       	push	r20
+ 152:	5f 93       	push	r21
+ 154:	6f 93       	push	r22
+ 156:	7f 93       	push	r23
+ 158:	8f 93       	push	r24
+ 15a:	9f 93       	push	r25
+ 15c:	af 93       	push	r26
+ 15e:	bf 93       	push	r27
+ 160:	ef 93       	push	r30
+ 162:	ff 93       	push	r31
+	if (spi_interrupt_handler)
+ 164:	e0 91 60 00 	lds	r30, 0x0060	; 0x800060 <_edata>
+ 168:	f0 91 61 00 	lds	r31, 0x0061	; 0x800061 <_edata+0x1>
+ 16c:	30 97       	sbiw	r30, 0x00	; 0
+ 16e:	09 f0       	breq	.+2      	; 0x172 <__vector_12+0x30>
+	{
+		(void)(*spi_interrupt_handler)();
+ 170:	09 95       	icall
+	}
+ 172:	ff 91       	pop	r31
+ 174:	ef 91       	pop	r30
+ 176:	bf 91       	pop	r27
+ 178:	af 91       	pop	r26
+ 17a:	9f 91       	pop	r25
+ 17c:	8f 91       	pop	r24
+ 17e:	7f 91       	pop	r23
+ 180:	6f 91       	pop	r22
+ 182:	5f 91       	pop	r21
+ 184:	4f 91       	pop	r20
+ 186:	3f 91       	pop	r19
+ 188:	2f 91       	pop	r18
+ 18a:	0f 90       	pop	r0
+ 18c:	0f be       	out	0x3f, r0	; 63
+ 18e:	0f 90       	pop	r0
+ 190:	1f 90       	pop	r1
+ 192:	18 95       	reti
+
+00000194 <main>:
+ */ 
+
+#include "hal_SPI.h"
+
+int main(void)
+{
+ 194:	cf 93       	push	r28
+ 196:	df 93       	push	r29
+ 198:	cd b7       	in	r28, 0x3d	; 61
+ 19a:	de b7       	in	r29, 0x3e	; 62
+ 19c:	29 97       	sbiw	r28, 0x09	; 9
+ 19e:	0f b6       	in	r0, 0x3f	; 63
+ 1a0:	f8 94       	cli
+ 1a2:	de bf       	out	0x3e, r29	; 62
+ 1a4:	0f be       	out	0x3f, r0	; 63
+ 1a6:	cd bf       	out	0x3d, r28	; 61
+	DDRD=0xff;
+ 1a8:	8f ef       	ldi	r24, 0xFF	; 255
+ 1aa:	81 bb       	out	0x11, r24	; 17
+	str_spi_objectInfo_t obj_1;
+	msa_u8 data_out=20,data_in;
+ 1ac:	84 e1       	ldi	r24, 0x14	; 20
+ 1ae:	88 87       	std	Y+8, r24	; 0x08
+	hal_spiInit(&obj_1,SPI_1_base,FREQ_BY_16,SLAVE_EN,SPI_POLLING,MODE_1,MSB_FIRST);
+ 1b0:	c1 2c       	mov	r12, r1
+ 1b2:	e1 2c       	mov	r14, r1
+ 1b4:	00 e0       	ldi	r16, 0x00	; 0
+ 1b6:	20 e0       	ldi	r18, 0x00	; 0
+ 1b8:	41 e0       	ldi	r20, 0x01	; 1
+ 1ba:	6d e2       	ldi	r22, 0x2D	; 45
+ 1bc:	ce 01       	movw	r24, r28
+ 1be:	01 96       	adiw	r24, 0x01	; 1
+ 1c0:	0e 94 3e 00 	call	0x7c	; 0x7c <hal_spiInit>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1c4:	8f e1       	ldi	r24, 0x1F	; 31
+ 1c6:	9e e4       	ldi	r25, 0x4E	; 78
+ 1c8:	01 97       	sbiw	r24, 0x01	; 1
+ 1ca:	f1 f7       	brne	.-4      	; 0x1c8 <main+0x34>
+ 1cc:	00 c0       	rjmp	.+0      	; 0x1ce <main+0x3a>
+ 1ce:	00 00       	nop
+ 1d0:	9f ef       	ldi	r25, 0xFF	; 255
+ 1d2:	29 e6       	ldi	r18, 0x69	; 105
+ 1d4:	88 e1       	ldi	r24, 0x18	; 24
+ 1d6:	91 50       	subi	r25, 0x01	; 1
+ 1d8:	20 40       	sbci	r18, 0x00	; 0
+ 1da:	80 40       	sbci	r24, 0x00	; 0
+ 1dc:	e1 f7       	brne	.-8      	; 0x1d6 <main+0x42>
+ 1de:	00 c0       	rjmp	.+0      	; 0x1e0 <main+0x4c>
+ 1e0:	00 00       	nop
+	_delay_ms(10);
+	//hal_spiSendByte(&obj_1,&data_add);
+	while (1)
+	{
+		_delay_ms(1000);
+		hal_spiExchangeDATA(&obj_1,&data_out,&data_in);
+ 1e2:	ae 01       	movw	r20, r28
+ 1e4:	47 5f       	subi	r20, 0xF7	; 247
+ 1e6:	5f 4f       	sbci	r21, 0xFF	; 255
+ 1e8:	be 01       	movw	r22, r28
+ 1ea:	68 5f       	subi	r22, 0xF8	; 248
+ 1ec:	7f 4f       	sbci	r23, 0xFF	; 255
+ 1ee:	ce 01       	movw	r24, r28
+ 1f0:	01 96       	adiw	r24, 0x01	; 1
+ 1f2:	0e 94 89 00 	call	0x112	; 0x112 <hal_spiExchangeDATA>
+		PORTD=data_in;
+ 1f6:	89 85       	ldd	r24, Y+9	; 0x09
+ 1f8:	82 bb       	out	0x12, r24	; 18
+		//
+		data_out-=2;
+ 1fa:	88 85       	ldd	r24, Y+8	; 0x08
+ 1fc:	82 50       	subi	r24, 0x02	; 2
+ 1fe:	88 87       	std	Y+8, r24	; 0x08
+ 200:	e7 cf       	rjmp	.-50     	; 0x1d0 <main+0x3c>
+
+00000202 <_exit>:
+ 202:	f8 94       	cli
+
+00000204 <__stop_program>:
+ 204:	ff cf       	rjmp	.-2      	; 0x204 <__stop_program>
