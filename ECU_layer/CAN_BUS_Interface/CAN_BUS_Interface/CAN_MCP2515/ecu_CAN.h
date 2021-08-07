@@ -155,6 +155,15 @@ typedef enum
 	MESSAGE_ERROR,
 }interrupt_source_t;
 
+typedef enum
+{
+	
+	NORMAL_MODE			=0x00,
+	SLEEP_MODE			=0x01,
+	LOOPBACK_MODE		=0x02,
+	LISTEN_ONLY_MODE	=0x03,
+	CONFIGURTION_MODE	=0x04,
+}ecu_mode_t;
 // 
 // typedef struct  
 // {
