@@ -140,7 +140,7 @@
     <Compile Include="timers.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="tmers.c">
+    <Compile Include="timers.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

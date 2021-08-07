@@ -1,0 +1,1570 @@
+
+ProjectXbase.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000900  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000032  00800060  00000900  00000994  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000003a  00800092  00800092  000009c6  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000009c6  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000009f8  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000210  00000000  00000000  00000a34  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00003312  00000000  00000000  00000c44  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000ea4  00000000  00000000  00003f56  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00001519  00000000  00000000  00004dfa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000694  00000000  00000000  00006314  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00001375  00000000  00000000  000069a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000028ed  00000000  00000000  00007d1d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 000001d0  00000000  00000000  0000a60a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 ee 03 	jmp	0x7dc	; 0x7dc <__vector_4>
+  14:	0c 94 c5 03 	jmp	0x78a	; 0x78a <__vector_5>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 9c 03 	jmp	0x738	; 0x738 <__vector_10>
+  2c:	0c 94 73 03 	jmp	0x6e6	; 0x6e6 <__vector_11>
+  30:	0c 94 84 02 	jmp	0x508	; 0x508 <__vector_12>
+  34:	0c 94 17 04 	jmp	0x82e	; 0x82e <__vector_13>
+  38:	0c 94 40 04 	jmp	0x880	; 0x880 <__vector_14>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 49 00 	jmp	0x92	; 0x92 <__vector_16>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e0 e0       	ldi	r30, 0x00	; 0
+  68:	f9 e0       	ldi	r31, 0x09	; 9
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a2 39       	cpi	r26, 0x92	; 146
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	20 e0       	ldi	r18, 0x00	; 0
+  78:	a2 e9       	ldi	r26, 0x92	; 146
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	ac 3c       	cpi	r26, 0xCC	; 204
+  82:	b2 07       	cpc	r27, r18
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 69 04 	call	0x8d2	; 0x8d2 <main>
+  8a:	0c 94 7e 04 	jmp	0x8fc	; 0x8fc <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <__vector_16>:
+	}
+	return ADC_INV_PARAMS;
+}
+
+ISR(ADC_vect)
+{
+  92:	1f 92       	push	r1
+  94:	0f 92       	push	r0
+  96:	0f b6       	in	r0, 0x3f	; 63
+  98:	0f 92       	push	r0
+  9a:	11 24       	eor	r1, r1
+  9c:	2f 93       	push	r18
+  9e:	3f 93       	push	r19
+  a0:	4f 93       	push	r20
+  a2:	5f 93       	push	r21
+  a4:	6f 93       	push	r22
+  a6:	7f 93       	push	r23
+  a8:	8f 93       	push	r24
+  aa:	9f 93       	push	r25
+  ac:	af 93       	push	r26
+  ae:	bf 93       	push	r27
+  b0:	ef 93       	push	r30
+  b2:	ff 93       	push	r31
+	if (NULL != AdcCallBack)
+  b4:	e0 91 92 00 	lds	r30, 0x0092	; 0x800092 <__data_end>
+  b8:	f0 91 93 00 	lds	r31, 0x0093	; 0x800093 <__data_end+0x1>
+  bc:	30 97       	sbiw	r30, 0x00	; 0
+  be:	09 f0       	breq	.+2      	; 0xc2 <__vector_16+0x30>
+	{
+		(*AdcCallBack)();
+  c0:	09 95       	icall
+	}
+}
+  c2:	ff 91       	pop	r31
+  c4:	ef 91       	pop	r30
+  c6:	bf 91       	pop	r27
+  c8:	af 91       	pop	r26
+  ca:	9f 91       	pop	r25
+  cc:	8f 91       	pop	r24
+  ce:	7f 91       	pop	r23
+  d0:	6f 91       	pop	r22
+  d2:	5f 91       	pop	r21
+  d4:	4f 91       	pop	r20
+  d6:	3f 91       	pop	r19
+  d8:	2f 91       	pop	r18
+  da:	0f 90       	pop	r0
+  dc:	0f be       	out	0x3f, r0	; 63
+  de:	0f 90       	pop	r0
+  e0:	1f 90       	pop	r1
+  e2:	18 95       	reti
+
+000000e4 <GpioInitPin>:
+	}
+}
+
+uint8_t  GpioReadPort(GpioBaseT Base){
+	return (HwReadReg(Base));
+}
+  e4:	90 ed       	ldi	r25, 0xD0	; 208
+  e6:	98 0f       	add	r25, r24
+  e8:	9a 30       	cpi	r25, 0x0A	; 10
+  ea:	18 f5       	brcc	.+70     	; 0x132 <GpioInitPin+0x4e>
+  ec:	41 11       	cpse	r20, r1
+  ee:	10 c0       	rjmp	.+32     	; 0x110 <GpioInitPin+0x2c>
+  f0:	8f 5f       	subi	r24, 0xFF	; 255
+  f2:	e8 2f       	mov	r30, r24
+  f4:	f0 e0       	ldi	r31, 0x00	; 0
+  f6:	20 81       	ld	r18, Z
+  f8:	81 e0       	ldi	r24, 0x01	; 1
+  fa:	90 e0       	ldi	r25, 0x00	; 0
+  fc:	02 c0       	rjmp	.+4      	; 0x102 <GpioInitPin+0x1e>
+  fe:	88 0f       	add	r24, r24
+ 100:	99 1f       	adc	r25, r25
+ 102:	6a 95       	dec	r22
+ 104:	e2 f7       	brpl	.-8      	; 0xfe <GpioInitPin+0x1a>
+ 106:	80 95       	com	r24
+ 108:	82 23       	and	r24, r18
+ 10a:	80 83       	st	Z, r24
+ 10c:	80 e0       	ldi	r24, 0x00	; 0
+ 10e:	08 95       	ret
+ 110:	41 30       	cpi	r20, 0x01	; 1
+ 112:	89 f4       	brne	.+34     	; 0x136 <GpioInitPin+0x52>
+ 114:	8f 5f       	subi	r24, 0xFF	; 255
+ 116:	e8 2f       	mov	r30, r24
+ 118:	f0 e0       	ldi	r31, 0x00	; 0
+ 11a:	20 81       	ld	r18, Z
+ 11c:	81 e0       	ldi	r24, 0x01	; 1
+ 11e:	90 e0       	ldi	r25, 0x00	; 0
+ 120:	02 c0       	rjmp	.+4      	; 0x126 <GpioInitPin+0x42>
+ 122:	88 0f       	add	r24, r24
+ 124:	99 1f       	adc	r25, r25
+ 126:	6a 95       	dec	r22
+ 128:	e2 f7       	brpl	.-8      	; 0x122 <GpioInitPin+0x3e>
+ 12a:	82 2b       	or	r24, r18
+ 12c:	80 83       	st	Z, r24
+ 12e:	80 e0       	ldi	r24, 0x00	; 0
+ 130:	08 95       	ret
+ 132:	81 e0       	ldi	r24, 0x01	; 1
+ 134:	08 95       	ret
+ 136:	80 e0       	ldi	r24, 0x00	; 0
+ 138:	08 95       	ret
+
+0000013a <GpioWriteGroup>:
+ 13a:	0f 93       	push	r16
+ 13c:	1f 93       	push	r17
+ 13e:	cf 93       	push	r28
+ 140:	df 93       	push	r29
+ 142:	90 ed       	ldi	r25, 0xD0	; 208
+ 144:	98 0f       	add	r25, r24
+ 146:	9a 30       	cpi	r25, 0x0A	; 10
+ 148:	78 f5       	brcc	.+94     	; 0x1a8 <GpioWriteGroup+0x6e>
+ 14a:	8e 5f       	subi	r24, 0xFE	; 254
+ 14c:	44 23       	and	r20, r20
+ 14e:	71 f1       	breq	.+92     	; 0x1ac <GpioWriteGroup+0x72>
+ 150:	e0 e0       	ldi	r30, 0x00	; 0
+ 152:	f0 e0       	ldi	r31, 0x00	; 0
+ 154:	01 e0       	ldi	r16, 0x01	; 1
+ 156:	10 e0       	ldi	r17, 0x00	; 0
+ 158:	c8 2f       	mov	r28, r24
+ 15a:	d0 e0       	ldi	r29, 0x00	; 0
+ 15c:	d8 01       	movw	r26, r16
+ 15e:	0e 2e       	mov	r0, r30
+ 160:	02 c0       	rjmp	.+4      	; 0x166 <GpioWriteGroup+0x2c>
+ 162:	aa 0f       	add	r26, r26
+ 164:	bb 1f       	adc	r27, r27
+ 166:	0a 94       	dec	r0
+ 168:	e2 f7       	brpl	.-8      	; 0x162 <GpioWriteGroup+0x28>
+ 16a:	a6 23       	and	r26, r22
+ 16c:	59 f0       	breq	.+22     	; 0x184 <GpioWriteGroup+0x4a>
+ 16e:	38 81       	ld	r19, Y
+ 170:	c8 01       	movw	r24, r16
+ 172:	02 2e       	mov	r0, r18
+ 174:	02 c0       	rjmp	.+4      	; 0x17a <GpioWriteGroup+0x40>
+ 176:	88 0f       	add	r24, r24
+ 178:	99 1f       	adc	r25, r25
+ 17a:	0a 94       	dec	r0
+ 17c:	e2 f7       	brpl	.-8      	; 0x176 <GpioWriteGroup+0x3c>
+ 17e:	83 2b       	or	r24, r19
+ 180:	88 83       	st	Y, r24
+ 182:	0c c0       	rjmp	.+24     	; 0x19c <GpioWriteGroup+0x62>
+ 184:	98 81       	ld	r25, Y
+ 186:	d8 01       	movw	r26, r16
+ 188:	02 2e       	mov	r0, r18
+ 18a:	02 c0       	rjmp	.+4      	; 0x190 <GpioWriteGroup+0x56>
+ 18c:	aa 0f       	add	r26, r26
+ 18e:	bb 1f       	adc	r27, r27
+ 190:	0a 94       	dec	r0
+ 192:	e2 f7       	brpl	.-8      	; 0x18c <GpioWriteGroup+0x52>
+ 194:	8a 2f       	mov	r24, r26
+ 196:	80 95       	com	r24
+ 198:	89 23       	and	r24, r25
+ 19a:	88 83       	st	Y, r24
+ 19c:	31 96       	adiw	r30, 0x01	; 1
+ 19e:	2f 5f       	subi	r18, 0xFF	; 255
+ 1a0:	e4 17       	cp	r30, r20
+ 1a2:	e0 f2       	brcs	.-72     	; 0x15c <GpioWriteGroup+0x22>
+ 1a4:	80 e0       	ldi	r24, 0x00	; 0
+ 1a6:	03 c0       	rjmp	.+6      	; 0x1ae <GpioWriteGroup+0x74>
+ 1a8:	81 e0       	ldi	r24, 0x01	; 1
+ 1aa:	01 c0       	rjmp	.+2      	; 0x1ae <GpioWriteGroup+0x74>
+ 1ac:	80 e0       	ldi	r24, 0x00	; 0
+ 1ae:	df 91       	pop	r29
+ 1b0:	cf 91       	pop	r28
+ 1b2:	1f 91       	pop	r17
+ 1b4:	0f 91       	pop	r16
+ 1b6:	08 95       	ret
+
+000001b8 <GpioReadGroup>:
+
+uint8_t GpioReadGroup(GpioBaseT Base, uint8_t Len, uint8_t FirstBit){
+	if ((Base >= BASE_D) && (Base <= BASE_A)){
+ 1b8:	90 ed       	ldi	r25, 0xD0	; 208
+ 1ba:	98 0f       	add	r25, r24
+ 1bc:	9a 30       	cpi	r25, 0x0A	; 10
+ 1be:	60 f5       	brcc	.+88     	; 0x218 <GpioReadGroup+0x60>
+static inline void HwWriteRegOring(uint8_t Reg, uint8_t Val){
+	(*(volatile uint8_t*)Reg) |= Val;
+}
+
+static inline uint8_t HwReadReg(uint8_t Reg){
+	return (*(volatile uint8_t*)Reg);
+ 1c0:	e8 2f       	mov	r30, r24
+ 1c2:	f0 e0       	ldi	r31, 0x00	; 0
+ 1c4:	20 81       	ld	r18, Z
+}
+
+static inline uint8_t HwReadRegBitGroup(uint8_t Reg, uint8_t GpLen, uint8_t GpFirstBit){
+	uint8_t Mask=0;
+	uint8_t TempRes =  HwReadReg(Reg);
+	TempRes = TempRes >> GpFirstBit;
+ 1c6:	30 e0       	ldi	r19, 0x00	; 0
+ 1c8:	02 c0       	rjmp	.+4      	; 0x1ce <GpioReadGroup+0x16>
+ 1ca:	35 95       	asr	r19
+ 1cc:	27 95       	ror	r18
+ 1ce:	4a 95       	dec	r20
+ 1d0:	e2 f7       	brpl	.-8      	; 0x1ca <GpioReadGroup+0x12>
+	
+	if (GpLen == 1){
+ 1d2:	61 30       	cpi	r22, 0x01	; 1
+ 1d4:	91 f0       	breq	.+36     	; 0x1fa <GpioReadGroup+0x42>
+		Mask = 0x01;
+	}
+	else if(GpLen == 2){
+ 1d6:	62 30       	cpi	r22, 0x02	; 2
+ 1d8:	91 f0       	breq	.+36     	; 0x1fe <GpioReadGroup+0x46>
+		Mask = 0x03;
+	}
+	else if(GpLen == 3){
+ 1da:	63 30       	cpi	r22, 0x03	; 3
+ 1dc:	91 f0       	breq	.+36     	; 0x202 <GpioReadGroup+0x4a>
+		Mask = 0x07;
+	}
+	else if(GpLen == 4){
+ 1de:	64 30       	cpi	r22, 0x04	; 4
+ 1e0:	91 f0       	breq	.+36     	; 0x206 <GpioReadGroup+0x4e>
+		Mask = 0x0F;
+	}
+	else if(GpLen == 5){
+ 1e2:	65 30       	cpi	r22, 0x05	; 5
+ 1e4:	91 f0       	breq	.+36     	; 0x20a <GpioReadGroup+0x52>
+		Mask = 0x1F;
+	}
+	else if(GpLen == 6){
+ 1e6:	66 30       	cpi	r22, 0x06	; 6
+ 1e8:	91 f0       	breq	.+36     	; 0x20e <GpioReadGroup+0x56>
+		Mask = 0x3F;
+	}
+	else if(GpLen == 7){
+ 1ea:	67 30       	cpi	r22, 0x07	; 7
+ 1ec:	91 f0       	breq	.+36     	; 0x212 <GpioReadGroup+0x5a>
+		Mask = 0x7F;
+	}
+	else if(GpLen == 8){
+ 1ee:	81 e0       	ldi	r24, 0x01	; 1
+ 1f0:	68 30       	cpi	r22, 0x08	; 8
+ 1f2:	09 f0       	breq	.+2      	; 0x1f6 <GpioReadGroup+0x3e>
+ 1f4:	80 e0       	ldi	r24, 0x00	; 0
+ 1f6:	81 95       	neg	r24
+ 1f8:	0d c0       	rjmp	.+26     	; 0x214 <GpioReadGroup+0x5c>
+	uint8_t Mask=0;
+	uint8_t TempRes =  HwReadReg(Reg);
+	TempRes = TempRes >> GpFirstBit;
+	
+	if (GpLen == 1){
+		Mask = 0x01;
+ 1fa:	81 e0       	ldi	r24, 0x01	; 1
+ 1fc:	0b c0       	rjmp	.+22     	; 0x214 <GpioReadGroup+0x5c>
+	}
+	else if(GpLen == 2){
+		Mask = 0x03;
+ 1fe:	83 e0       	ldi	r24, 0x03	; 3
+ 200:	09 c0       	rjmp	.+18     	; 0x214 <GpioReadGroup+0x5c>
+	}
+	else if(GpLen == 3){
+		Mask = 0x07;
+ 202:	87 e0       	ldi	r24, 0x07	; 7
+ 204:	07 c0       	rjmp	.+14     	; 0x214 <GpioReadGroup+0x5c>
+	}
+	else if(GpLen == 4){
+		Mask = 0x0F;
+ 206:	8f e0       	ldi	r24, 0x0F	; 15
+ 208:	05 c0       	rjmp	.+10     	; 0x214 <GpioReadGroup+0x5c>
+	}
+	else if(GpLen == 5){
+		Mask = 0x1F;
+ 20a:	8f e1       	ldi	r24, 0x1F	; 31
+ 20c:	03 c0       	rjmp	.+6      	; 0x214 <GpioReadGroup+0x5c>
+	}
+	else if(GpLen == 6){
+		Mask = 0x3F;
+ 20e:	8f e3       	ldi	r24, 0x3F	; 63
+ 210:	01 c0       	rjmp	.+2      	; 0x214 <GpioReadGroup+0x5c>
+	}
+	else if(GpLen == 7){
+		Mask = 0x7F;
+ 212:	8f e7       	ldi	r24, 0x7F	; 127
+		Mask = 0xFF;
+	}
+	else{
+		//DoNothing
+	}
+	return ( TempRes & Mask);
+ 214:	82 23       	and	r24, r18
+		return (HwReadRegBitGroup(Base, Len, FirstBit));
+ 216:	08 95       	ret
+	}
+	else{
+		return GPIO_ERR_INV_PARAMS;
+ 218:	81 e0       	ldi	r24, 0x01	; 1
+	}
+}
+ 21a:	08 95       	ret
+
+0000021c <KeyPadStatesFlush>:
+        break;
+    }
+    
+}
+//is flush needed?
+void KeyPadStatesFlush(void){
+ 21c:	e7 ea       	ldi	r30, 0xA7	; 167
+ 21e:	f0 e0       	ldi	r31, 0x00	; 0
+ 220:	87 eb       	ldi	r24, 0xB7	; 183
+ 222:	90 e0       	ldi	r25, 0x00	; 0
+    uint8_t i,j;
+    for (i = 0; i < KEYPAD_NUMB_ROWS; i++){
+        for (j = 0; j < KEYPAD_NUMB_COLS; j++){
+            InternalMatrixStates[i][j] = KEY_RELEASED;
+ 224:	10 82       	st	Z, r1
+ 226:	11 82       	std	Z+1, r1	; 0x01
+ 228:	12 82       	std	Z+2, r1	; 0x02
+ 22a:	13 82       	std	Z+3, r1	; 0x03
+ 22c:	34 96       	adiw	r30, 0x04	; 4
+    
+}
+//is flush needed?
+void KeyPadStatesFlush(void){
+    uint8_t i,j;
+    for (i = 0; i < KEYPAD_NUMB_ROWS; i++){
+ 22e:	8e 17       	cp	r24, r30
+ 230:	9f 07       	cpc	r25, r31
+ 232:	c1 f7       	brne	.-16     	; 0x224 <KeyPadStatesFlush+0x8>
+        for (j = 0; j < KEYPAD_NUMB_COLS; j++){
+            InternalMatrixStates[i][j] = KEY_RELEASED;
+        }
+    }
+}
+ 234:	08 95       	ret
+
+00000236 <KeyPadStateUpdate>:
+        }
+        return MODULE_NOT_INITIALIZED;
+    }
+}    
+
+void KeyPadStateUpdate(uint8_t ix, uint8_t jx){
+ 236:	0f 93       	push	r16
+ 238:	1f 93       	push	r17
+ 23a:	cf 93       	push	r28
+ 23c:	df 93       	push	r29
+    static KeypadStateT OldState = KEY_PRE_RELEASED;
+    switch (InternalMatrixStates[ix][jx])
+ 23e:	c8 2f       	mov	r28, r24
+ 240:	d0 e0       	ldi	r29, 0x00	; 0
+ 242:	06 2f       	mov	r16, r22
+ 244:	10 e0       	ldi	r17, 0x00	; 0
+ 246:	fe 01       	movw	r30, r28
+ 248:	ee 0f       	add	r30, r30
+ 24a:	ff 1f       	adc	r31, r31
+ 24c:	ee 0f       	add	r30, r30
+ 24e:	ff 1f       	adc	r31, r31
+ 250:	e9 55       	subi	r30, 0x59	; 89
+ 252:	ff 4f       	sbci	r31, 0xFF	; 255
+ 254:	e0 0f       	add	r30, r16
+ 256:	f1 1f       	adc	r31, r17
+ 258:	80 81       	ld	r24, Z
+ 25a:	81 30       	cpi	r24, 0x01	; 1
+ 25c:	99 f0       	breq	.+38     	; 0x284 <KeyPadStateUpdate+0x4e>
+ 25e:	18 f0       	brcs	.+6      	; 0x266 <KeyPadStateUpdate+0x30>
+ 260:	82 30       	cpi	r24, 0x02	; 2
+ 262:	01 f1       	breq	.+64     	; 0x2a4 <KeyPadStateUpdate+0x6e>
+ 264:	4d c0       	rjmp	.+154    	; 0x300 <KeyPadStateUpdate+0xca>
+    {
+        case KEY_RELEASED:
+        /* Your code here */
+        KeyPadStatesFlush();
+ 266:	0e 94 0e 01 	call	0x21c	; 0x21c <KeyPadStatesFlush>
+        InternalMatrixStates[ix][jx] = KEY_PRE_PRESSED;
+ 26a:	cc 0f       	add	r28, r28
+ 26c:	dd 1f       	adc	r29, r29
+ 26e:	cc 0f       	add	r28, r28
+ 270:	dd 1f       	adc	r29, r29
+ 272:	c9 55       	subi	r28, 0x59	; 89
+ 274:	df 4f       	sbci	r29, 0xFF	; 255
+ 276:	c0 0f       	add	r28, r16
+ 278:	d1 1f       	adc	r29, r17
+ 27a:	81 e0       	ldi	r24, 0x01	; 1
+ 27c:	88 83       	st	Y, r24
+        OldState = KEY_RELEASED;
+ 27e:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
+        break;
+ 282:	3e c0       	rjmp	.+124    	; 0x300 <KeyPadStateUpdate+0xca>
+        case KEY_PRE_PRESSED:
+        /* Your code here */
+        KeyPadStatesFlush();
+ 284:	0e 94 0e 01 	call	0x21c	; 0x21c <KeyPadStatesFlush>
+        InternalMatrixStates[ix][jx] = KEY_PRESSED;
+ 288:	cc 0f       	add	r28, r28
+ 28a:	dd 1f       	adc	r29, r29
+ 28c:	cc 0f       	add	r28, r28
+ 28e:	dd 1f       	adc	r29, r29
+ 290:	c9 55       	subi	r28, 0x59	; 89
+ 292:	df 4f       	sbci	r29, 0xFF	; 255
+ 294:	c0 0f       	add	r28, r16
+ 296:	d1 1f       	adc	r29, r17
+ 298:	82 e0       	ldi	r24, 0x02	; 2
+ 29a:	88 83       	st	Y, r24
+        OldState = KEY_PRE_PRESSED;    
+ 29c:	81 e0       	ldi	r24, 0x01	; 1
+ 29e:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+        break;
+ 2a2:	2e c0       	rjmp	.+92     	; 0x300 <KeyPadStateUpdate+0xca>
+        case KEY_PRESSED:
+        /* Your code here */
+        KeyPadStatesFlush();
+ 2a4:	0e 94 0e 01 	call	0x21c	; 0x21c <KeyPadStatesFlush>
+        InternalMatrixStates[ix][jx] = KEY_PRESSED;
+ 2a8:	fe 01       	movw	r30, r28
+ 2aa:	ee 0f       	add	r30, r30
+ 2ac:	ff 1f       	adc	r31, r31
+ 2ae:	ee 0f       	add	r30, r30
+ 2b0:	ff 1f       	adc	r31, r31
+ 2b2:	e9 55       	subi	r30, 0x59	; 89
+ 2b4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2b6:	e0 0f       	add	r30, r16
+ 2b8:	f1 1f       	adc	r31, r17
+ 2ba:	82 e0       	ldi	r24, 0x02	; 2
+ 2bc:	80 83       	st	Z, r24
+        if (OldState != KEY_PRESSED){
+ 2be:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 2c2:	82 30       	cpi	r24, 0x02	; 2
+ 2c4:	d1 f0       	breq	.+52     	; 0x2fa <KeyPadStateUpdate+0xc4>
+            InternalPressedKeyBuffer[PressedKeyBufferIn] = InternalMatrixCodes[ix][jx];
+ 2c6:	cc 0f       	add	r28, r28
+ 2c8:	dd 1f       	adc	r29, r29
+ 2ca:	cc 0f       	add	r28, r28
+ 2cc:	dd 1f       	adc	r29, r29
+ 2ce:	cf 57       	subi	r28, 0x7F	; 127
+ 2d0:	df 4f       	sbci	r29, 0xFF	; 255
+ 2d2:	c0 0f       	add	r28, r16
+ 2d4:	d1 1f       	adc	r29, r17
+ 2d6:	88 81       	ld	r24, Y
+ 2d8:	e0 91 b8 00 	lds	r30, 0x00B8	; 0x8000b8 <PressedKeyBufferIn>
+ 2dc:	f0 e0       	ldi	r31, 0x00	; 0
+ 2de:	ef 59       	subi	r30, 0x9F	; 159
+ 2e0:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2e2:	80 83       	st	Z, r24
+            PORTD = InternalMatrixCodes[ix][jx];
+ 2e4:	82 bb       	out	0x12, r24	; 18
+            PressedKeyBufferIn++;
+ 2e6:	80 91 b8 00 	lds	r24, 0x00B8	; 0x8000b8 <PressedKeyBufferIn>
+ 2ea:	8f 5f       	subi	r24, 0xFF	; 255
+            if (PressedKeyBufferIn == MAX_BUFFER_LENGTH){
+ 2ec:	80 32       	cpi	r24, 0x20	; 32
+ 2ee:	19 f0       	breq	.+6      	; 0x2f6 <KeyPadStateUpdate+0xc0>
+        KeyPadStatesFlush();
+        InternalMatrixStates[ix][jx] = KEY_PRESSED;
+        if (OldState != KEY_PRESSED){
+            InternalPressedKeyBuffer[PressedKeyBufferIn] = InternalMatrixCodes[ix][jx];
+            PORTD = InternalMatrixCodes[ix][jx];
+            PressedKeyBufferIn++;
+ 2f0:	80 93 b8 00 	sts	0x00B8, r24	; 0x8000b8 <PressedKeyBufferIn>
+ 2f4:	02 c0       	rjmp	.+4      	; 0x2fa <KeyPadStateUpdate+0xc4>
+            if (PressedKeyBufferIn == MAX_BUFFER_LENGTH){
+                PressedKeyBufferIn = 0;
+ 2f6:	10 92 b8 00 	sts	0x00B8, r1	; 0x8000b8 <PressedKeyBufferIn>
+            }
+        }
+        OldState = KEY_PRESSED;
+ 2fa:	82 e0       	ldi	r24, 0x02	; 2
+ 2fc:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+        default:
+        /* Your code here */
+        break;
+    }
+    
+}
+ 300:	df 91       	pop	r29
+ 302:	cf 91       	pop	r28
+ 304:	1f 91       	pop	r17
+ 306:	0f 91       	pop	r16
+ 308:	08 95       	ret
+
+0000030a <KeypadUpdate>:
+	SysTimer.Mode = CTC_OP_MODE;
+	SysTimer.TcntVal = 0x00;
+	TimerInit(&SysTimer);
+}
+//task or isr -- periodic task
+void KeypadUpdate(void){
+ 30a:	0f 93       	push	r16
+ 30c:	1f 93       	push	r17
+ 30e:	cf 93       	push	r28
+ 310:	df 93       	push	r29
+	//check it's period come
+	//take new sample for the keypad
+	//change the states of the keypad
+	for (int i = 1; i <= 8; i = i<<1){
+ 312:	c1 e0       	ldi	r28, 0x01	; 1
+ 314:	d0 e0       	ldi	r29, 0x00	; 0
+		GpioWriteGroup(SysKeypad.RowsPort,i,KEYPAD_NUMB_ROWS,SysKeypad.RowsPosition);
+ 316:	04 e9       	ldi	r16, 0x94	; 148
+ 318:	10 e0       	ldi	r17, 0x00	; 0
+ 31a:	f8 01       	movw	r30, r16
+ 31c:	23 81       	ldd	r18, Z+3	; 0x03
+ 31e:	44 e0       	ldi	r20, 0x04	; 4
+ 320:	6c 2f       	mov	r22, r28
+ 322:	82 81       	ldd	r24, Z+2	; 0x02
+ 324:	0e 94 9d 00 	call	0x13a	; 0x13a <GpioWriteGroup>
+		//uint8_t TempRead = GpioReadPort(SysKeypad.ColsPort);
+        //TempRead = (TempRead & 0xf0) >> SysKeypad.ColsPosition;
+        uint8_t TempRead = GpioReadGroup(SysKeypad.ColsPort,KEYPAD_NUMB_COLS,SysKeypad.ColsPosition); //& 0x0f;
+ 328:	f8 01       	movw	r30, r16
+ 32a:	41 81       	ldd	r20, Z+1	; 0x01
+ 32c:	64 e0       	ldi	r22, 0x04	; 4
+ 32e:	80 81       	ld	r24, Z
+ 330:	0e 94 dc 00 	call	0x1b8	; 0x1b8 <GpioReadGroup>
+        //PORTA = TempRead;//testing
+		//think the error is here
+		if (i == 1){
+ 334:	c1 30       	cpi	r28, 0x01	; 1
+ 336:	d1 05       	cpc	r29, r1
+ 338:	19 f5       	brne	.+70     	; 0x380 <KeypadUpdate+0x76>
+			switch(TempRead){
+ 33a:	82 30       	cpi	r24, 0x02	; 2
+ 33c:	91 f0       	breq	.+36     	; 0x362 <KeypadUpdate+0x58>
+ 33e:	18 f4       	brcc	.+6      	; 0x346 <KeypadUpdate+0x3c>
+ 340:	81 30       	cpi	r24, 0x01	; 1
+ 342:	31 f0       	breq	.+12     	; 0x350 <KeypadUpdate+0x46>
+ 344:	7f c0       	rjmp	.+254    	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+ 346:	84 30       	cpi	r24, 0x04	; 4
+ 348:	89 f0       	breq	.+34     	; 0x36c <KeypadUpdate+0x62>
+ 34a:	88 30       	cpi	r24, 0x08	; 8
+ 34c:	a1 f0       	breq	.+40     	; 0x376 <KeypadUpdate+0x6c>
+ 34e:	7a c0       	rjmp	.+244    	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+				case 1:
+                PORTD ^= 1;
+ 350:	92 b3       	in	r25, 0x12	; 18
+ 352:	81 e0       	ldi	r24, 0x01	; 1
+ 354:	89 27       	eor	r24, r25
+ 356:	82 bb       	out	0x12, r24	; 18
+				KeyPadStateUpdate(1,1);
+ 358:	61 e0       	ldi	r22, 0x01	; 1
+ 35a:	81 e0       	ldi	r24, 0x01	; 1
+ 35c:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 360:	78 c0       	rjmp	.+240    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 2:
+				KeyPadStateUpdate(1,2);
+ 362:	62 e0       	ldi	r22, 0x02	; 2
+ 364:	81 e0       	ldi	r24, 0x01	; 1
+ 366:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 36a:	73 c0       	rjmp	.+230    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 4:
+				KeyPadStateUpdate(1,3);
+ 36c:	63 e0       	ldi	r22, 0x03	; 3
+ 36e:	81 e0       	ldi	r24, 0x01	; 1
+ 370:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 374:	6e c0       	rjmp	.+220    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 8:
+				KeyPadStateUpdate(1,4);
+ 376:	64 e0       	ldi	r22, 0x04	; 4
+ 378:	81 e0       	ldi	r24, 0x01	; 1
+ 37a:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 37e:	69 c0       	rjmp	.+210    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+			}
+		}
+		else if(i == 2){
+ 380:	c2 30       	cpi	r28, 0x02	; 2
+ 382:	d1 05       	cpc	r29, r1
+ 384:	f9 f4       	brne	.+62     	; 0x3c4 <KeypadUpdate+0xba>
+			switch(TempRead){
+ 386:	82 30       	cpi	r24, 0x02	; 2
+ 388:	71 f0       	breq	.+28     	; 0x3a6 <KeypadUpdate+0x9c>
+ 38a:	18 f4       	brcc	.+6      	; 0x392 <KeypadUpdate+0x88>
+ 38c:	81 30       	cpi	r24, 0x01	; 1
+ 38e:	31 f0       	breq	.+12     	; 0x39c <KeypadUpdate+0x92>
+ 390:	59 c0       	rjmp	.+178    	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+ 392:	84 30       	cpi	r24, 0x04	; 4
+ 394:	69 f0       	breq	.+26     	; 0x3b0 <KeypadUpdate+0xa6>
+ 396:	88 30       	cpi	r24, 0x08	; 8
+ 398:	81 f0       	breq	.+32     	; 0x3ba <KeypadUpdate+0xb0>
+ 39a:	54 c0       	rjmp	.+168    	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+				case 1:
+				KeyPadStateUpdate(2,1);
+ 39c:	61 e0       	ldi	r22, 0x01	; 1
+ 39e:	82 e0       	ldi	r24, 0x02	; 2
+ 3a0:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 3a4:	56 c0       	rjmp	.+172    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 2:
+				KeyPadStateUpdate(2,2);
+ 3a6:	62 e0       	ldi	r22, 0x02	; 2
+ 3a8:	82 e0       	ldi	r24, 0x02	; 2
+ 3aa:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 3ae:	51 c0       	rjmp	.+162    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 4:
+				KeyPadStateUpdate(2,3);
+ 3b0:	63 e0       	ldi	r22, 0x03	; 3
+ 3b2:	82 e0       	ldi	r24, 0x02	; 2
+ 3b4:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 3b8:	4c c0       	rjmp	.+152    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 8:
+				KeyPadStateUpdate(2,4);
+ 3ba:	64 e0       	ldi	r22, 0x04	; 4
+ 3bc:	82 e0       	ldi	r24, 0x02	; 2
+ 3be:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 3c2:	47 c0       	rjmp	.+142    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+			}
+			
+		}
+		else if(i == 4){
+ 3c4:	c4 30       	cpi	r28, 0x04	; 4
+ 3c6:	d1 05       	cpc	r29, r1
+ 3c8:	f9 f4       	brne	.+62     	; 0x408 <__LOCK_REGION_LENGTH__+0x8>
+			switch(TempRead){
+ 3ca:	82 30       	cpi	r24, 0x02	; 2
+ 3cc:	71 f0       	breq	.+28     	; 0x3ea <KeypadUpdate+0xe0>
+ 3ce:	18 f4       	brcc	.+6      	; 0x3d6 <KeypadUpdate+0xcc>
+ 3d0:	81 30       	cpi	r24, 0x01	; 1
+ 3d2:	31 f0       	breq	.+12     	; 0x3e0 <KeypadUpdate+0xd6>
+ 3d4:	37 c0       	rjmp	.+110    	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+ 3d6:	84 30       	cpi	r24, 0x04	; 4
+ 3d8:	69 f0       	breq	.+26     	; 0x3f4 <KeypadUpdate+0xea>
+ 3da:	88 30       	cpi	r24, 0x08	; 8
+ 3dc:	81 f0       	breq	.+32     	; 0x3fe <KeypadUpdate+0xf4>
+ 3de:	32 c0       	rjmp	.+100    	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+				case 1:
+				KeyPadStateUpdate(3,1);
+ 3e0:	61 e0       	ldi	r22, 0x01	; 1
+ 3e2:	83 e0       	ldi	r24, 0x03	; 3
+ 3e4:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 3e8:	34 c0       	rjmp	.+104    	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 2:
+				KeyPadStateUpdate(3,2);
+ 3ea:	62 e0       	ldi	r22, 0x02	; 2
+ 3ec:	83 e0       	ldi	r24, 0x03	; 3
+ 3ee:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 3f2:	2f c0       	rjmp	.+94     	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 4:
+				KeyPadStateUpdate(3,3);
+ 3f4:	63 e0       	ldi	r22, 0x03	; 3
+ 3f6:	83 e0       	ldi	r24, 0x03	; 3
+ 3f8:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 3fc:	2a c0       	rjmp	.+84     	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+				case 8:
+				KeyPadStateUpdate(3,4);
+ 3fe:	64 e0       	ldi	r22, 0x04	; 4
+ 400:	83 e0       	ldi	r24, 0x03	; 3
+ 402:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 406:	25 c0       	rjmp	.+74     	; 0x452 <__LOCK_REGION_LENGTH__+0x52>
+			}
+			
+		}
+		else{
+			switch(TempRead){
+ 408:	82 30       	cpi	r24, 0x02	; 2
+ 40a:	71 f0       	breq	.+28     	; 0x428 <__LOCK_REGION_LENGTH__+0x28>
+ 40c:	18 f4       	brcc	.+6      	; 0x414 <__LOCK_REGION_LENGTH__+0x14>
+ 40e:	81 30       	cpi	r24, 0x01	; 1
+ 410:	31 f0       	breq	.+12     	; 0x41e <__LOCK_REGION_LENGTH__+0x1e>
+ 412:	18 c0       	rjmp	.+48     	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+ 414:	84 30       	cpi	r24, 0x04	; 4
+ 416:	69 f0       	breq	.+26     	; 0x432 <__LOCK_REGION_LENGTH__+0x32>
+ 418:	88 30       	cpi	r24, 0x08	; 8
+ 41a:	81 f0       	breq	.+32     	; 0x43c <__LOCK_REGION_LENGTH__+0x3c>
+ 41c:	13 c0       	rjmp	.+38     	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+				case 1:
+				KeyPadStateUpdate(4,1);
+ 41e:	61 e0       	ldi	r22, 0x01	; 1
+ 420:	84 e0       	ldi	r24, 0x04	; 4
+ 422:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 426:	0e c0       	rjmp	.+28     	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+				case 2:
+				KeyPadStateUpdate(4,2);
+ 428:	62 e0       	ldi	r22, 0x02	; 2
+ 42a:	84 e0       	ldi	r24, 0x04	; 4
+ 42c:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 430:	09 c0       	rjmp	.+18     	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+				case 4:
+				KeyPadStateUpdate(4,3);
+ 432:	63 e0       	ldi	r22, 0x03	; 3
+ 434:	84 e0       	ldi	r24, 0x04	; 4
+ 436:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+				break;
+ 43a:	04 c0       	rjmp	.+8      	; 0x444 <__LOCK_REGION_LENGTH__+0x44>
+				case 8:
+				KeyPadStateUpdate(4,4);
+ 43c:	64 e0       	ldi	r22, 0x04	; 4
+ 43e:	84 e0       	ldi	r24, 0x04	; 4
+ 440:	0e 94 1b 01 	call	0x236	; 0x236 <KeyPadStateUpdate>
+//task or isr -- periodic task
+void KeypadUpdate(void){
+	//check it's period come
+	//take new sample for the keypad
+	//change the states of the keypad
+	for (int i = 1; i <= 8; i = i<<1){
+ 444:	cc 0f       	add	r28, r28
+ 446:	dd 1f       	adc	r29, r29
+ 448:	c9 30       	cpi	r28, 0x09	; 9
+ 44a:	d1 05       	cpc	r29, r1
+ 44c:	0c f4       	brge	.+2      	; 0x450 <__LOCK_REGION_LENGTH__+0x50>
+ 44e:	65 cf       	rjmp	.-310    	; 0x31a <KeypadUpdate+0x10>
+ 450:	03 c0       	rjmp	.+6      	; 0x458 <__LOCK_REGION_LENGTH__+0x58>
+ 452:	cc 0f       	add	r28, r28
+ 454:	dd 1f       	adc	r29, r29
+ 456:	61 cf       	rjmp	.-318    	; 0x31a <KeypadUpdate+0x10>
+				break;
+			}
+		}
+	}
+	
+}
+ 458:	df 91       	pop	r29
+ 45a:	cf 91       	pop	r28
+ 45c:	1f 91       	pop	r17
+ 45e:	0f 91       	pop	r16
+ 460:	08 95       	ret
+
+00000462 <KeypadInit>:
+																		
+static KeypadStateT InternalMatrixStates[KEYPAD_NUMB_ROWS][KEYPAD_NUMB_COLS] = {KEY_RELEASED};
+static TimerT SysTimer;
+static KeypadT SysKeypad;
+//initialization
+void KeypadInit(KeypadT* Keypad){
+ 462:	1f 93       	push	r17
+ 464:	cf 93       	push	r28
+ 466:	df 93       	push	r29
+ 468:	ec 01       	movw	r28, r24
+	//initialize the rows as out
+	//initialize the cols as input
+	//GpioInitPort(Keypad->RowsPort,0x0f);
+	for (uint8_t i = 0; i < KEYPAD_NUMB_ROWS; i++){
+ 46a:	10 e0       	ldi	r17, 0x00	; 0
+		GpioInitPin(Keypad->RowsPort, Keypad->RowsPosition + i, PIN_OUT);
+ 46c:	6b 81       	ldd	r22, Y+3	; 0x03
+ 46e:	61 0f       	add	r22, r17
+ 470:	41 e0       	ldi	r20, 0x01	; 1
+ 472:	8a 81       	ldd	r24, Y+2	; 0x02
+ 474:	0e 94 72 00 	call	0xe4	; 0xe4 <GpioInitPin>
+//initialization
+void KeypadInit(KeypadT* Keypad){
+	//initialize the rows as out
+	//initialize the cols as input
+	//GpioInitPort(Keypad->RowsPort,0x0f);
+	for (uint8_t i = 0; i < KEYPAD_NUMB_ROWS; i++){
+ 478:	1f 5f       	subi	r17, 0xFF	; 255
+ 47a:	14 30       	cpi	r17, 0x04	; 4
+ 47c:	b9 f7       	brne	.-18     	; 0x46c <KeypadInit+0xa>
+ 47e:	10 e0       	ldi	r17, 0x00	; 0
+		GpioInitPin(Keypad->RowsPort, Keypad->RowsPosition + i, PIN_OUT);
+    }
+    for (uint8_t i = 0; i < KEYPAD_NUMB_COLS; i++){
+	    GpioInitPin(Keypad->ColsPort, Keypad->ColsPosition + i, PIN_IN);
+ 480:	69 81       	ldd	r22, Y+1	; 0x01
+ 482:	61 0f       	add	r22, r17
+ 484:	40 e0       	ldi	r20, 0x00	; 0
+ 486:	88 81       	ld	r24, Y
+ 488:	0e 94 72 00 	call	0xe4	; 0xe4 <GpioInitPin>
+	//initialize the cols as input
+	//GpioInitPort(Keypad->RowsPort,0x0f);
+	for (uint8_t i = 0; i < KEYPAD_NUMB_ROWS; i++){
+		GpioInitPin(Keypad->RowsPort, Keypad->RowsPosition + i, PIN_OUT);
+    }
+    for (uint8_t i = 0; i < KEYPAD_NUMB_COLS; i++){
+ 48c:	1f 5f       	subi	r17, 0xFF	; 255
+ 48e:	14 30       	cpi	r17, 0x04	; 4
+ 490:	b9 f7       	brne	.-18     	; 0x480 <KeypadInit+0x1e>
+	    GpioInitPin(Keypad->ColsPort, Keypad->ColsPosition + i, PIN_IN);
+    }
+    //store the keypad info into the internal variable
+    SysKeypad = *Keypad;
+ 492:	85 e0       	ldi	r24, 0x05	; 5
+ 494:	fe 01       	movw	r30, r28
+ 496:	a4 e9       	ldi	r26, 0x94	; 148
+ 498:	b0 e0       	ldi	r27, 0x00	; 0
+ 49a:	01 90       	ld	r0, Z+
+ 49c:	0d 92       	st	X+, r0
+ 49e:	8a 95       	dec	r24
+ 4a0:	e1 f7       	brne	.-8      	; 0x49a <KeypadInit+0x38>
+	  /*SREG_I_bit = 1;
+	    OCR0 = 155;
+	    TCCR0 = 0x28;
+	    TCCR0 |= 0x05;
+	    OCIE0_bit = 1;*/
+	SysTimer.Base = TIMER_0;
+ 4a2:	e9 e9       	ldi	r30, 0x99	; 153
+ 4a4:	f0 e0       	ldi	r31, 0x00	; 0
+ 4a6:	83 e5       	ldi	r24, 0x53	; 83
+ 4a8:	80 83       	st	Z, r24
+	SysTimer.Clk  = CLK_PRESCALER_8;
+ 4aa:	82 e0       	ldi	r24, 0x02	; 2
+ 4ac:	82 83       	std	Z+2, r24	; 0x02
+	SysTimer.OcCallBkFunc = KeypadUpdate;
+ 4ae:	25 e8       	ldi	r18, 0x85	; 133
+ 4b0:	31 e0       	ldi	r19, 0x01	; 1
+ 4b2:	35 87       	std	Z+13, r19	; 0x0d
+ 4b4:	24 87       	std	Z+12, r18	; 0x0c
+	SysTimer.OcrVal = 100;
+ 4b6:	24 e6       	ldi	r18, 0x64	; 100
+ 4b8:	30 e0       	ldi	r19, 0x00	; 0
+ 4ba:	30 87       	std	Z+8, r19	; 0x08
+ 4bc:	27 83       	std	Z+7, r18	; 0x07
+	SysTimer.CompMatchMode  = OC_CLEAR;
+ 4be:	84 83       	std	Z+4, r24	; 0x04
+	SysTimer.Int = INT_OC;
+ 4c0:	81 83       	std	Z+1, r24	; 0x01
+	SysTimer.Mode = CTC_OP_MODE;
+ 4c2:	83 83       	std	Z+3, r24	; 0x03
+	SysTimer.TcntVal = 0x00;
+ 4c4:	16 82       	std	Z+6, r1	; 0x06
+ 4c6:	15 82       	std	Z+5, r1	; 0x05
+	TimerInit(&SysTimer);
+ 4c8:	cf 01       	movw	r24, r30
+ 4ca:	0e 94 ad 02 	call	0x55a	; 0x55a <TimerInit>
+}
+ 4ce:	df 91       	pop	r29
+ 4d0:	cf 91       	pop	r28
+ 4d2:	1f 91       	pop	r17
+ 4d4:	08 95       	ret
+
+000004d6 <KeypadGetKey>:
+	}
+	
+}
+//function
+uint8_t KeypadGetKey(KeypadT* Keypad){
+    if (Keypad == NULL){
+ 4d6:	00 97       	sbiw	r24, 0x00	; 0
+ 4d8:	a9 f0       	breq	.+42     	; 0x504 <KeypadGetKey+0x2e>
+        return MODULE_NOT_INITIALIZED;
+    }
+    if (Keypad->InitState == MODULE_INITIALIZED){
+ 4da:	fc 01       	movw	r30, r24
+ 4dc:	84 81       	ldd	r24, Z+4	; 0x04
+ 4de:	81 30       	cpi	r24, 0x01	; 1
+ 4e0:	81 f4       	brne	.+32     	; 0x502 <KeypadGetKey+0x2c>
+	        //return key state or key pressed
+            uint8_t temp = InternalPressedKeyBuffer[PressedKeyBufferOut];
+ 4e2:	e0 91 b7 00 	lds	r30, 0x00B7	; 0x8000b7 <PressedKeyBufferOut>
+            PressedKeyBufferOut++;
+ 4e6:	8e 0f       	add	r24, r30
+            if (PressedKeyBufferOut == MAX_BUFFER_LENGTH){
+ 4e8:	80 32       	cpi	r24, 0x20	; 32
+ 4ea:	21 f0       	breq	.+8      	; 0x4f4 <KeypadGetKey+0x1e>
+        return MODULE_NOT_INITIALIZED;
+    }
+    if (Keypad->InitState == MODULE_INITIALIZED){
+	        //return key state or key pressed
+            uint8_t temp = InternalPressedKeyBuffer[PressedKeyBufferOut];
+            PressedKeyBufferOut++;
+ 4ec:	80 93 b7 00 	sts	0x00B7, r24	; 0x8000b7 <PressedKeyBufferOut>
+            if (PressedKeyBufferOut == MAX_BUFFER_LENGTH){
+                PressedKeyBufferOut = 0;
+            return temp;
+        }
+        return MODULE_NOT_INITIALIZED;
+ 4f0:	80 e0       	ldi	r24, 0x00	; 0
+ 4f2:	08 95       	ret
+    if (Keypad == NULL){
+        return MODULE_NOT_INITIALIZED;
+    }
+    if (Keypad->InitState == MODULE_INITIALIZED){
+	        //return key state or key pressed
+            uint8_t temp = InternalPressedKeyBuffer[PressedKeyBufferOut];
+ 4f4:	f0 e0       	ldi	r31, 0x00	; 0
+ 4f6:	ef 59       	subi	r30, 0x9F	; 159
+ 4f8:	ff 4f       	sbci	r31, 0xFF	; 255
+ 4fa:	80 81       	ld	r24, Z
+            PressedKeyBufferOut++;
+            if (PressedKeyBufferOut == MAX_BUFFER_LENGTH){
+                PressedKeyBufferOut = 0;
+ 4fc:	10 92 b7 00 	sts	0x00B7, r1	; 0x8000b7 <PressedKeyBufferOut>
+            return temp;
+ 500:	08 95       	ret
+        }
+        return MODULE_NOT_INITIALIZED;
+    }
+}    
+ 502:	08 95       	ret
+	
+}
+//function
+uint8_t KeypadGetKey(KeypadT* Keypad){
+    if (Keypad == NULL){
+        return MODULE_NOT_INITIALIZED;
+ 504:	80 e0       	ldi	r24, 0x00	; 0
+                PressedKeyBufferOut = 0;
+            return temp;
+        }
+        return MODULE_NOT_INITIALIZED;
+    }
+}    
+ 506:	08 95       	ret
+
+00000508 <__vector_12>:
+	
+	
+}
+
+ISR(SPI_STC_vect)
+{
+ 508:	1f 92       	push	r1
+ 50a:	0f 92       	push	r0
+ 50c:	0f b6       	in	r0, 0x3f	; 63
+ 50e:	0f 92       	push	r0
+ 510:	11 24       	eor	r1, r1
+ 512:	2f 93       	push	r18
+ 514:	3f 93       	push	r19
+ 516:	4f 93       	push	r20
+ 518:	5f 93       	push	r21
+ 51a:	6f 93       	push	r22
+ 51c:	7f 93       	push	r23
+ 51e:	8f 93       	push	r24
+ 520:	9f 93       	push	r25
+ 522:	af 93       	push	r26
+ 524:	bf 93       	push	r27
+ 526:	ef 93       	push	r30
+ 528:	ff 93       	push	r31
+	if (SpiHandler)
+ 52a:	e0 91 b9 00 	lds	r30, 0x00B9	; 0x8000b9 <SpiHandler>
+ 52e:	f0 91 ba 00 	lds	r31, 0x00BA	; 0x8000ba <SpiHandler+0x1>
+ 532:	30 97       	sbiw	r30, 0x00	; 0
+ 534:	09 f0       	breq	.+2      	; 0x538 <__vector_12+0x30>
+	{
+		(void)(*SpiHandler)();
+ 536:	09 95       	icall
+	}
+ 538:	ff 91       	pop	r31
+ 53a:	ef 91       	pop	r30
+ 53c:	bf 91       	pop	r27
+ 53e:	af 91       	pop	r26
+ 540:	9f 91       	pop	r25
+ 542:	8f 91       	pop	r24
+ 544:	7f 91       	pop	r23
+ 546:	6f 91       	pop	r22
+ 548:	5f 91       	pop	r21
+ 54a:	4f 91       	pop	r20
+ 54c:	3f 91       	pop	r19
+ 54e:	2f 91       	pop	r18
+ 550:	0f 90       	pop	r0
+ 552:	0f be       	out	0x3f, r0	; 63
+ 554:	0f 90       	pop	r0
+ 556:	1f 90       	pop	r1
+ 558:	18 95       	reti
+
+0000055a <TimerInit>:
+		if (Timer->Int != INT_NO)
+		{
+			cli();
+		}
+	}
+}
+ 55a:	fc 01       	movw	r30, r24
+ 55c:	89 2b       	or	r24, r25
+ 55e:	09 f4       	brne	.+2      	; 0x562 <TimerInit+0x8>
+ 560:	be c0       	rjmp	.+380    	; 0x6de <TimerInit+0x184>
+ 562:	80 81       	ld	r24, Z
+ 564:	83 35       	cpi	r24, 0x53	; 83
+ 566:	09 f0       	breq	.+2      	; 0x56a <TimerInit+0x10>
+ 568:	5a c0       	rjmp	.+180    	; 0x61e <TimerInit+0xc4>
+ 56a:	85 81       	ldd	r24, Z+5	; 0x05
+ 56c:	82 bf       	out	0x32, r24	; 50
+ 56e:	87 81       	ldd	r24, Z+7	; 0x07
+ 570:	8c bf       	out	0x3c, r24	; 60
+ 572:	83 81       	ldd	r24, Z+3	; 0x03
+ 574:	82 30       	cpi	r24, 0x02	; 2
+ 576:	19 f4       	brne	.+6      	; 0x57e <TimerInit+0x24>
+ 578:	83 b7       	in	r24, 0x33	; 51
+ 57a:	88 60       	ori	r24, 0x08	; 8
+ 57c:	83 bf       	out	0x33, r24	; 51
+ 57e:	81 81       	ldd	r24, Z+1	; 0x01
+ 580:	81 30       	cpi	r24, 0x01	; 1
+ 582:	51 f4       	brne	.+20     	; 0x598 <TimerInit+0x3e>
+ 584:	89 b7       	in	r24, 0x39	; 57
+ 586:	81 60       	ori	r24, 0x01	; 1
+ 588:	89 bf       	out	0x39, r24	; 57
+ 58a:	82 85       	ldd	r24, Z+10	; 0x0a
+ 58c:	93 85       	ldd	r25, Z+11	; 0x0b
+ 58e:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <T0_OV_CB+0x1>
+ 592:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <T0_OV_CB>
+ 596:	20 c0       	rjmp	.+64     	; 0x5d8 <TimerInit+0x7e>
+ 598:	82 30       	cpi	r24, 0x02	; 2
+ 59a:	51 f4       	brne	.+20     	; 0x5b0 <TimerInit+0x56>
+ 59c:	89 b7       	in	r24, 0x39	; 57
+ 59e:	82 60       	ori	r24, 0x02	; 2
+ 5a0:	89 bf       	out	0x39, r24	; 57
+ 5a2:	84 85       	ldd	r24, Z+12	; 0x0c
+ 5a4:	95 85       	ldd	r25, Z+13	; 0x0d
+ 5a6:	90 93 c0 00 	sts	0x00C0, r25	; 0x8000c0 <T0_OC_CB+0x1>
+ 5aa:	80 93 bf 00 	sts	0x00BF, r24	; 0x8000bf <T0_OC_CB>
+ 5ae:	14 c0       	rjmp	.+40     	; 0x5d8 <TimerInit+0x7e>
+ 5b0:	83 30       	cpi	r24, 0x03	; 3
+ 5b2:	91 f4       	brne	.+36     	; 0x5d8 <TimerInit+0x7e>
+ 5b4:	89 b7       	in	r24, 0x39	; 57
+ 5b6:	81 60       	ori	r24, 0x01	; 1
+ 5b8:	89 bf       	out	0x39, r24	; 57
+ 5ba:	89 b7       	in	r24, 0x39	; 57
+ 5bc:	82 60       	ori	r24, 0x02	; 2
+ 5be:	89 bf       	out	0x39, r24	; 57
+ 5c0:	82 85       	ldd	r24, Z+10	; 0x0a
+ 5c2:	93 85       	ldd	r25, Z+11	; 0x0b
+ 5c4:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <T0_OV_CB+0x1>
+ 5c8:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <T0_OV_CB>
+ 5cc:	84 85       	ldd	r24, Z+12	; 0x0c
+ 5ce:	95 85       	ldd	r25, Z+13	; 0x0d
+ 5d0:	90 93 c0 00 	sts	0x00C0, r25	; 0x8000c0 <T0_OC_CB+0x1>
+ 5d4:	80 93 bf 00 	sts	0x00BF, r24	; 0x8000bf <T0_OC_CB>
+ 5d8:	81 81       	ldd	r24, Z+1	; 0x01
+ 5da:	88 23       	and	r24, r24
+ 5dc:	09 f0       	breq	.+2      	; 0x5e0 <TimerInit+0x86>
+ 5de:	78 94       	sei
+ 5e0:	84 81       	ldd	r24, Z+4	; 0x04
+ 5e2:	81 30       	cpi	r24, 0x01	; 1
+ 5e4:	31 f4       	brne	.+12     	; 0x5f2 <TimerInit+0x98>
+ 5e6:	a0 81       	ld	r26, Z
+ 5e8:	b0 e0       	ldi	r27, 0x00	; 0
+ 5ea:	8c 91       	ld	r24, X
+ 5ec:	80 61       	ori	r24, 0x10	; 16
+ 5ee:	8c 93       	st	X, r24
+ 5f0:	6d c0       	rjmp	.+218    	; 0x6cc <TimerInit+0x172>
+ 5f2:	82 30       	cpi	r24, 0x02	; 2
+ 5f4:	31 f4       	brne	.+12     	; 0x602 <TimerInit+0xa8>
+ 5f6:	a0 81       	ld	r26, Z
+ 5f8:	b0 e0       	ldi	r27, 0x00	; 0
+ 5fa:	8c 91       	ld	r24, X
+ 5fc:	80 62       	ori	r24, 0x20	; 32
+ 5fe:	8c 93       	st	X, r24
+ 600:	65 c0       	rjmp	.+202    	; 0x6cc <TimerInit+0x172>
+ 602:	83 30       	cpi	r24, 0x03	; 3
+ 604:	09 f0       	breq	.+2      	; 0x608 <TimerInit+0xae>
+ 606:	62 c0       	rjmp	.+196    	; 0x6cc <TimerInit+0x172>
+ 608:	a0 81       	ld	r26, Z
+ 60a:	b0 e0       	ldi	r27, 0x00	; 0
+ 60c:	8c 91       	ld	r24, X
+ 60e:	80 61       	ori	r24, 0x10	; 16
+ 610:	8c 93       	st	X, r24
+ 612:	a0 81       	ld	r26, Z
+ 614:	b0 e0       	ldi	r27, 0x00	; 0
+ 616:	8c 91       	ld	r24, X
+ 618:	80 62       	ori	r24, 0x20	; 32
+ 61a:	8c 93       	st	X, r24
+ 61c:	57 c0       	rjmp	.+174    	; 0x6cc <TimerInit+0x172>
+ 61e:	85 34       	cpi	r24, 0x45	; 69
+ 620:	09 f0       	breq	.+2      	; 0x624 <TimerInit+0xca>
+ 622:	5f c0       	rjmp	.+190    	; 0x6e2 <TimerInit+0x188>
+ 624:	85 81       	ldd	r24, Z+5	; 0x05
+ 626:	84 bd       	out	0x24, r24	; 36
+ 628:	87 81       	ldd	r24, Z+7	; 0x07
+ 62a:	83 bd       	out	0x23, r24	; 35
+ 62c:	83 81       	ldd	r24, Z+3	; 0x03
+ 62e:	82 30       	cpi	r24, 0x02	; 2
+ 630:	19 f4       	brne	.+6      	; 0x638 <TimerInit+0xde>
+ 632:	85 b5       	in	r24, 0x25	; 37
+ 634:	88 60       	ori	r24, 0x08	; 8
+ 636:	85 bd       	out	0x25, r24	; 37
+ 638:	81 81       	ldd	r24, Z+1	; 0x01
+ 63a:	81 30       	cpi	r24, 0x01	; 1
+ 63c:	51 f4       	brne	.+20     	; 0x652 <TimerInit+0xf8>
+ 63e:	89 b7       	in	r24, 0x39	; 57
+ 640:	80 64       	ori	r24, 0x40	; 64
+ 642:	89 bf       	out	0x39, r24	; 57
+ 644:	82 85       	ldd	r24, Z+10	; 0x0a
+ 646:	93 85       	ldd	r25, Z+11	; 0x0b
+ 648:	90 93 be 00 	sts	0x00BE, r25	; 0x8000be <T2_OV_CB+0x1>
+ 64c:	80 93 bd 00 	sts	0x00BD, r24	; 0x8000bd <T2_OV_CB>
+ 650:	20 c0       	rjmp	.+64     	; 0x692 <TimerInit+0x138>
+ 652:	82 30       	cpi	r24, 0x02	; 2
+ 654:	51 f4       	brne	.+20     	; 0x66a <TimerInit+0x110>
+ 656:	89 b7       	in	r24, 0x39	; 57
+ 658:	80 68       	ori	r24, 0x80	; 128
+ 65a:	89 bf       	out	0x39, r24	; 57
+ 65c:	84 85       	ldd	r24, Z+12	; 0x0c
+ 65e:	95 85       	ldd	r25, Z+13	; 0x0d
+ 660:	90 93 bc 00 	sts	0x00BC, r25	; 0x8000bc <T2_OC_CB+0x1>
+ 664:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <T2_OC_CB>
+ 668:	14 c0       	rjmp	.+40     	; 0x692 <TimerInit+0x138>
+ 66a:	83 30       	cpi	r24, 0x03	; 3
+ 66c:	91 f4       	brne	.+36     	; 0x692 <TimerInit+0x138>
+ 66e:	89 b7       	in	r24, 0x39	; 57
+ 670:	80 64       	ori	r24, 0x40	; 64
+ 672:	89 bf       	out	0x39, r24	; 57
+ 674:	89 b7       	in	r24, 0x39	; 57
+ 676:	80 68       	ori	r24, 0x80	; 128
+ 678:	89 bf       	out	0x39, r24	; 57
+ 67a:	82 85       	ldd	r24, Z+10	; 0x0a
+ 67c:	93 85       	ldd	r25, Z+11	; 0x0b
+ 67e:	90 93 be 00 	sts	0x00BE, r25	; 0x8000be <T2_OV_CB+0x1>
+ 682:	80 93 bd 00 	sts	0x00BD, r24	; 0x8000bd <T2_OV_CB>
+ 686:	84 85       	ldd	r24, Z+12	; 0x0c
+ 688:	95 85       	ldd	r25, Z+13	; 0x0d
+ 68a:	90 93 bc 00 	sts	0x00BC, r25	; 0x8000bc <T2_OC_CB+0x1>
+ 68e:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <T2_OC_CB>
+ 692:	84 81       	ldd	r24, Z+4	; 0x04
+ 694:	81 30       	cpi	r24, 0x01	; 1
+ 696:	31 f4       	brne	.+12     	; 0x6a4 <TimerInit+0x14a>
+ 698:	a0 81       	ld	r26, Z
+ 69a:	b0 e0       	ldi	r27, 0x00	; 0
+ 69c:	8c 91       	ld	r24, X
+ 69e:	80 61       	ori	r24, 0x10	; 16
+ 6a0:	8c 93       	st	X, r24
+ 6a2:	14 c0       	rjmp	.+40     	; 0x6cc <TimerInit+0x172>
+ 6a4:	82 30       	cpi	r24, 0x02	; 2
+ 6a6:	31 f4       	brne	.+12     	; 0x6b4 <TimerInit+0x15a>
+ 6a8:	a0 81       	ld	r26, Z
+ 6aa:	b0 e0       	ldi	r27, 0x00	; 0
+ 6ac:	8c 91       	ld	r24, X
+ 6ae:	80 62       	ori	r24, 0x20	; 32
+ 6b0:	8c 93       	st	X, r24
+ 6b2:	0c c0       	rjmp	.+24     	; 0x6cc <TimerInit+0x172>
+ 6b4:	83 30       	cpi	r24, 0x03	; 3
+ 6b6:	51 f4       	brne	.+20     	; 0x6cc <TimerInit+0x172>
+ 6b8:	a0 81       	ld	r26, Z
+ 6ba:	b0 e0       	ldi	r27, 0x00	; 0
+ 6bc:	8c 91       	ld	r24, X
+ 6be:	80 61       	ori	r24, 0x10	; 16
+ 6c0:	8c 93       	st	X, r24
+ 6c2:	a0 81       	ld	r26, Z
+ 6c4:	b0 e0       	ldi	r27, 0x00	; 0
+ 6c6:	8c 91       	ld	r24, X
+ 6c8:	80 62       	ori	r24, 0x20	; 32
+ 6ca:	8c 93       	st	X, r24
+ 6cc:	a0 81       	ld	r26, Z
+ 6ce:	b0 e0       	ldi	r27, 0x00	; 0
+ 6d0:	8c 91       	ld	r24, X
+ 6d2:	88 7f       	andi	r24, 0xF8	; 248
+ 6d4:	92 81       	ldd	r25, Z+2	; 0x02
+ 6d6:	89 2b       	or	r24, r25
+ 6d8:	8c 93       	st	X, r24
+ 6da:	80 e0       	ldi	r24, 0x00	; 0
+ 6dc:	08 95       	ret
+ 6de:	81 e0       	ldi	r24, 0x01	; 1
+ 6e0:	08 95       	ret
+ 6e2:	81 e0       	ldi	r24, 0x01	; 1
+ 6e4:	08 95       	ret
+
+000006e6 <__vector_11>:
+
+ISR(TIMER0_OVF_vect){
+ 6e6:	1f 92       	push	r1
+ 6e8:	0f 92       	push	r0
+ 6ea:	0f b6       	in	r0, 0x3f	; 63
+ 6ec:	0f 92       	push	r0
+ 6ee:	11 24       	eor	r1, r1
+ 6f0:	2f 93       	push	r18
+ 6f2:	3f 93       	push	r19
+ 6f4:	4f 93       	push	r20
+ 6f6:	5f 93       	push	r21
+ 6f8:	6f 93       	push	r22
+ 6fa:	7f 93       	push	r23
+ 6fc:	8f 93       	push	r24
+ 6fe:	9f 93       	push	r25
+ 700:	af 93       	push	r26
+ 702:	bf 93       	push	r27
+ 704:	ef 93       	push	r30
+ 706:	ff 93       	push	r31
+	if (NULL != T0_OV_CB)
+ 708:	e0 91 c1 00 	lds	r30, 0x00C1	; 0x8000c1 <T0_OV_CB>
+ 70c:	f0 91 c2 00 	lds	r31, 0x00C2	; 0x8000c2 <T0_OV_CB+0x1>
+ 710:	30 97       	sbiw	r30, 0x00	; 0
+ 712:	09 f0       	breq	.+2      	; 0x716 <__vector_11+0x30>
+	{
+		(*T0_OV_CB)();
+ 714:	09 95       	icall
+	}
+}
+ 716:	ff 91       	pop	r31
+ 718:	ef 91       	pop	r30
+ 71a:	bf 91       	pop	r27
+ 71c:	af 91       	pop	r26
+ 71e:	9f 91       	pop	r25
+ 720:	8f 91       	pop	r24
+ 722:	7f 91       	pop	r23
+ 724:	6f 91       	pop	r22
+ 726:	5f 91       	pop	r21
+ 728:	4f 91       	pop	r20
+ 72a:	3f 91       	pop	r19
+ 72c:	2f 91       	pop	r18
+ 72e:	0f 90       	pop	r0
+ 730:	0f be       	out	0x3f, r0	; 63
+ 732:	0f 90       	pop	r0
+ 734:	1f 90       	pop	r1
+ 736:	18 95       	reti
+
+00000738 <__vector_10>:
+ISR(TIMER0_COMP_vect){
+ 738:	1f 92       	push	r1
+ 73a:	0f 92       	push	r0
+ 73c:	0f b6       	in	r0, 0x3f	; 63
+ 73e:	0f 92       	push	r0
+ 740:	11 24       	eor	r1, r1
+ 742:	2f 93       	push	r18
+ 744:	3f 93       	push	r19
+ 746:	4f 93       	push	r20
+ 748:	5f 93       	push	r21
+ 74a:	6f 93       	push	r22
+ 74c:	7f 93       	push	r23
+ 74e:	8f 93       	push	r24
+ 750:	9f 93       	push	r25
+ 752:	af 93       	push	r26
+ 754:	bf 93       	push	r27
+ 756:	ef 93       	push	r30
+ 758:	ff 93       	push	r31
+	if (NULL != T0_OC_CB)
+ 75a:	e0 91 bf 00 	lds	r30, 0x00BF	; 0x8000bf <T0_OC_CB>
+ 75e:	f0 91 c0 00 	lds	r31, 0x00C0	; 0x8000c0 <T0_OC_CB+0x1>
+ 762:	30 97       	sbiw	r30, 0x00	; 0
+ 764:	09 f0       	breq	.+2      	; 0x768 <__vector_10+0x30>
+	{
+		(*T0_OC_CB)();
+ 766:	09 95       	icall
+	}
+	
+}
+ 768:	ff 91       	pop	r31
+ 76a:	ef 91       	pop	r30
+ 76c:	bf 91       	pop	r27
+ 76e:	af 91       	pop	r26
+ 770:	9f 91       	pop	r25
+ 772:	8f 91       	pop	r24
+ 774:	7f 91       	pop	r23
+ 776:	6f 91       	pop	r22
+ 778:	5f 91       	pop	r21
+ 77a:	4f 91       	pop	r20
+ 77c:	3f 91       	pop	r19
+ 77e:	2f 91       	pop	r18
+ 780:	0f 90       	pop	r0
+ 782:	0f be       	out	0x3f, r0	; 63
+ 784:	0f 90       	pop	r0
+ 786:	1f 90       	pop	r1
+ 788:	18 95       	reti
+
+0000078a <__vector_5>:
+ISR(TIMER2_OVF_vect){
+ 78a:	1f 92       	push	r1
+ 78c:	0f 92       	push	r0
+ 78e:	0f b6       	in	r0, 0x3f	; 63
+ 790:	0f 92       	push	r0
+ 792:	11 24       	eor	r1, r1
+ 794:	2f 93       	push	r18
+ 796:	3f 93       	push	r19
+ 798:	4f 93       	push	r20
+ 79a:	5f 93       	push	r21
+ 79c:	6f 93       	push	r22
+ 79e:	7f 93       	push	r23
+ 7a0:	8f 93       	push	r24
+ 7a2:	9f 93       	push	r25
+ 7a4:	af 93       	push	r26
+ 7a6:	bf 93       	push	r27
+ 7a8:	ef 93       	push	r30
+ 7aa:	ff 93       	push	r31
+	if (NULL != T2_OV_CB)
+ 7ac:	e0 91 bd 00 	lds	r30, 0x00BD	; 0x8000bd <T2_OV_CB>
+ 7b0:	f0 91 be 00 	lds	r31, 0x00BE	; 0x8000be <T2_OV_CB+0x1>
+ 7b4:	30 97       	sbiw	r30, 0x00	; 0
+ 7b6:	09 f0       	breq	.+2      	; 0x7ba <__vector_5+0x30>
+	{
+		(*T2_OV_CB)();
+ 7b8:	09 95       	icall
+	}
+	
+}
+ 7ba:	ff 91       	pop	r31
+ 7bc:	ef 91       	pop	r30
+ 7be:	bf 91       	pop	r27
+ 7c0:	af 91       	pop	r26
+ 7c2:	9f 91       	pop	r25
+ 7c4:	8f 91       	pop	r24
+ 7c6:	7f 91       	pop	r23
+ 7c8:	6f 91       	pop	r22
+ 7ca:	5f 91       	pop	r21
+ 7cc:	4f 91       	pop	r20
+ 7ce:	3f 91       	pop	r19
+ 7d0:	2f 91       	pop	r18
+ 7d2:	0f 90       	pop	r0
+ 7d4:	0f be       	out	0x3f, r0	; 63
+ 7d6:	0f 90       	pop	r0
+ 7d8:	1f 90       	pop	r1
+ 7da:	18 95       	reti
+
+000007dc <__vector_4>:
+ISR(TIMER2_COMP_vect){
+ 7dc:	1f 92       	push	r1
+ 7de:	0f 92       	push	r0
+ 7e0:	0f b6       	in	r0, 0x3f	; 63
+ 7e2:	0f 92       	push	r0
+ 7e4:	11 24       	eor	r1, r1
+ 7e6:	2f 93       	push	r18
+ 7e8:	3f 93       	push	r19
+ 7ea:	4f 93       	push	r20
+ 7ec:	5f 93       	push	r21
+ 7ee:	6f 93       	push	r22
+ 7f0:	7f 93       	push	r23
+ 7f2:	8f 93       	push	r24
+ 7f4:	9f 93       	push	r25
+ 7f6:	af 93       	push	r26
+ 7f8:	bf 93       	push	r27
+ 7fa:	ef 93       	push	r30
+ 7fc:	ff 93       	push	r31
+	if (NULL != T2_OC_CB)
+ 7fe:	e0 91 bb 00 	lds	r30, 0x00BB	; 0x8000bb <T2_OC_CB>
+ 802:	f0 91 bc 00 	lds	r31, 0x00BC	; 0x8000bc <T2_OC_CB+0x1>
+ 806:	30 97       	sbiw	r30, 0x00	; 0
+ 808:	09 f0       	breq	.+2      	; 0x80c <__vector_4+0x30>
+	{
+		(*T2_OC_CB)();
+ 80a:	09 95       	icall
+	}
+	
+ 80c:	ff 91       	pop	r31
+ 80e:	ef 91       	pop	r30
+ 810:	bf 91       	pop	r27
+ 812:	af 91       	pop	r26
+ 814:	9f 91       	pop	r25
+ 816:	8f 91       	pop	r24
+ 818:	7f 91       	pop	r23
+ 81a:	6f 91       	pop	r22
+ 81c:	5f 91       	pop	r21
+ 81e:	4f 91       	pop	r20
+ 820:	3f 91       	pop	r19
+ 822:	2f 91       	pop	r18
+ 824:	0f 90       	pop	r0
+ 826:	0f be       	out	0x3f, r0	; 63
+ 828:	0f 90       	pop	r0
+ 82a:	1f 90       	pop	r1
+ 82c:	18 95       	reti
+
+0000082e <__vector_13>:
+	}
+	PORTA=0xff;
+	return RetVal;
+}
+
+ISR(USART_RXC_vect){
+ 82e:	1f 92       	push	r1
+ 830:	0f 92       	push	r0
+ 832:	0f b6       	in	r0, 0x3f	; 63
+ 834:	0f 92       	push	r0
+ 836:	11 24       	eor	r1, r1
+ 838:	2f 93       	push	r18
+ 83a:	3f 93       	push	r19
+ 83c:	4f 93       	push	r20
+ 83e:	5f 93       	push	r21
+ 840:	6f 93       	push	r22
+ 842:	7f 93       	push	r23
+ 844:	8f 93       	push	r24
+ 846:	9f 93       	push	r25
+ 848:	af 93       	push	r26
+ 84a:	bf 93       	push	r27
+ 84c:	ef 93       	push	r30
+ 84e:	ff 93       	push	r31
+	if (RxcCb){
+ 850:	e0 91 c3 00 	lds	r30, 0x00C3	; 0x8000c3 <RxcCb>
+ 854:	f0 91 c4 00 	lds	r31, 0x00C4	; 0x8000c4 <RxcCb+0x1>
+ 858:	30 97       	sbiw	r30, 0x00	; 0
+ 85a:	09 f0       	breq	.+2      	; 0x85e <__vector_13+0x30>
+		RxcCb();
+ 85c:	09 95       	icall
+	}
+
+}
+ 85e:	ff 91       	pop	r31
+ 860:	ef 91       	pop	r30
+ 862:	bf 91       	pop	r27
+ 864:	af 91       	pop	r26
+ 866:	9f 91       	pop	r25
+ 868:	8f 91       	pop	r24
+ 86a:	7f 91       	pop	r23
+ 86c:	6f 91       	pop	r22
+ 86e:	5f 91       	pop	r21
+ 870:	4f 91       	pop	r20
+ 872:	3f 91       	pop	r19
+ 874:	2f 91       	pop	r18
+ 876:	0f 90       	pop	r0
+ 878:	0f be       	out	0x3f, r0	; 63
+ 87a:	0f 90       	pop	r0
+ 87c:	1f 90       	pop	r1
+ 87e:	18 95       	reti
+
+00000880 <__vector_14>:
+
+ISR(USART_UDRE_vect){
+ 880:	1f 92       	push	r1
+ 882:	0f 92       	push	r0
+ 884:	0f b6       	in	r0, 0x3f	; 63
+ 886:	0f 92       	push	r0
+ 888:	11 24       	eor	r1, r1
+ 88a:	2f 93       	push	r18
+ 88c:	3f 93       	push	r19
+ 88e:	4f 93       	push	r20
+ 890:	5f 93       	push	r21
+ 892:	6f 93       	push	r22
+ 894:	7f 93       	push	r23
+ 896:	8f 93       	push	r24
+ 898:	9f 93       	push	r25
+ 89a:	af 93       	push	r26
+ 89c:	bf 93       	push	r27
+ 89e:	ef 93       	push	r30
+ 8a0:	ff 93       	push	r31
+	if (TxcCb){
+ 8a2:	e0 91 c5 00 	lds	r30, 0x00C5	; 0x8000c5 <TxcCb>
+ 8a6:	f0 91 c6 00 	lds	r31, 0x00C6	; 0x8000c6 <TxcCb+0x1>
+ 8aa:	30 97       	sbiw	r30, 0x00	; 0
+ 8ac:	09 f0       	breq	.+2      	; 0x8b0 <__vector_14+0x30>
+		TxcCb();
+ 8ae:	09 95       	icall
+	}
+}
+ 8b0:	ff 91       	pop	r31
+ 8b2:	ef 91       	pop	r30
+ 8b4:	bf 91       	pop	r27
+ 8b6:	af 91       	pop	r26
+ 8b8:	9f 91       	pop	r25
+ 8ba:	8f 91       	pop	r24
+ 8bc:	7f 91       	pop	r23
+ 8be:	6f 91       	pop	r22
+ 8c0:	5f 91       	pop	r21
+ 8c2:	4f 91       	pop	r20
+ 8c4:	3f 91       	pop	r19
+ 8c6:	2f 91       	pop	r18
+ 8c8:	0f 90       	pop	r0
+ 8ca:	0f be       	out	0x3f, r0	; 63
+ 8cc:	0f 90       	pop	r0
+ 8ce:	1f 90       	pop	r1
+ 8d0:	18 95       	reti
+
+000008d2 <main>:
+//#include "AppGateWay.h"
+#include "KeyPad.h"
+#include <util/delay.h>
+KeypadT MSA;
+int main(void){
+    DDRD = 0xff;
+ 8d2:	8f ef       	ldi	r24, 0xFF	; 255
+ 8d4:	81 bb       	out	0x11, r24	; 17
+    DDRC = 0x0f;
+ 8d6:	8f e0       	ldi	r24, 0x0F	; 15
+ 8d8:	84 bb       	out	0x14, r24	; 20
+    MSA.ColsPort = BASE_C;
+ 8da:	e7 ec       	ldi	r30, 0xC7	; 199
+ 8dc:	f0 e0       	ldi	r31, 0x00	; 0
+ 8de:	83 e3       	ldi	r24, 0x33	; 51
+ 8e0:	80 83       	st	Z, r24
+    MSA.ColsPosition = PIN_FOUR;
+ 8e2:	94 e0       	ldi	r25, 0x04	; 4
+ 8e4:	91 83       	std	Z+1, r25	; 0x01
+    MSA.RowsPort = BASE_C;
+ 8e6:	82 83       	std	Z+2, r24	; 0x02
+    MSA.RowsPosition = PIN_ZERO;
+ 8e8:	13 82       	std	Z+3, r1	; 0x03
+    KeypadInit(&MSA);
+ 8ea:	cf 01       	movw	r24, r30
+ 8ec:	0e 94 31 02 	call	0x462	; 0x462 <KeypadInit>
+
+    while(1){
+        //KeypadUpdate();
+        //_delay_ms(10);
+        PORTD = KeypadGetKey(&MSA);
+ 8f0:	87 ec       	ldi	r24, 0xC7	; 199
+ 8f2:	90 e0       	ldi	r25, 0x00	; 0
+ 8f4:	0e 94 6b 02 	call	0x4d6	; 0x4d6 <KeypadGetKey>
+ 8f8:	82 bb       	out	0x12, r24	; 18
+ 8fa:	fa cf       	rjmp	.-12     	; 0x8f0 <main+0x1e>
+
+000008fc <_exit>:
+ 8fc:	f8 94       	cli
+
+000008fe <__stop_program>:
+ 8fe:	ff cf       	rjmp	.-2      	; 0x8fe <__stop_program>

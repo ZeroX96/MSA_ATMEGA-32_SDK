@@ -51,6 +51,7 @@ typedef enum
 	SEVEN_BYTES		=0X07,
 	EIGHT_BYTES		=0X08,
 }data_length_code_t;
+
 typedef enum
 {
 	RESET			=0b11000000,

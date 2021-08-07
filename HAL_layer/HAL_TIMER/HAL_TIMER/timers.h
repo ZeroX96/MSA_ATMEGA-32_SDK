@@ -21,8 +21,7 @@ typedef enum
 typedef enum
 {
 	TIMER_0=0x53,
-	TIMER_1A=0x4f,
-	TIMER_1B=0x4e,
+	TIMER_1=0x4e,
 	TIMER_2=0x45,
 }timer_bases;
 

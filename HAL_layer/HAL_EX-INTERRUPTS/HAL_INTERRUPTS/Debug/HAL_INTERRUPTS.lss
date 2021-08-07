@@ -3,39 +3,39 @@ HAL_INTERRUPTS.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000254  00000000  00000000  00000074  2**1
+  0 .text         00000242  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000002c8  2**0
+  1 .data         00000000  00800060  00800060  000002b6  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000001  00800060  00800060  000002c8  2**0
+  2 .bss          00000003  00800060  00800060  000002b6  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000002c8  2**0
+  3 .comment      00000030  00000000  00000000  000002b6  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002f8  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002e8  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000068  00000000  00000000  00000334  2**0
+  5 .debug_aranges 00000060  00000000  00000000  00000324  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000009f2  00000000  00000000  0000039c  2**0
+  6 .debug_info   00000916  00000000  00000000  00000384  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000006ad  00000000  00000000  00000d8e  2**0
+  7 .debug_abbrev 00000689  00000000  00000000  00000c9a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000004f6  00000000  00000000  0000143b  2**0
+  8 .debug_line   000004a7  00000000  00000000  00001323  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000d8  00000000  00000000  00001934  2**2
+  9 .debug_frame  000000d0  00000000  00000000  000017cc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000450  00000000  00000000  00001a0c  2**0
+ 10 .debug_str    000004aa  00000000  00000000  0000189c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000049c  00000000  00000000  00001e5c  2**0
+ 11 .debug_loc    000003c9  00000000  00000000  00001d46  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000048  00000000  00000000  000022f8  2**0
+ 12 .debug_ranges 00000040  00000000  00000000  0000210f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
-   4:	0c 94 c2 00 	jmp	0x184	; 0x184 <__vector_1>
-   8:	0c 94 f5 00 	jmp	0x1ea	; 0x1ea <__vector_2>
+   4:	0c 94 d7 00 	jmp	0x1ae	; 0x1ae <__vector_1>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
    c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
@@ -73,50 +73,32 @@ Disassembly of section .text:
   68:	1d 92       	st	X+, r1
 
 0000006a <.do_clear_bss_start>:
-  6a:	a1 36       	cpi	r26, 0x61	; 97
+  6a:	a3 36       	cpi	r26, 0x63	; 99
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
-  70:	0e 94 a5 00 	call	0x14a	; 0x14a <main>
-  74:	0c 94 28 01 	jmp	0x250	; 0x250 <_exit>
+  70:	0e 94 b0 00 	call	0x160	; 0x160 <main>
+  74:	0c 94 1f 01 	jmp	0x23e	; 0x23e <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000007c <init_interrrupts>:
-static unsigned char isr_status=NOT_CONFIGED;
-
-INT_ERRORS init_interrrupts(void)
-{	
-	INT_ERRORS ret_val=NO_ERRORS;
-	if(isr_status == NOT_CONFIGED)
   7c:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
   80:	81 11       	cpse	r24, r1
   82:	06 c0       	rjmp	.+12     	; 0x90 <init_interrrupts+0x14>
-	{
-	*((volatile unsigned char *)0x5f)|=(1<<G_INTERRUPTS_msa);			//Global Interrupt Enable
   84:	8f b7       	in	r24, 0x3f	; 63
   86:	80 68       	ori	r24, 0x80	; 128
   88:	8f bf       	out	0x3f, r24	; 63
-	isr_status=CONFIGED;
   8a:	81 e0       	ldi	r24, 0x01	; 1
   8c:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
-	}
-	return ret_val;
-}
   90:	80 e0       	ldi	r24, 0x00	; 0
   92:	08 95       	ret
 
 00000094 <set_interrupt>:
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
-	if ( isr_status == CONFIGED )
   94:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <_edata>
   98:	91 30       	cpi	r25, 0x01	; 1
   9a:	09 f0       	breq	.+2      	; 0x9e <set_interrupt+0xa>
   9c:	4e c0       	rjmp	.+156    	; 0x13a <set_interrupt+0xa6>
-	{
-		if ( ((int_name >= INTERRUPT2)&&(int_name <= INTERRUPT1)) && ((int_mode >= LOW_LEVEL)&&(int_mode <= RISING_EDGE)) )
   9e:	9b ef       	ldi	r25, 0xFB	; 251
   a0:	98 0f       	add	r25, r24
   a2:	93 30       	cpi	r25, 0x03	; 3
@@ -125,9 +107,6 @@ INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
   a8:	64 30       	cpi	r22, 0x04	; 4
   aa:	08 f0       	brcs	.+2      	; 0xae <set_interrupt+0x1a>
   ac:	4a c0       	rjmp	.+148    	; 0x142 <set_interrupt+0xae>
-		{
-		
-			*((volatile unsigned char *)0x5B)|=(1<<int_name);	//enabling Interrupt X
   ae:	9b b7       	in	r25, 0x3b	; 59
   b0:	21 e0       	ldi	r18, 0x01	; 1
   b2:	30 e0       	ldi	r19, 0x00	; 0
@@ -139,408 +118,254 @@ INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
   be:	e2 f7       	brpl	.-8      	; 0xb8 <set_interrupt+0x24>
   c0:	29 2b       	or	r18, r25
   c2:	2b bf       	out	0x3b, r18	; 59
-			if (int_name == INTERRUPT0)
   c4:	86 30       	cpi	r24, 0x06	; 6
   c6:	c1 f4       	brne	.+48     	; 0xf8 <set_interrupt+0x64>
-			{
-				if ( int_mode == FALLING_OR_RISING_EDGE)
   c8:	61 30       	cpi	r22, 0x01	; 1
   ca:	29 f4       	brne	.+10     	; 0xd6 <set_interrupt+0x42>
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC00);
   cc:	85 b7       	in	r24, 0x35	; 53
   ce:	81 60       	ori	r24, 0x01	; 1
   d0:	85 bf       	out	0x35, r24	; 53
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
   d2:	80 e0       	ldi	r24, 0x00	; 0
   d4:	08 95       	ret
-			{
-				if ( int_mode == FALLING_OR_RISING_EDGE)
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC00);
-				} 
-				else if ( int_mode == FALLING_EDGE)
   d6:	62 30       	cpi	r22, 0x02	; 2
   d8:	29 f4       	brne	.+10     	; 0xe4 <set_interrupt+0x50>
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC01);
   da:	85 b7       	in	r24, 0x35	; 53
   dc:	82 60       	ori	r24, 0x02	; 2
   de:	85 bf       	out	0x35, r24	; 53
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
   e0:	80 e0       	ldi	r24, 0x00	; 0
   e2:	08 95       	ret
-				} 
-				else if ( int_mode == FALLING_EDGE)
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC01);
-				} 
-				else if (int_mode == RISING_EDGE)
   e4:	63 30       	cpi	r22, 0x03	; 3
   e6:	29 f4       	brne	.+10     	; 0xf2 <set_interrupt+0x5e>
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC00)|(1<<ISC01);
   e8:	85 b7       	in	r24, 0x35	; 53
   ea:	83 60       	ori	r24, 0x03	; 3
   ec:	85 bf       	out	0x35, r24	; 53
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
   ee:	80 e0       	ldi	r24, 0x00	; 0
   f0:	08 95       	ret
-				} 
-				else
-				{
-					//doNothing cause the low level interrupt just puts nothing
-					//or i must enable the pull up res!!!
-					*((volatile unsigned char *)0x32)|=(1<<2); //enabling the pull up res for INT0 //###test
   f2:	92 9a       	sbi	0x12, 2	; 18
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
   f4:	80 e0       	ldi	r24, 0x00	; 0
   f6:	08 95       	ret
-					//doNothing cause the low level interrupt just puts nothing
-					//or i must enable the pull up res!!!
-					*((volatile unsigned char *)0x32)|=(1<<2); //enabling the pull up res for INT0 //###test
-				}
-			} 
-			else if (int_name == INTERRUPT1)
   f8:	87 30       	cpi	r24, 0x07	; 7
   fa:	c1 f4       	brne	.+48     	; 0x12c <set_interrupt+0x98>
-			{
-				if ( int_mode == FALLING_OR_RISING_EDGE)
   fc:	61 30       	cpi	r22, 0x01	; 1
   fe:	29 f4       	brne	.+10     	; 0x10a <set_interrupt+0x76>
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC10);
  100:	85 b7       	in	r24, 0x35	; 53
  102:	84 60       	ori	r24, 0x04	; 4
  104:	85 bf       	out	0x35, r24	; 53
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
  106:	80 e0       	ldi	r24, 0x00	; 0
  108:	08 95       	ret
-			{
-				if ( int_mode == FALLING_OR_RISING_EDGE)
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC10);
-				}
-				else if ( int_mode == FALLING_EDGE)
  10a:	62 30       	cpi	r22, 0x02	; 2
  10c:	29 f4       	brne	.+10     	; 0x118 <set_interrupt+0x84>
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC11);
  10e:	85 b7       	in	r24, 0x35	; 53
  110:	88 60       	ori	r24, 0x08	; 8
  112:	85 bf       	out	0x35, r24	; 53
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
  114:	80 e0       	ldi	r24, 0x00	; 0
  116:	08 95       	ret
-				}
-				else if ( int_mode == FALLING_EDGE)
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC11);
-				}
-				else if (int_mode == RISING_EDGE)
  118:	63 30       	cpi	r22, 0x03	; 3
  11a:	29 f4       	brne	.+10     	; 0x126 <set_interrupt+0x92>
-				{
-					*((volatile unsigned char *)0x55)|=(1<<ISC10)|(1<<ISC11);
  11c:	85 b7       	in	r24, 0x35	; 53
  11e:	8c 60       	ori	r24, 0x0C	; 12
  120:	85 bf       	out	0x35, r24	; 53
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
  122:	80 e0       	ldi	r24, 0x00	; 0
  124:	08 95       	ret
-				}
-				else
-				{
-					//doNothing cause the low level interrupt just puts nothing
-					//or i must enable the pull up res!!!
-					*((volatile unsigned char *)0x32)|=(1<<3); //enabling the pull up res for INT1  //###test
  126:	93 9a       	sbi	0x12, 3	; 18
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
  128:	80 e0       	ldi	r24, 0x00	; 0
  12a:	08 95       	ret
-					*((volatile unsigned char *)0x32)|=(1<<3); //enabling the pull up res for INT1  //###test
-				}
-			} 
-			else        //interrupt2
-			{
-				if (int_mode == FALLING_EDGE)
  12c:	62 30       	cpi	r22, 0x02	; 2
  12e:	59 f4       	brne	.+22     	; 0x146 <set_interrupt+0xb2>
-				{
-					*((volatile unsigned char *)0x54)&=~(1<<ISC2);
  130:	84 b7       	in	r24, 0x34	; 52
  132:	8f 7b       	andi	r24, 0xBF	; 191
  134:	84 bf       	out	0x34, r24	; 52
-	}
-	return ret_val;
-}
-INT_ERRORS set_interrupt(INT_NAMES int_name,INT_MODES int_mode)
-{
-	INT_ERRORS ret_val=NO_ERRORS;
  136:	80 e0       	ldi	r24, 0x00	; 0
  138:	08 95       	ret
-			ret_val=INVALID_PARAMS;
-		}
-	} 
-	else
-	{
-		ret_val=NOT_INITIALIZED;
  13a:	82 e0       	ldi	r24, 0x02	; 2
  13c:	08 95       	ret
-			
-
-		} 
-		else
-		{
-			ret_val=INVALID_PARAMS;
  13e:	81 e0       	ldi	r24, 0x01	; 1
  140:	08 95       	ret
  142:	81 e0       	ldi	r24, 0x01	; 1
  144:	08 95       	ret
-				{
-					*((volatile unsigned char *)0x54)=(1<<ISC2);
-				}
-				else
-				{
-					ret_val=INVALID_MODE_FOR_INT2;
  146:	83 e0       	ldi	r24, 0x03	; 3
-	{
-		ret_val=NOT_INITIALIZED;
-	}
-
-	return ret_val;
-}
  148:	08 95       	ret
 
-0000014a <main>:
+0000014a <deinit_interrrupts>:
+ 14a:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+ 14e:	81 30       	cpi	r24, 0x01	; 1
+ 150:	29 f4       	brne	.+10     	; 0x15c <deinit_interrrupts+0x12>
+ 152:	8f b7       	in	r24, 0x3f	; 63
+ 154:	8f 77       	andi	r24, 0x7F	; 127
+ 156:	8f bf       	out	0x3f, r24	; 63
+ 158:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
+ 15c:	80 e0       	ldi	r24, 0x00	; 0
+ 15e:	08 95       	ret
+
+00000160 <main>:
 #include <avr/interrupt.h>
 
-
+int cntr=0;
 int main(void)
 {
 	DDRA=0xff;
- 14a:	8f ef       	ldi	r24, 0xFF	; 255
- 14c:	8a bb       	out	0x1a, r24	; 26
+ 160:	8f ef       	ldi	r24, 0xFF	; 255
+ 162:	8a bb       	out	0x1a, r24	; 26
 	DDRD=0x00;
- 14e:	11 ba       	out	0x11, r1	; 17
+ 164:	11 ba       	out	0x11, r1	; 17
+	DDRB=0xff;
+ 166:	87 bb       	out	0x17, r24	; 23
+	//PORTD=0xff;
+	DDRC=0xff;
+ 168:	84 bb       	out	0x14, r24	; 20
 	//PORTD|=(1<<2);
 	init_interrrupts();
- 150:	0e 94 3e 00 	call	0x7c	; 0x7c <init_interrrupts>
-	set_interrupt(INTERRUPT0,FALLING_EDGE);
- 154:	62 e0       	ldi	r22, 0x02	; 2
- 156:	86 e0       	ldi	r24, 0x06	; 6
- 158:	0e 94 4a 00 	call	0x94	; 0x94 <set_interrupt>
-	set_interrupt(INTERRUPT1,FALLING_EDGE);
- 15c:	62 e0       	ldi	r22, 0x02	; 2
- 15e:	87 e0       	ldi	r24, 0x07	; 7
- 160:	0e 94 4a 00 	call	0x94	; 0x94 <set_interrupt>
+ 16a:	0e 94 3e 00 	call	0x7c	; 0x7c <init_interrrupts>
+	set_interrupt(INTERRUPT0,RISING_EDGE);
+ 16e:	63 e0       	ldi	r22, 0x03	; 3
+ 170:	86 e0       	ldi	r24, 0x06	; 6
+ 172:	0e 94 4a 00 	call	0x94	; 0x94 <set_interrupt>
+	//set_interrupt(INTERRUPT1,RISING_EDGE);
     while (1) 
     {
 		PORTA=0xff;
- 164:	8f ef       	ldi	r24, 0xFF	; 255
- 166:	8b bb       	out	0x1b, r24	; 27
+ 176:	1f ef       	ldi	r17, 0xFF	; 255
+		if (cntr >= 2)
+		{
+			
+			deinit_interrrupts();
+	}
+	PORTB=cntr;
+ 178:	c1 e6       	ldi	r28, 0x61	; 97
+ 17a:	d0 e0       	ldi	r29, 0x00	; 0
+	init_interrrupts();
+	set_interrupt(INTERRUPT0,RISING_EDGE);
+	//set_interrupt(INTERRUPT1,RISING_EDGE);
+    while (1) 
+    {
+		PORTA=0xff;
+ 17c:	1b bb       	out	0x1b, r17	; 27
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 168:	e3 e2       	ldi	r30, 0x23	; 35
- 16a:	f4 ef       	ldi	r31, 0xF4	; 244
- 16c:	31 97       	sbiw	r30, 0x01	; 1
- 16e:	f1 f7       	brne	.-4      	; 0x16c <main+0x22>
- 170:	00 c0       	rjmp	.+0      	; 0x172 <main+0x28>
- 172:	00 00       	nop
+ 17e:	83 e2       	ldi	r24, 0x23	; 35
+ 180:	94 ef       	ldi	r25, 0xF4	; 244
+ 182:	01 97       	sbiw	r24, 0x01	; 1
+ 184:	f1 f7       	brne	.-4      	; 0x182 <main+0x22>
+ 186:	00 c0       	rjmp	.+0      	; 0x188 <main+0x28>
+ 188:	00 00       	nop
 		_delay_ms(250);
 		PORTA=0x00;
- 174:	1b ba       	out	0x1b, r1	; 27
- 176:	e3 e2       	ldi	r30, 0x23	; 35
- 178:	f4 ef       	ldi	r31, 0xF4	; 244
- 17a:	31 97       	sbiw	r30, 0x01	; 1
- 17c:	f1 f7       	brne	.-4      	; 0x17a <main+0x30>
- 17e:	00 c0       	rjmp	.+0      	; 0x180 <main+0x36>
- 180:	00 00       	nop
- 182:	f1 cf       	rjmp	.-30     	; 0x166 <main+0x1c>
-
-00000184 <__vector_1>:
+ 18a:	1b ba       	out	0x1b, r1	; 27
+ 18c:	83 e2       	ldi	r24, 0x23	; 35
+ 18e:	94 ef       	ldi	r25, 0xF4	; 244
+ 190:	01 97       	sbiw	r24, 0x01	; 1
+ 192:	f1 f7       	brne	.-4      	; 0x190 <main+0x30>
+ 194:	00 c0       	rjmp	.+0      	; 0x196 <main+0x36>
+ 196:	00 00       	nop
 		_delay_ms(250);
+		if (cntr >= 2)
+ 198:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <cntr>
+ 19c:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <cntr+0x1>
+ 1a0:	02 97       	sbiw	r24, 0x02	; 2
+ 1a2:	14 f0       	brlt	.+4      	; 0x1a8 <main+0x48>
+		{
+			
+			deinit_interrrupts();
+ 1a4:	0e 94 a5 00 	call	0x14a	; 0x14a <deinit_interrrupts>
 	}
+	PORTB=cntr;
+ 1a8:	88 81       	ld	r24, Y
+ 1aa:	88 bb       	out	0x18, r24	; 24
+	}
+ 1ac:	e7 cf       	rjmp	.-50     	; 0x17c <main+0x1c>
+
+000001ae <__vector_1>:
 }
 //void INT0_vect(void)
 ISR(INT0_vect)
 {
- 184:	1f 92       	push	r1
- 186:	0f 92       	push	r0
- 188:	0f b6       	in	r0, 0x3f	; 63
- 18a:	0f 92       	push	r0
- 18c:	11 24       	eor	r1, r1
- 18e:	2f 93       	push	r18
- 190:	3f 93       	push	r19
- 192:	8f 93       	push	r24
- 194:	9f 93       	push	r25
-	sei();//testing the nested interrupt>>>clear if dont wanna 
- 196:	78 94       	sei
+ 1ae:	1f 92       	push	r1
+ 1b0:	0f 92       	push	r0
+ 1b2:	0f b6       	in	r0, 0x3f	; 63
+ 1b4:	0f 92       	push	r0
+ 1b6:	11 24       	eor	r1, r1
+ 1b8:	2f 93       	push	r18
+ 1ba:	3f 93       	push	r19
+ 1bc:	4f 93       	push	r20
+ 1be:	5f 93       	push	r21
+ 1c0:	6f 93       	push	r22
+ 1c2:	7f 93       	push	r23
+ 1c4:	8f 93       	push	r24
+ 1c6:	9f 93       	push	r25
+ 1c8:	af 93       	push	r26
+ 1ca:	bf 93       	push	r27
+ 1cc:	ef 93       	push	r30
+ 1ce:	ff 93       	push	r31
+	//sei();//testing the nested interrupt>>>clear if dont wanna 
 	//init_interrrupts();
-	*((volatile unsigned char *)0x35)=0x01;
- 198:	81 e0       	ldi	r24, 0x01	; 1
- 19a:	85 bb       	out	0x15, r24	; 21
- 19c:	2f e9       	ldi	r18, 0x9F	; 159
- 19e:	36 e8       	ldi	r19, 0x86	; 134
- 1a0:	91 e0       	ldi	r25, 0x01	; 1
- 1a2:	21 50       	subi	r18, 0x01	; 1
- 1a4:	30 40       	sbci	r19, 0x00	; 0
- 1a6:	90 40       	sbci	r25, 0x00	; 0
- 1a8:	e1 f7       	brne	.-8      	; 0x1a2 <__vector_1+0x1e>
- 1aa:	00 c0       	rjmp	.+0      	; 0x1ac <__vector_1+0x28>
- 1ac:	00 00       	nop
+	*((volatile unsigned char *)0x35)=0xff;
+ 1d0:	8f ef       	ldi	r24, 0xFF	; 255
+ 1d2:	85 bb       	out	0x15, r24	; 21
+ 1d4:	2f e9       	ldi	r18, 0x9F	; 159
+ 1d6:	86 e8       	ldi	r24, 0x86	; 134
+ 1d8:	91 e0       	ldi	r25, 0x01	; 1
+ 1da:	21 50       	subi	r18, 0x01	; 1
+ 1dc:	80 40       	sbci	r24, 0x00	; 0
+ 1de:	90 40       	sbci	r25, 0x00	; 0
+ 1e0:	e1 f7       	brne	.-8      	; 0x1da <__vector_1+0x2c>
+ 1e2:	00 c0       	rjmp	.+0      	; 0x1e4 <__vector_1+0x36>
+ 1e4:	00 00       	nop
 	_delay_ms(500);
 	*((volatile unsigned char *)0x35)=0x00;
- 1ae:	15 ba       	out	0x15, r1	; 21
- 1b0:	2f e9       	ldi	r18, 0x9F	; 159
- 1b2:	36 e8       	ldi	r19, 0x86	; 134
- 1b4:	91 e0       	ldi	r25, 0x01	; 1
- 1b6:	21 50       	subi	r18, 0x01	; 1
- 1b8:	30 40       	sbci	r19, 0x00	; 0
- 1ba:	90 40       	sbci	r25, 0x00	; 0
- 1bc:	e1 f7       	brne	.-8      	; 0x1b6 <__vector_1+0x32>
- 1be:	00 c0       	rjmp	.+0      	; 0x1c0 <__vector_1+0x3c>
- 1c0:	00 00       	nop
+ 1e6:	15 ba       	out	0x15, r1	; 21
+ 1e8:	2f e9       	ldi	r18, 0x9F	; 159
+ 1ea:	86 e8       	ldi	r24, 0x86	; 134
+ 1ec:	91 e0       	ldi	r25, 0x01	; 1
+ 1ee:	21 50       	subi	r18, 0x01	; 1
+ 1f0:	80 40       	sbci	r24, 0x00	; 0
+ 1f2:	90 40       	sbci	r25, 0x00	; 0
+ 1f4:	e1 f7       	brne	.-8      	; 0x1ee <__vector_1+0x40>
+ 1f6:	00 c0       	rjmp	.+0      	; 0x1f8 <__vector_1+0x4a>
+ 1f8:	00 00       	nop
 	_delay_ms(500);
-	*((volatile unsigned char *)0x35)=0x01;
- 1c2:	85 bb       	out	0x15, r24	; 21
- 1c4:	2f e9       	ldi	r18, 0x9F	; 159
- 1c6:	36 e8       	ldi	r19, 0x86	; 134
- 1c8:	81 e0       	ldi	r24, 0x01	; 1
- 1ca:	21 50       	subi	r18, 0x01	; 1
- 1cc:	30 40       	sbci	r19, 0x00	; 0
- 1ce:	80 40       	sbci	r24, 0x00	; 0
- 1d0:	e1 f7       	brne	.-8      	; 0x1ca <__vector_1+0x46>
- 1d2:	00 c0       	rjmp	.+0      	; 0x1d4 <__vector_1+0x50>
- 1d4:	00 00       	nop
-	_delay_ms(500);
-	*((volatile unsigned char *)0x35)=0x00;
- 1d6:	15 ba       	out	0x15, r1	; 21
+	//PORTB=cntr;
+	if (cntr >= 2)
+ 1fa:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <cntr>
+ 1fe:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <cntr+0x1>
+ 202:	02 97       	sbiw	r24, 0x02	; 2
+ 204:	14 f0       	brlt	.+4      	; 0x20a <__vector_1+0x5c>
+	{
+		
+		deinit_interrrupts();
+ 206:	0e 94 a5 00 	call	0x14a	; 0x14a <deinit_interrrupts>
+		
+	}
+	cntr++;
+ 20a:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <cntr>
+ 20e:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <cntr+0x1>
+ 212:	01 96       	adiw	r24, 0x01	; 1
+ 214:	90 93 62 00 	sts	0x0062, r25	; 0x800062 <cntr+0x1>
+ 218:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <cntr>
 }
- 1d8:	9f 91       	pop	r25
- 1da:	8f 91       	pop	r24
- 1dc:	3f 91       	pop	r19
- 1de:	2f 91       	pop	r18
- 1e0:	0f 90       	pop	r0
- 1e2:	0f be       	out	0x3f, r0	; 63
- 1e4:	0f 90       	pop	r0
- 1e6:	1f 90       	pop	r1
- 1e8:	18 95       	reti
+ 21c:	ff 91       	pop	r31
+ 21e:	ef 91       	pop	r30
+ 220:	bf 91       	pop	r27
+ 222:	af 91       	pop	r26
+ 224:	9f 91       	pop	r25
+ 226:	8f 91       	pop	r24
+ 228:	7f 91       	pop	r23
+ 22a:	6f 91       	pop	r22
+ 22c:	5f 91       	pop	r21
+ 22e:	4f 91       	pop	r20
+ 230:	3f 91       	pop	r19
+ 232:	2f 91       	pop	r18
+ 234:	0f 90       	pop	r0
+ 236:	0f be       	out	0x3f, r0	; 63
+ 238:	0f 90       	pop	r0
+ 23a:	1f 90       	pop	r1
+ 23c:	18 95       	reti
 
-000001ea <__vector_2>:
+0000023e <_exit>:
+ 23e:	f8 94       	cli
 
-//void INIT1_vect(void)
-ISR(INT1_vect)
-{
- 1ea:	1f 92       	push	r1
- 1ec:	0f 92       	push	r0
- 1ee:	0f b6       	in	r0, 0x3f	; 63
- 1f0:	0f 92       	push	r0
- 1f2:	11 24       	eor	r1, r1
- 1f4:	2f 93       	push	r18
- 1f6:	3f 93       	push	r19
- 1f8:	8f 93       	push	r24
- 1fa:	9f 93       	push	r25
-	sei();//testing the nested interrupt>>>clear if dont wanna 
- 1fc:	78 94       	sei
-	//init_interrrupts();
-	*((volatile unsigned char *)0x35)=0x02;
- 1fe:	82 e0       	ldi	r24, 0x02	; 2
- 200:	85 bb       	out	0x15, r24	; 21
- 202:	2f e9       	ldi	r18, 0x9F	; 159
- 204:	36 e8       	ldi	r19, 0x86	; 134
- 206:	91 e0       	ldi	r25, 0x01	; 1
- 208:	21 50       	subi	r18, 0x01	; 1
- 20a:	30 40       	sbci	r19, 0x00	; 0
- 20c:	90 40       	sbci	r25, 0x00	; 0
- 20e:	e1 f7       	brne	.-8      	; 0x208 <__vector_2+0x1e>
- 210:	00 c0       	rjmp	.+0      	; 0x212 <__vector_2+0x28>
- 212:	00 00       	nop
-	_delay_ms(500);
-
-	*((volatile unsigned char *)0x35)=0x00;
- 214:	15 ba       	out	0x15, r1	; 21
- 216:	2f e9       	ldi	r18, 0x9F	; 159
- 218:	36 e8       	ldi	r19, 0x86	; 134
- 21a:	91 e0       	ldi	r25, 0x01	; 1
- 21c:	21 50       	subi	r18, 0x01	; 1
- 21e:	30 40       	sbci	r19, 0x00	; 0
- 220:	90 40       	sbci	r25, 0x00	; 0
- 222:	e1 f7       	brne	.-8      	; 0x21c <__vector_2+0x32>
- 224:	00 c0       	rjmp	.+0      	; 0x226 <__vector_2+0x3c>
- 226:	00 00       	nop
-	_delay_ms(500);
-	*((volatile unsigned char *)0x35)=0x02;
- 228:	85 bb       	out	0x15, r24	; 21
- 22a:	2f e9       	ldi	r18, 0x9F	; 159
- 22c:	36 e8       	ldi	r19, 0x86	; 134
- 22e:	81 e0       	ldi	r24, 0x01	; 1
- 230:	21 50       	subi	r18, 0x01	; 1
- 232:	30 40       	sbci	r19, 0x00	; 0
- 234:	80 40       	sbci	r24, 0x00	; 0
- 236:	e1 f7       	brne	.-8      	; 0x230 <__vector_2+0x46>
- 238:	00 c0       	rjmp	.+0      	; 0x23a <__vector_2+0x50>
- 23a:	00 00       	nop
-	_delay_ms(500);
-	*((volatile unsigned char *)0x35)=0x00;
- 23c:	15 ba       	out	0x15, r1	; 21
-}
- 23e:	9f 91       	pop	r25
- 240:	8f 91       	pop	r24
- 242:	3f 91       	pop	r19
- 244:	2f 91       	pop	r18
- 246:	0f 90       	pop	r0
- 248:	0f be       	out	0x3f, r0	; 63
- 24a:	0f 90       	pop	r0
- 24c:	1f 90       	pop	r1
- 24e:	18 95       	reti
-
-00000250 <_exit>:
- 250:	f8 94       	cli
-
-00000252 <__stop_program>:
- 252:	ff cf       	rjmp	.-2      	; 0x252 <__stop_program>
+00000240 <__stop_program>:
+ 240:	ff cf       	rjmp	.-2      	; 0x240 <__stop_program>

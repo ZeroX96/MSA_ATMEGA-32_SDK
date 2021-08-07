@@ -30,6 +30,7 @@ ISR(TIMER0_COMP_vect)
 
 TMU_ErrorTypes tmu_init(ecore_u16 resolution)
 {
+	//null the internal buffer...think about it
 	for(int i = 0; i < MAX_TIMERS_NO; i++) 
 	{
 		tmu_internal_bufer[i] = NULL;
@@ -37,7 +38,6 @@ TMU_ErrorTypes tmu_init(ecore_u16 resolution)
 	TMU_ErrorTypes s_ret_val=NO_ERRORS;
 	tmu_Resolution=resolution;
 	tmu_initiated=E_TRUE;
-	//null the internal buffer...think about it
 	TCCR0=0x03;
 	TCNT0=0;
 	OCR0=78;
